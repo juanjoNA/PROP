@@ -1,0 +1,20 @@
+ControladorComprimir 			- Ivan Garcia
+ControladorDescomprimir 		- Ivan Garcia
+DTOImatge				- Pau Murciano
+Arxiu					- Juan Jose Navarro
+ArxiuBytes				- Juan Jose Navarro
+ArxiuTXT				- Juan Jose Navarro
+Compressor				- Lucas Pinilla
+Estadistiques				- Lucas Pinilla
+EstadistiquesAlg			- Lucas Pinilla
+Huffman					- Pau Murciano
+Imatge					- Lucas Pinilla
+ImatgeComprimida			- Pau Murciano
+JPEG					- Pau Murciano
+LZ					- Lucas Pinilla
+LZ78					- Lucas Pinilla
+LZSS					- Juan Jose Navarro
+LZW					- Ivan Garcia
+Pair					- Juan Jose Navarro
+ZigZag					- Pau Murciano
+IOArxius				- Juan Jose Navarro

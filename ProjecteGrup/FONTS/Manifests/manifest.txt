@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.10.4
+Created-By: 1.8.0_222-8u222-b10-1ubuntu1~18.04.1-b10 (Private Build)
+Class-Path: lib/junit-4.12.jar lib/hamcrest-core-1.3.jar lib/junit-jup
+ iter-api-5.3.1.jar lib/junit-jupiter-params-5.3.1.jar lib/junit-jupit
+ er-engine-5.3.1.jar
+Main-Class: Drivers.DriverLZW
+
