@@ -6,6 +6,7 @@
 package Drivers;
 
 import CapaDomini.Controladors.ControladorComprimir;
+import CapaDomini.Controladors.ControladorComprimirCarpeta;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
@@ -19,23 +20,20 @@ import java.io.InputStreamReader;
  *
  * @author ivgasa99
  */
-public class DriverControladorComprimir {
-
-
+public class DriverControladorComprimirCarpetes {
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-
         int opcion;
         IOArxius cd = new IOArxius();
         boolean salir=false;
 
         while(!salir){
             System.out.println("Selecciona una opció: ");
-            System.out.println("\n\t1. Comprimir Arxiu."
+            System.out.println("\n\t1. Comprimir Directori."
                          + "\n\t2. Sortir");
 
             opcion = Integer.parseInt(intro.readLine());
@@ -45,24 +43,23 @@ public class DriverControladorComprimir {
 
             switch(opcion){
                 case 1:
-                    System.out.println("Introdueix el path de l'arxiu: ");
+                    System.out.println("Introdueix el path del directori: ");
                     path = intro.readLine();
-                    System.out.println("Selecciona una opció: ");
-                    System.out.println("\n\t1. JPEG."
-                         + "\n\t2. LZW."
-                         + "\n\t3. LZSS."
-                         + "\n\t4. LZ78."
-                         + "\n\t5. NO SELECCIONAT");
+                    System.out.println("Selecciona una opció pels arxius .txt: ");
+                    System.out.println("\n\t1. LZW."
+                         + "\n\t2. LZSS."
+                         + "\n\t3. LZ78."
+                         + "\n\t4. NO SELECCIONAT");
                     algoritmo = Integer.parseInt(intro.readLine());
-                    if (algoritmo == 5) algoritmo = seleccionarAlgoritme(path);
-                    System.out.println("Vols guardar arxiu a disc \n S/N: ");
+                    if (algoritmo == 4) algoritmo = seleccionarAlgoritme(path);
+                    System.out.println("Vols guardar directori comprimit a disc \n S/N: ");
                     String g = intro.readLine();
                     if (g.equals("S")) guardar=true;
                     else guardar = false;
-                    ControladorComprimir cc = new ControladorComprimir(path,algoritmo,guardar);
+                    ControladorComprimirCarpeta ccc = new ControladorComprimirCarpeta(path,algoritmo,guardar);
                     try {
-                        cc.executar();
-                        double[] est = cc.getResult();
+                        ccc.executar();
+                        double[] est = ccc.getResult();
                         System.out.println("Temps d'execució: " + est[0] + "ms");
                         System.out.println("Percentatge de compressió: " + est[1]*100 + "%");
                         System.out.println("Velocitat de compressió: " + est[2] + "B/ms");
@@ -94,7 +91,7 @@ public class DriverControladorComprimir {
     }
 
     static public int seleccionarAlgoritme(String path) {
-        if (path.contains(".ppm")) return 1;
-        else return 2;
+        return 1;
     }
+    
 }
