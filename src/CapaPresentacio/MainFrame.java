@@ -16,11 +16,9 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        panelComparar.setVisible(false);
-        panelComprimir.setVisible(true);
-        panelDescomprimir.setVisible(false);
-        mainPanel.setVisible(false);
-        
+        this.setContentPane(new Inici(this));
+        this.invalidate();
+        this.validate();
     }
 
     /**
@@ -32,56 +30,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelComprimir = new javax.swing.JPanel();
-        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 0));
-        jPanel4 = new javax.swing.JPanel();
-        filler31 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(32767, 0));
-        jPanel2 = new javax.swing.JPanel();
-        filler34 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        jPanel6 = new javax.swing.JPanel();
-        lSelectFitxer = new java.awt.Label();
-        filler37 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(32767, 0));
-        tfPath = new javax.swing.JTextField();
-        filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        jPanel3 = new javax.swing.JPanel();
-        filler33 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        bLZW = new javax.swing.JRadioButton();
-        filler27 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        bLZ78 = new javax.swing.JRadioButton();
-        filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        bLZSS = new javax.swing.JRadioButton();
-        filler25 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        bJPEG = new javax.swing.JRadioButton();
-        filler26 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        bAuto = new javax.swing.JRadioButton();
-        filler32 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler29 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(32767, 0));
-        jPanel5 = new javax.swing.JPanel();
-        filler36 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        buttonBrowse = new javax.swing.JButton();
-        filler28 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        buttonComprimir = new javax.swing.JButton();
-        filler35 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler30 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(32767, 0));
-        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 0));
-        pEstadisticas = new javax.swing.JPanel();
-        panelComparar = new javax.swing.JPanel();
-        panelDescomprimir = new javax.swing.JPanel();
-        mainPanel = new javax.swing.JPanel();
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jPanel1 = new javax.swing.JPanel();
-        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        bComprimir = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        buttonDescomprimir = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        buttonComparar = new javax.swing.JButton();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        buttonSortir = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        pMostrar = new javax.swing.JPanel();
         menu = new javax.swing.JMenuBar();
         menuInici = new javax.swing.JMenu();
         menuComprimir = new javax.swing.JMenu();
@@ -91,178 +40,25 @@ public class MainFrame extends javax.swing.JFrame {
         menuCompararTXT = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(500, 500));
+        setMaximumSize(new java.awt.Dimension(2500, 2000));
+        setMinimumSize(new java.awt.Dimension(800, 300));
+        setName("Main"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1000, 507));
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.BorderLayout(20, 20));
 
-        panelComprimir.setLayout(new javax.swing.BoxLayout(panelComprimir, javax.swing.BoxLayout.Y_AXIS));
-        panelComprimir.add(filler16);
-
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
-        jPanel4.add(filler31);
-
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
-        jPanel2.add(filler34);
-
-        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.X_AXIS));
-
-        lSelectFitxer.setMaximumSize(new java.awt.Dimension(32767, 30));
-        lSelectFitxer.setText("Selecciona un fitxer:");
-        jPanel6.add(lSelectFitxer);
-        jPanel6.add(filler37);
-
-        tfPath.setMaximumSize(new java.awt.Dimension(2147483647, 30));
-        tfPath.setMinimumSize(new java.awt.Dimension(4, 20));
-        tfPath.setPreferredSize(new java.awt.Dimension(4, 29));
-        jPanel6.add(tfPath);
-
-        jPanel2.add(jPanel6);
-        jPanel2.add(filler23);
-
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
-        jPanel3.add(filler33);
-
-        bLZW.setText("LZW");
-        jPanel3.add(bLZW);
-        jPanel3.add(filler27);
-
-        bLZ78.setText("LZ78");
-        jPanel3.add(bLZ78);
-        jPanel3.add(filler24);
-
-        bLZSS.setText("LZSS");
-        jPanel3.add(bLZSS);
-        jPanel3.add(filler25);
-
-        bJPEG.setText("JEPG");
-        jPanel3.add(bJPEG);
-        jPanel3.add(filler26);
-
-        bAuto.setText("Automàtic");
-        jPanel3.add(bAuto);
-
-        jPanel2.add(jPanel3);
-        jPanel2.add(filler32);
-
-        jPanel4.add(jPanel2);
-        jPanel4.add(filler29);
-
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
-        jPanel5.add(filler36);
-
-        buttonBrowse.setText("Browse");
-        buttonBrowse.setMaximumSize(new java.awt.Dimension(100, 50));
-        buttonBrowse.setMinimumSize(new java.awt.Dimension(85, 40));
-        buttonBrowse.setPreferredSize(new java.awt.Dimension(85, 40));
-        buttonBrowse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonBrowseActionPerformed(evt);
-            }
-        });
-        jPanel5.add(buttonBrowse);
-        jPanel5.add(filler28);
-
-        buttonComprimir.setText("Comprimir");
-        buttonComprimir.setMaximumSize(new java.awt.Dimension(100, 50));
-        buttonComprimir.setMinimumSize(new java.awt.Dimension(100, 40));
-        buttonComprimir.setPreferredSize(new java.awt.Dimension(100, 40));
-        buttonComprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonComprimirActionPerformed(evt);
-            }
-        });
-        jPanel5.add(buttonComprimir);
-        jPanel5.add(filler35);
-
-        jPanel4.add(jPanel5);
-        jPanel4.add(filler30);
-
-        panelComprimir.add(jPanel4);
-        panelComprimir.add(filler18);
-
-        pEstadisticas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pEstadisticas.setMinimumSize(new java.awt.Dimension(600, 250));
-        pEstadisticas.setPreferredSize(new java.awt.Dimension(600, 250));
-
-        javax.swing.GroupLayout pEstadisticasLayout = new javax.swing.GroupLayout(pEstadisticas);
-        pEstadisticas.setLayout(pEstadisticasLayout);
-        pEstadisticasLayout.setHorizontalGroup(
-            pEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
+        javax.swing.GroupLayout pMostrarLayout = new javax.swing.GroupLayout(pMostrar);
+        pMostrar.setLayout(pMostrarLayout);
+        pMostrarLayout.setHorizontalGroup(
+            pMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 603, Short.MAX_VALUE)
         );
-        pEstadisticasLayout.setVerticalGroup(
-            pEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
+        pMostrarLayout.setVerticalGroup(
+            pMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
 
-        panelComprimir.add(pEstadisticas);
-
-        javax.swing.GroupLayout panelCompararLayout = new javax.swing.GroupLayout(panelComparar);
-        panelComparar.setLayout(panelCompararLayout);
-        panelCompararLayout.setHorizontalGroup(
-            panelCompararLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 884, Short.MAX_VALUE)
-        );
-        panelCompararLayout.setVerticalGroup(
-            panelCompararLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout panelDescomprimirLayout = new javax.swing.GroupLayout(panelDescomprimir);
-        panelDescomprimir.setLayout(panelDescomprimirLayout);
-        panelDescomprimirLayout.setHorizontalGroup(
-            panelDescomprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 884, Short.MAX_VALUE)
-        );
-        panelDescomprimirLayout.setVerticalGroup(
-            panelDescomprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
-        );
-
-        mainPanel.setMinimumSize(new java.awt.Dimension(200, 70));
-        mainPanel.setLayout(new javax.swing.BoxLayout(mainPanel, javax.swing.BoxLayout.LINE_AXIS));
-        mainPanel.add(filler7);
-
-        jPanel1.setMaximumSize(new java.awt.Dimension(500, 131128));
-        jPanel1.setMinimumSize(new java.awt.Dimension(200, 40));
-        jPanel1.setPreferredSize(new java.awt.Dimension(230, 256));
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
-        jPanel1.add(filler8);
-        jPanel1.add(filler4);
-
-        bComprimir.setText("Comprimir");
-        bComprimir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bComprimir.setMaximumSize(new java.awt.Dimension(250, 60));
-        bComprimir.setMinimumSize(new java.awt.Dimension(200, 70));
-        bComprimir.setPreferredSize(new java.awt.Dimension(200, 70));
-        jPanel1.add(bComprimir);
-        jPanel1.add(filler1);
-
-        buttonDescomprimir.setText("Descomprimir");
-        buttonDescomprimir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonDescomprimir.setMaximumSize(new java.awt.Dimension(250, 60));
-        buttonDescomprimir.setMinimumSize(new java.awt.Dimension(150, 40));
-        buttonDescomprimir.setPreferredSize(new java.awt.Dimension(150, 70));
-        jPanel1.add(buttonDescomprimir);
-        jPanel1.add(filler2);
-
-        buttonComparar.setText("Comparar");
-        buttonComparar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonComparar.setMaximumSize(new java.awt.Dimension(250, 60));
-        buttonComparar.setMinimumSize(new java.awt.Dimension(150, 40));
-        buttonComparar.setPreferredSize(new java.awt.Dimension(150, 70));
-        jPanel1.add(buttonComparar);
-        jPanel1.add(filler3);
-
-        buttonSortir.setText("Sortir");
-        buttonSortir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonSortir.setMaximumSize(new java.awt.Dimension(250, 60));
-        buttonSortir.setMinimumSize(new java.awt.Dimension(150, 40));
-        buttonSortir.setPreferredSize(new java.awt.Dimension(150, 70));
-        jPanel1.add(buttonSortir);
-        jPanel1.add(filler5);
-        jPanel1.add(filler9);
-
-        mainPanel.add(jPanel1);
-        mainPanel.add(filler6);
+        getContentPane().add(pMostrar, java.awt.BorderLayout.CENTER);
 
         menuInici.setText("Inici");
         menu.add(menuInici);
@@ -285,61 +81,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         setJMenuBar(menu);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelDescomprimir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelComprimir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelComparar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelDescomprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelComprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelComparar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void buttonComprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonComprimirActionPerformed
-
-        if(bgAlgoritmos.getSelection()==null){
-            JOptionPane.showMessageDialog(this, "Selecciona un botó");
-            return;
-        }else{
-            bgAlgoritmos.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
-        }
-
-        int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
-
-        if (guardar==0){
-            JOptionPane.showMessageDialog(this, "Ha dicho si");
-        }else{
-            JOptionPane.showMessageDialog(this, "Ha dicho no");
-        }
-    }//GEN-LAST:event_buttonComprimirActionPerformed
-
-    private void buttonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBrowseActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "txt & ppm", "txt", "ppm");
-        chooser.setFileFilter(filter);
-        chooser.setAcceptAllFileFilterUsed(false);
-        int returnVal = chooser.showOpenDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            tfPath.setText(chooser.getSelectedFile().getPath());
-        }
-    }//GEN-LAST:event_buttonBrowseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,62 +120,13 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton bAuto;
-    private javax.swing.JButton bComprimir;
-    private javax.swing.JRadioButton bJPEG;
-    private javax.swing.JRadioButton bLZ78;
-    private javax.swing.JRadioButton bLZSS;
-    private javax.swing.JRadioButton bLZW;
-    private javax.swing.JButton buttonBrowse;
-    private javax.swing.JButton buttonComparar;
-    private javax.swing.JButton buttonComprimir;
-    private javax.swing.JButton buttonDescomprimir;
-    private javax.swing.JButton buttonSortir;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler16;
-    private javax.swing.Box.Filler filler18;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler23;
-    private javax.swing.Box.Filler filler24;
-    private javax.swing.Box.Filler filler25;
-    private javax.swing.Box.Filler filler26;
-    private javax.swing.Box.Filler filler27;
-    private javax.swing.Box.Filler filler28;
-    private javax.swing.Box.Filler filler29;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler30;
-    private javax.swing.Box.Filler filler31;
-    private javax.swing.Box.Filler filler32;
-    private javax.swing.Box.Filler filler33;
-    private javax.swing.Box.Filler filler34;
-    private javax.swing.Box.Filler filler35;
-    private javax.swing.Box.Filler filler36;
-    private javax.swing.Box.Filler filler37;
-    private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler8;
-    private javax.swing.Box.Filler filler9;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private java.awt.Label lSelectFitxer;
-    private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuComparar;
     private javax.swing.JMenu menuCompararTXT;
     private javax.swing.JMenu menuComprimir;
     private javax.swing.JMenu menuDescomprimir;
     private javax.swing.JMenu menuInici;
-    private javax.swing.JPanel pEstadisticas;
-    private javax.swing.JPanel panelComparar;
-    private javax.swing.JPanel panelComprimir;
-    private javax.swing.JPanel panelDescomprimir;
-    private javax.swing.JTextField tfPath;
+    private javax.swing.JPanel pMostrar;
     // End of variables declaration//GEN-END:variables
 }

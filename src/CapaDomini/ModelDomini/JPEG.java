@@ -1,7 +1,6 @@
 package CapaDomini.ModelDomini;
 
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.*;
 import java.util.ArrayList;
@@ -240,7 +239,7 @@ public class JPEG {
         return decoded;
     }
 
-    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida) throws IOException, VersionPPMIncorrecta, DatosIncorrectos {
         long start = System.currentTimeMillis();
         origVsize = imatgeDescomprimida.getSizeV();
         origHsize = imatgeDescomprimida.getSizeH();
@@ -291,7 +290,7 @@ public class JPEG {
         return imatgeComprimida;
     }
 
-    public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, ExtensionIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+    public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, DatosIncorrectos {
         long start = System.currentTimeMillis();
         vsize = imatgeComprimida.getModifiedSizeV();
         hsize = imatgeComprimida.getModifiedSizeH();

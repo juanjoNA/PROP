@@ -1,0 +1,4 @@
+CapaDomini.ModelDomini.CodeNode
+CapaDomini.ModelDomini.HuffmanComparator
+CapaDomini.ModelDomini.HuffmanNode
+CapaDomini.ModelDomini.Huffman

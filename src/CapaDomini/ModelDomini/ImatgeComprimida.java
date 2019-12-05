@@ -5,7 +5,6 @@
  */
 package CapaDomini.ModelDomini;
 
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.util.HashMap;
 
@@ -19,7 +18,7 @@ public class ImatgeComprimida extends Imatge{
     private HashMap <String, Integer> decoder;
     private int numPairs;
 
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs) throws VersionPPMIncorrecta {
         super(path,content,v,sv,sh,maxValue);
          modifiedSizeV = modSizeV;
          modifiedSizeH = modSizeH;
