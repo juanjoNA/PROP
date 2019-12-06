@@ -48,15 +48,15 @@ public class ControladorComprimir {
         switch(algoritmo) {
             //JPEG
             case 1:{
-                byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
+                /*byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
-                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
+                //ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
                 resultat = comprimit;
                 if (guardar) {
                     i.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
                 }
-                break;
+                break;*/
             }
             //LZW
             case 2: {

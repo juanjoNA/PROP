@@ -5,6 +5,8 @@ import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class JPEG {
 
@@ -162,25 +164,25 @@ public class JPEG {
         for(int i = 0; i < vsize; ++i) {
             for (int j = 0; j < hsize; ++j) {
                 actual[0][i][j] = matrix[0][i][j];//*QyTable[i%8][j%8];
-                actual[1][i][j] = matrix[1][i][j]*QcTable[i%8][j%8];
-                actual[2][i][j] = matrix[2][i][j]*QcTable[i%8][j%8];
+                actual[1][i][j] = Math.round(matrix[1][i][j]*QcTable[i%8][j%8]);
+                actual[2][i][j] = Math.round(matrix[2][i][j]*QcTable[i%8][j%8]);
             }
         }
         return actual;
     }
 
     private ArrayList<Pair<Byte,Short>> runLengthEncode(int[][][] mat, int row, int col, ArrayList<Pair<Byte,Short>> result) {
-        //Cb
-        int x = row;
-        int y = col;
-        Boolean asc = true;
-        byte cont = 0;
+        
         ZigZag rlCb = new ZigZag(mat[1], row, col);
         ZigZag rlCr = new ZigZag(mat[2], row, col);
+
+        //Cb
+        Byte cont = 0;
         while (!rlCb.isEnd()) {
-            int num = rlCb.getNextNumber();
-            if (num != 0) {
-                Pair<Byte,Short> newPair = new Pair<Byte,Short>(cont,(short)num);
+            Integer num = rlCb.getNextNumber();
+            if (!num.equals(0)) {
+                Short value = new Short(num.shortValue());
+                Pair<Byte,Short> newPair = new Pair<Byte,Short>(cont,value);
                 result.add(newPair);
                 cont = 0;
             }
@@ -189,13 +191,14 @@ public class JPEG {
             }
         }
         cont = 0;
-        Pair<Byte,Short> temp = new Pair<Byte,Short>((byte)0,(short)0);
+        Pair<Byte,Short> temp = new Pair<Byte,Short>(new Byte((byte)0),new Short((short)0));
         result.add(temp);
         //Cr
         while (!rlCr.isEnd()) {
-            int num = rlCr.getNextNumber();
-            if (num != 0) {
-                Pair<Byte,Short> newPair = new Pair<Byte,Short>(cont,(short)num);
+            Integer num = rlCr.getNextNumber();
+            if (!num.equals(0)) {
+                Short value = new Short(num.shortValue());
+                Pair<Byte,Short> newPair = new Pair<Byte,Short>(cont,value);
                 result.add(newPair);
                 cont = 0;
             }
@@ -203,7 +206,7 @@ public class JPEG {
                 ++cont;
             }
         }
-        Pair<Byte,Short> temp2 = new Pair<Byte,Short>((byte)0,(short)0);
+        Pair<Byte,Short> temp2 = new Pair<Byte,Short>(new Byte((byte)0),new Short((short)0));
         result.add(temp2);
         return result;
     }
@@ -212,32 +215,44 @@ public class JPEG {
         int matNum = 0;
         int index = 0;
         ZigZag[] rl = new ZigZag[2];
-        rl[0] = new ZigZag(decoded[1],0,0);
-        rl[1] = new ZigZag(decoded[2],0,0);
+        decoded = new int[3][vsize][hsize];
+        rl[0] = new ZigZag(new int[vsize][hsize],0,0);
+        rl[1] = new ZigZag(new int[vsize][hsize],0,0);
+        Byte zerob = 0;
+        Short zeros = 0;
         while (index < encoded.size()) {
             Pair<Byte,Short> p = encoded.get(index);
+            if (!p.equals(encoded.get(index)))
+            {
+                System.out.println("RLE Pair is different");
+            }
             ++index;
-            if (p.getFirst() == 0 && p.getSecond() == 0) {
+            if (p.getFirst().equals(zerob) && p.getSecond().equals(zeros)) {
                 while (!rl[matNum].isEnd()) {
                     rl[matNum].writeNum(0);
-
                 }
                 rl[matNum].nextSquare();
                 if(matNum == 1) matNum = 0;
                 else matNum = 1;
             }
             else {
-                while (p.getFirst() > 0) {
-                    p.setFirst(((byte)(p.getFirst()-1)));
+                int temp = p.getFirst();
+                while (temp > zerob) {
+                    --temp;
                     rl[matNum].writeNum(0);
                 }
                 rl[matNum].writeNum(p.getSecond());
             }
         }
-        decoded[0] = luminance;
-        decoded[1] = rl[0].getMatrix();
-        decoded[2] = rl[1].getMatrix();
-        return decoded;
+        for (int i = 0; i < vsize; ++i) {
+            for (int j = 0; j < hsize; ++j) {
+                decoded[0][i][j] = luminance[i][j];
+            }
+        }
+        decoded[0] = luminance.clone();
+        decoded[1] = rl[0].getMatrix().clone();
+        decoded[2] = rl[1].getMatrix().clone();
+        return decoded.clone();
     }
 
     public ImatgeComprimida comprimir(Imatge imatgeDescomprimida) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
@@ -284,12 +299,14 @@ public class JPEG {
         }
         long end = System.currentTimeMillis();
         String newPath = imatgeDescomprimida.getPath();
-        newPath = newPath.replace("ppm","jimg");
+        newPath = newPath.replace(".ppm",".jimg");
         ImatgeComprimida imatgeComprimida = new ImatgeComprimida(newPath,resultContent, imatgeDescomprimida.getVersion(),origVsize, origHsize, imatgeDescomprimida.getMaxVal(), vsize, hsize, huffmanEncoder.getDecodingHashMap(),encoded.size());
         Estadistiques e = new Estadistiques(start,end,imatgeDescomprimida.getMida(),imatgeComprimida.getMida());
         imatgeComprimida.setEstadistiques(e);
+
         return imatgeComprimida;
     }
+
 
     public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, ExtensionIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
         long start = System.currentTimeMillis();
@@ -316,7 +333,7 @@ public class JPEG {
         Huffman huffmanDecoder = new Huffman(imatgeComprimida.getDecoder());
         ArrayList<Pair<Byte,Short>> huffmanDecoded = new ArrayList<Pair<Byte,Short>>();
         try {
-            huffmanDecoded = huffmanDecoder.huffmanDecode(content, imatgeComprimida.getNumPairs());
+            huffmanDecoded = huffmanDecoder.huffmanDecode(content, imatgeComprimida.getNumPairs(),huffmanDecoded);
         }
         catch (Exception e) {
             throw new DatosIncorrectos();
@@ -324,6 +341,7 @@ public class JPEG {
 
         int[][][] decoded = new int[3][vsize][hsize];
         decoded = runLengthDecode(huffmanDecoded,decoded,luminance);
+        
         float[][][] unDCTed = new float[3][vsize][hsize];
         float[][][] unQuantized = new float[3][vsize][hsize];
         unQuantized = dequantize(decoded);
@@ -334,7 +352,6 @@ public class JPEG {
         }
 
         unDCTed = add128(unDCTed);
-
 
         byte [][][] RGB = YCbCrToRGB(unDCTed);
 

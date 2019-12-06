@@ -26,34 +26,19 @@ public class Pair <T1, T2> {
         return first + "," + second;
     }
 
-
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.first);
-        hash = 23 * hash + Objects.hashCode(this.second);
-        return hash;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + first.hashCode();
+        result = prime * result + second.hashCode();
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Pair<?, ?> other = (Pair<?, ?>) obj;
-        if (!Objects.equals(this.first, other.first)) {
-            return false;
-        }
-        if (!Objects.equals(this.second, other.second)) {
-            return false;
-        }
-        return true;
+            final Pair<?, ?> other = (Pair <?, ?>) obj;
+            return Objects.equals(getFirst(), other.getFirst()) && Objects.equals(getSecond(), other.getSecond());
     }
 
     public T1 getFirst() {

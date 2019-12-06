@@ -26,7 +26,6 @@ import java.util.logging.Logger;
  */
 public class IOArxius {
 
-
     public IOArxius() {
     }
     public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
@@ -89,6 +88,7 @@ public class IOArxius {
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
+             System.out.println(path);
              o = new FileOutputStream(path);
              ObjectOutputStream  oos = new ObjectOutputStream (o);
              oos.writeObject(resultMap);
