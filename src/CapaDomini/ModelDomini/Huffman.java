@@ -103,9 +103,7 @@ class CodeNode {
         }
     }
 
-    public byte[] huffmanEncode(ArrayList<Pair<Byte,Short>> contentToEncode) {        
-        originalData = contentToEncode;
-        
+    public byte[] huffmanEncode(ArrayList<Pair<Byte,Short>> contentToEncode) {                
         buildTree(contentToEncode);
         ArrayList<Byte> encodedContent = new ArrayList<Byte>();
 
@@ -136,7 +134,6 @@ class CodeNode {
             }
         }
         codesString = s.toString();
-        //int sizeLastCode = codifier.get(contentToEncode.get(contentToEncode.size()-1)).length();
         if (index > 0) {
             payload = (byte)(payload << (8-index));
         }
@@ -173,7 +170,6 @@ class CodeNode {
         return decodedData;
     }
     
-    private ArrayList<Pair<Byte,Short>> originalData;
 
     public HashMap <String, Integer> getDecodingHashMap() {
         HashMap<String ,Integer> decoding = new HashMap<String,Integer>();
