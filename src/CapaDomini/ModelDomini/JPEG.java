@@ -37,6 +37,8 @@ public class JPEG {
     private int vsize;
     private int origVsize;
     private int origHsize;
+    private int ssVSize;
+    private int ssHSize;
 
     public JPEG () {
 
@@ -85,15 +87,80 @@ public class JPEG {
         }
         return newRGB;
     }
+    
+    float[][][] subsample(float[][][] mat,int[] subsampling) {
+        float[][][] result = new float[3][ssVSize][ssHSize];
+        result[0] = mat[0].clone();
+        int subX = subsampling[0]/subsampling[1];
+        int subY = 1;
+        int npixels = subX*subY;
+        if (subsampling[2] == 0)  subY = 2;
+        int maxV = 0;
+         if (subsampling[2] == 0) {
+            maxV = vsize / 2;
+        }
+        else {
+            maxV = vsize;
+        }
+        double div1 = subsampling[0]/subsampling[1];
+        int maxH =  (int) (hsize / (div1));
+        
+        for (int i = 0; i < maxV; ++i) {
+            for (int j = 0; j < maxH; ++j) {
+                float sumCb = 0;
+                float sumCr = 0;
+                for (int u = 0; u < subY; ++u) {
+                    for (int v = 0; v < subX; ++v) {
+                        //System.out.println(i + " -- " + j +  " _-_ " + u + " -- " + v + " : " + i*subY+u + " -- "+ j*subX+v);
+                        sumCb += mat[1][i*subY+u][j*subX+v];
+                        sumCr += mat[2][i*subY+u][j*subX+v];
+                    }
+                }
+                result[1][i][j] = sumCb/npixels;
+                result[2][i][j] = sumCr/npixels;
+            }
+        }
+        return result;
+    }
+    
+    float[][][] unSubsample(float[][][] mat, int[] subsampling) {
+        float[][][] result = new float[3][vsize][hsize];
+        result[0] = mat[0].clone();
+        int subX = subsampling[0]/subsampling[1];
+        int subY = 1;
+        if (subsampling[2] == 0)  subY = 2;
+        
+        int maxV = 0;
+         if (subsampling[2] == 0) {
+            maxV = vsize / 2;
+        }
+        else {
+            maxV = vsize;
+        }
+        double div1 = subsampling[0]/subsampling[1];
+        int maxH =  (int) (hsize / (div1));
+        
+        for (int i = 0; i < maxV; ++i) {
+            for (int j = 0; j < maxH; ++j) {
+                for (int u = 0; u < subY; ++u) {
+                    for (int v = 0; v < subX; ++v) {
+                        result[1][i*subY+u][j*subX+v] = mat[1][i][j];
+                        result[2][i*subY+u][j*subX+v] = mat[2][i][j];
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
     private float[][][] subtract128(float[][][] mat) {
         int tamx = mat.length;
         int tamy = mat[0].length;
         int tamz = mat[0][0].length;
         float[][][] temp = new float[tamx][tamy][tamz];
-        for (int i = 0; i < tamy; ++i) {
-            for(int j = 0; j < tamz; ++j) {
-                temp[0][i][j] = mat[0][i][j];
+        temp[0] = mat[0].clone();
+        for (int i = 0; i < ssVSize; ++i) {
+            for(int j = 0; j < ssHSize; ++j) {
                 temp[1][i][j] = mat[1][i][j] - 128;
                 temp[2][i][j] = mat[2][i][j] - 128;
             }
@@ -106,9 +173,9 @@ public class JPEG {
         int tamy = matrix[0].length;
         int tamz = matrix[0][0].length;
         float[][][] temp = new float[tamx][tamy][tamz];
-        for (int i = 0; i < tamy; ++i) {
-            for(int j = 0; j < tamz; ++j) {
-                temp[0][i][j] = matrix[0][i][j];
+        temp[0] = matrix[0].clone();
+        for (int i = 0; i < ssVSize; ++i) {
+            for(int j = 0; j < ssHSize; ++j) {
                 temp[1][i][j] = matrix[1][i][j] + 128;
                 temp[2][i][j] = matrix[2][i][j] + 128;
             }
@@ -119,11 +186,6 @@ public class JPEG {
     static double[] normalizingScale = new double[] {1.0/Math.sqrt(2.0),1.0,1.0,1.0,1.0,1.0,1.0,1.0};
 
     private float [][][] doDCT(float[][][] YCbCr,float[][][] actual,int initialX, int initialY) {
-        for (int i = initialX; i < initialX+8; ++i) {
-            for (int j = initialY; j < initialY+8; ++j) {
-                actual[0][i][j] = YCbCr[0][i][j];
-            }
-        }
         for (int i = 1; i < 3; ++i) {
             for (int u = 0; u < 8; ++u) {
                 for (int v = 0; v < 8; ++v) {
@@ -146,7 +208,6 @@ public class JPEG {
     private float [][][] undoDCT(float[][][] quantized, float[][][] actual,int a,int b) {
         for (int i = a; i < a+8; ++i) {
             for (int j = b; j < b+8; ++j) {
-                actual[0][i][j] = quantized[0][i][j];
                 actual[1][i][j] = 0;
                 actual[2][i][j] = 0;
             }
@@ -174,8 +235,7 @@ public class JPEG {
     private int[][][] quantize(float[][][] matrix, int[][][] actual, int a, int b, int ratioCompression) {
         double percentage = ratioCompression/100.0;
         for(int i = a; i < a+8; ++i) {
-            for (int j = b; j < b+8; ++j) {
-                actual[0][i][j] = Math.round(matrix[0][i][j]); ///QyTable[i%8][j%8]
+            for (int j = b; j < b+8; ++j) { 
                 actual[1][i][j] = (int) Math.round(matrix[1][i][j]/(QcTable[i%8][j%8]*percentage));
                 actual[2][i][j] = (int) Math.round(matrix[2][i][j]/(QcTable[i%8][j%8]*percentage));
             }
@@ -186,11 +246,15 @@ public class JPEG {
     private float[][][] dequantize(int[][][] matrix, int ratioCompression) {
         double percentage = ratioCompression/100.0;
         float[][][] actual = new float[3][vsize][hsize];
-        for(int i = 0; i < vsize; ++i) {
+        for(int i = 0; i < vsize; ++i)  {
             for (int j = 0; j < hsize; ++j) {
-                actual[0][i][j] = matrix[0][i][j];//*QyTable[i%8][j%8];
-                actual[1][i][j] = Math.round(matrix[1][i][j]*(QcTable[i%8][j%8]*percentage));
-                actual[2][i][j] = Math.round(matrix[2][i][j]*(QcTable[i%8][j%8]*percentage));
+                actual[0][i][j] = matrix[0][i][j];
+            }
+        }
+        for(int i = 0; i < ssVSize; ++i) {
+            for (int j = 0; j < ssHSize; ++j) {
+                actual[1][i][j] = (float) (matrix[1][i][j]*(QcTable[i%8][j%8]*percentage));
+                actual[2][i][j] = (float) (matrix[2][i][j]*(QcTable[i%8][j%8]*percentage));
             }
         }
         return actual;
@@ -240,9 +304,9 @@ public class JPEG {
         int matNum = 0;
         int index = 0;
         ZigZag[] rl = new ZigZag[2];
-        decoded = new int[3][vsize][hsize];
-        rl[0] = new ZigZag(new int[vsize][hsize],0,0);
-        rl[1] = new ZigZag(new int[vsize][hsize],0,0);
+        decoded = new int[3][ssVSize][ssHSize];
+        rl[0] = new ZigZag(new int[ssVSize][ssHSize],0,0);
+        rl[1] = new ZigZag(new int[ssVSize][ssHSize],0,0);
         Byte zerob = 0;
         Short zeros = 0;
         while (index < encoded.size()) {
@@ -269,11 +333,6 @@ public class JPEG {
                 rl[matNum].writeNum(p.getSecond());
             }
         }
-        for (int i = 0; i < vsize; ++i) {
-            for (int j = 0; j < hsize; ++j) {
-                decoded[0][i][j] = luminance[i][j];
-            }
-        }
         decoded[0] = luminance.clone();
         decoded[1] = rl[0].getMatrix().clone();
         decoded[2] = rl[1].getMatrix().clone();
@@ -296,14 +355,38 @@ public class JPEG {
             vsize = origVsize + (8 - (origVsize % 8));
         }
         else vsize = origVsize;
-
+        
+        if (subsampling[2] == 0) {
+            ssVSize = vsize / 2;
+        }
+        else {
+            if (subsampling[2] != subsampling[1]) throw new DatosIncorrectos();
+            ssVSize = vsize;
+        }
+        if (subsampling[1] == 0) throw new DatosIncorrectos();
+        double div1 = subsampling[0]/subsampling[1];
+        if ( ((int)(div1*100000))%100000 != 0) throw new DatosIncorrectos();
+        ssHSize =  (int) (hsize / (div1));
+         if (ssHSize%8 != 0) {
+            ssHSize = ssHSize + (8 - (ssHSize % 8));
+        }
+        if (ssVSize%8 != 0) {
+            ssVSize = ssVSize + (8 - (ssVSize % 8));
+        }
+        
         float[][][] YCbCr = RGBToYCbCr(imatgeDescomprimida.getContingut());
-        YCbCr = subtract128(YCbCr);
-        float[][][] DCTed = new float[3][vsize][hsize];
-        int[][][] quantized = new int[3][vsize][hsize];
+        
+        System.out.println(ssHSize + " -- " + ssVSize);
+        System.out.println(hsize + " -- " + vsize);
+        
+        float[][][] subsampled = subsample(YCbCr,subsampling);
+        
+        YCbCr = subtract128(subsampled);
+        float[][][] DCTed = new float[3][ssVSize][ssHSize];
+        int[][][] quantized = new int[3][ssVSize][ssHSize];
         ArrayList<Pair<Byte,Short>> encoded = new ArrayList<Pair<Byte,Short>>();
-        for (int i = 0; i < vsize; i += 8) {
-            for (int j = 0; j < hsize; j += 8) {
+        for (int i = 0; i < ssVSize; i += 8) {
+            for (int j = 0; j < ssHSize; j += 8) {
                 DCTed     = doDCT(YCbCr,DCTed,i,j);
                 quantized = quantize(DCTed,quantized,i,j,ratioCompression);
                 encoded  = runLengthEncode(quantized,i,j, encoded);
@@ -311,13 +394,13 @@ public class JPEG {
         }
 
         Huffman huffmanEncoder = new Huffman();
-        byte[]huffmanEncoded = huffmanEncoder.huffmanEncode(encoded);
+        byte[] huffmanEncoded = huffmanEncoder.huffmanEncode(encoded);
 
         byte[] resultContent = new byte[hsize*vsize + huffmanEncoded.length];
 
         for (int i = 0; i < vsize; ++i) {
             for (int j = 0; j < hsize; ++j) {
-                resultContent[i*hsize + j] = (byte)quantized[0][i][j];
+                resultContent[i*hsize + j] = (byte)YCbCr[0][i][j];
             }
         }
         for (int i = 0; i < huffmanEncoded.length; ++i) {
@@ -340,7 +423,27 @@ public class JPEG {
         hsize = imatgeComprimida.getModifiedSizeH();
         origVsize = imatgeComprimida.getSizeV();
         origHsize = imatgeComprimida.getSizeH();
+        int[] subsampling = imatgeComprimida.getSubsamplingRatio();
+        if (subsampling[2] == 0) {
+            ssVSize = vsize / 2;
+        }
+        else {
+            if (subsampling[2] != subsampling[1]) throw new DatosIncorrectos();
+        }
+        if (subsampling[1] == 0) throw new DatosIncorrectos();
+        double div1 = subsampling[0]/subsampling[1];
+        if ( ((int)(div1*100000))%100000 != 0) throw new DatosIncorrectos();
+        ssHSize =  (int) (hsize / (div1));
+         if (ssHSize%8 != 0) {
+            ssHSize = ssHSize + (8 - (ssHSize % 8));
+        }
+        if (ssVSize%8 != 0) {
+            ssVSize = ssVSize + (8 - (ssVSize % 8));
+        }
 
+         System.out.println(ssHSize + " -- " + ssVSize);
+        System.out.println(hsize + " -- " + vsize);
+        
         byte[] encodedContent = imatgeComprimida.getContingut();
         if (encodedContent.length < vsize*hsize) {
             throw new DatosIncorrectos();
@@ -365,21 +468,23 @@ public class JPEG {
             throw new DatosIncorrectos();
         }
 
-        int[][][] decoded = new int[3][vsize][hsize];
+        int[][][] decoded = new int[3][ssVSize][ssHSize];
         decoded = runLengthDecode(huffmanDecoded,decoded,luminance);
         
-        float[][][] unDCTed = new float[3][vsize][hsize];
-        float[][][] unQuantized = new float[3][vsize][hsize];
+        float[][][] unDCTed = new float[3][ssVSize][ssHSize];
+        float[][][] unQuantized = new float[3][ssVSize][ssHSize];
         unQuantized = dequantize(decoded,imatgeComprimida.getRatioCompressio());
-        for (int i = 0; i < vsize; i += 8) {
-            for (int j = 0; j < hsize; j += 8) {
+        for (int i = 0; i < ssVSize; i += 8) {
+            for (int j = 0; j < ssHSize; j += 8) {
                 unDCTed = undoDCT(unQuantized,unDCTed,i,j);
             }
         }
-
+        unDCTed[0] = unQuantized[0].clone();
         unDCTed = add128(unDCTed);
+        
+        float [][][]unSubsampled = unSubsample(unDCTed, subsampling);
 
-        byte [][][] RGB = YCbCrToRGB(unDCTed);
+        byte [][][] RGB = YCbCrToRGB(unSubsampled);
 
         byte[] resultDecompressed = new byte[origHsize * origVsize * 3];
         for (int i = 0; i < origVsize; ++i) {

@@ -56,7 +56,7 @@ public class DriverJPEG {
                         contingut = persistencia.llegeixArxiuBinari(path,".ppm");
                         Imatge imatgeLlegida = new Imatge(path,contingut);
                         //Imatge desprocessat = compressor.comprimir(imatgeLlegida);
-                        int[] subsampling = new int[]{4,4,4};
+                        int[] subsampling = new int[]{4,2,2};
                         ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, 40, subsampling);
                         //if (guardar.equals("S")) {
                             System.out.println("Introdueix el path de on es guarda l'arxiu");

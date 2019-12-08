@@ -47,8 +47,10 @@ public class ImatgeComprimida extends Imatge{
         modifiedSizes.setLength(0);
         newPos = super.readLine(modifiedSizes,newPos,contingutActual);
         this.ratioCompression = Integer.parseInt(modifiedSizes.toString());
+        modifiedSizes.setLength(0);
         newPos = super.readLine(modifiedSizes, newPos, contingutActual);
         String unparsed = modifiedSizes.toString();
+                modifiedSizes.setLength(0);
         String[] parsed = unparsed.split(":");
         this.subsampling = new int[3];
         for (int i = 0; i < 3; ++i) {
@@ -78,6 +80,10 @@ public class ImatgeComprimida extends Imatge{
     
     public int getRatioCompressio() {
         return this.ratioCompression;
+    }
+    
+    public int[] getSubsamplingRatio() {
+        return this.subsampling;
     }
 
     @Override

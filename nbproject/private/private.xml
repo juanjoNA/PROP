@@ -5,7 +5,9 @@
         <group>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/Huffman.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComprimir.java</file>
+            <file>file:/D:/PropGithub/PROP/src/Drivers/DriverImatgeComprimida.java</file>
             <file>file:/D:/PropGithub/PROP/src/Drivers/DriverJPEG.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/ImatgeComprimida.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/JPEG.java</file>
         </group>
     </open-files>
