@@ -27,7 +27,7 @@ import java.util.HashMap;
  */
 public class ControladorDescomprimir {
     private String path;
-    private int algoritmo;
+    private String algoritmo;
     private boolean guardar;
     private double[] result;
 
@@ -35,7 +35,7 @@ public class ControladorDescomprimir {
         return result;
     }
 
-    public ControladorDescomprimir (String path, int algoritmo, boolean guardar) {
+    public ControladorDescomprimir (String path, String algoritmo, boolean guardar) {
         this.path = path;
         this.algoritmo = algoritmo;
         this.guardar = guardar;
@@ -47,7 +47,7 @@ public class ControladorDescomprimir {
         Arxiu descomprimit = null;
         switch(algoritmo) {
             //JPEG
-            case 1:{
+            case "JPEG":{
                 DTOImatge llegit =i.llegeixImatgeComprimida(path);
                 byte[] contingut = llegit.getBytes();
                 HashMap<String,Integer> map = llegit.getMap();
@@ -63,7 +63,7 @@ public class ControladorDescomprimir {
                 break;
             }
             //LZW
-            case 2: {
+            case "LZW": {
                 byte[] con = i.llegeixArxiuBinari(path,".lzw");
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
@@ -77,7 +77,7 @@ public class ControladorDescomprimir {
             }
 
             //LZSS
-            case 3: {
+            case "LZSS": {
                 byte[] con = i.llegeixArxiuBinari(path,".lzss");
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZSS des = new LZSS();
@@ -90,7 +90,7 @@ public class ControladorDescomprimir {
 
             }
             //LZ78
-            case 4: {
+            case "LZ78": {
                 byte[] con = i.llegeixArxiuBinari(path,".lz78");
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZ78 des = new LZ78();

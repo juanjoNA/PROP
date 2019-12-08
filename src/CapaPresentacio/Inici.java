@@ -102,7 +102,7 @@ public class Inici extends javax.swing.JPanel {
 
     private void bComprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bComprimirActionPerformed
         pare.setContentPane(new Comprimir());
-        pare.setSize(1000, 400);
+        pare.setSize(1000, 600);
         pare.invalidate();
         pare.validate();
     }//GEN-LAST:event_bComprimirActionPerformed

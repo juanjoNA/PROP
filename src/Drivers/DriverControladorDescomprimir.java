@@ -28,7 +28,7 @@ public class DriverControladorDescomprimir {
         int opcion;
         IOArxius cd = new IOArxius();
         boolean salir=false;
-
+/*
         while(!salir){
             System.out.println("Selecciona una opció: ");
             System.out.println("\n\t1. Descomprimir Arxiu."
@@ -74,7 +74,7 @@ public class DriverControladorDescomprimir {
             }
 
         }
-
+*/
     }
 
     static public int seleccionarAlgoritme(String path) {

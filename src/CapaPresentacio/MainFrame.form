@@ -8,16 +8,67 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Inici"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuIniciActionPerformed"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuComprimir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Comprimir"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="bCompFitxer">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/FileIcon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Comprimir fitxer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCompFitxerActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="bCompCarpeta">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/folderIcon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Comprimir carpeta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCompCarpetaActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="menuDescomprimir">
+        <Menu class="javax.swing.JMenu" name="bDescomprimir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Descomprimir"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="bDescFitxer">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/FileIcon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Descomprimir Fitxer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bDescFitxerActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="bDescCarpeta">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/folderIcon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Descomprimir Carpeta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bDescCarpetaActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuComparar">
           <Properties>
@@ -28,11 +79,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Comparar IMG"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu5ActionPerformed"/>
+              </Events>
             </Menu>
             <Menu class="javax.swing.JMenu" name="menuCompararTXT">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Comparar TXT"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuCompararTXTActionPerformed"/>
+              </Events>
             </Menu>
           </SubComponents>
         </Menu>
@@ -79,7 +136,7 @@
     <Container class="javax.swing.JPanel" name="pMostrar">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-          <BorderConstraints direction="Center"/>
+          <BorderConstraints direction="North"/>
         </Constraint>
       </Constraints>
 
