@@ -66,12 +66,12 @@ public class IOArxius {
 
     }
 
-    public void guardaArxiuBinari(String path, byte[] contingut) {
+    public void guardaArxiuBinari(String path, byte[] contingut, boolean append) {
 
             OutputStream o = null;
          try {
 
-             o = new FileOutputStream(path,true);
+             o = new FileOutputStream(path,append);
              o.write(contingut);
              //o.write('\n');
              o.close();
@@ -166,11 +166,11 @@ public class IOArxius {
          return sb.toString();
     }
 
-    public void guardaArxiuTXT(String path, String contingut) {
+    public void guardaArxiuTXT(String path, String contingut, boolean append) {
 
             BufferedWriter bw;
             try {
-                bw = new BufferedWriter(new FileWriter(new File(path),true));
+                bw = new BufferedWriter(new FileWriter(new File(path),append));
                 bw.write(contingut);
                 bw.close();
             } catch (IOException ex) {

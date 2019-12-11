@@ -7,6 +7,7 @@ package CapaDomini.ModelDomini;
 
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
+import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -30,26 +31,26 @@ import java.util.logging.Logger;
  */
 public class LZ78 extends LZ{
     
-        private static int unsignedToBytes(byte b) {
+        private int unsignedToBytes(byte b) {
             return b & 0xFF;
         }
-        public static int byteToUnsignedInt(byte b) {
+        public int byteToUnsignedInt(byte b) {
         return b & 0xFF;
     }
         
-        private static byte[] intToByteArray(int x) {
+        private byte[] intToByteArray(int x) {
             byte b[] = new byte[2];
             b[0] = (byte)x;
             b[1] = (byte)((x>>8) & 0xFF);
             return b;
         }
         
-        private static int byteArrayToInt(byte[] bytes) {
+        private int byteArrayToInt(byte[] bytes) {
             return (bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF);        
         }
         
     
-        public static ArxiuBytes comprimir(ArxiuBytes f) throws IOException, CaracterNoASCII {
+        public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII, ExtensionIncorrecta {
             long start = System.currentTimeMillis();
             int pos = 0;
             int j = 1;
@@ -63,16 +64,21 @@ public class LZ78 extends LZ{
             int[] fpos = new int[8];
             byte[] fx = new byte[8];
             byte[] posx = new byte[2];
-            ArxiuBytes  b = (ArxiuBytes) f;
-            byte[] data = b.getContingut();
+            //ArxiuBytes  b = (ArxiuBytes) f;
+            //byte[] data = b.getContingut();
+            String data = f.getContingut();
             ByteArrayOutputStream res = new ByteArrayOutputStream();
             List<String> index = new ArrayList<String>(); //LISTA QUE CONTIENE RELACIÓN ENTRE POSICÓN I LA CLAVE DEL MAP
-            HashMap<String, Integer> map = new HashMap<> (); 
-            for(int i = 0; i < data.length;i++) {
-                if((int)data[i]<0 || (int)data[i]>255) throw new CaracterNoASCII();
+            HashMap<String, Integer> map = new HashMap<> ();
+            String path = f.getPath();
+            if (!path.contains(".txt")) throw new ExtensionIncorrecta();
+            for(int i = 0; i < data.length();i++) {
+                
+                if(data.charAt(i)<0 || data.charAt(i)>255) throw new CaracterNoASCII();
 
-                x = (byte)unsignedToBytes(data[i]);
-                a = (char)unsignedToBytes(x); //LEEMOS CARACTER A CARACTER
+                //x = (byte)unsignedToBytes(data[i]);
+                //a = (char)unsignedToBytes(x); //LEEMOS CARACTER A CARACTER
+                a = data.charAt(i);
                 posb = (byte)pos;
                 act = ini + a;
                 if(map.containsKey(act)) {
@@ -91,7 +97,7 @@ public class LZ78 extends LZ{
                     flag = (flag << 1);
                     if(pos > 255) flag = flag | 0x01; //CALCULO DEL BYTE DE FLAG
                     //flag = (flag << 1);
-                    fx[cb] = x; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
+                    fx[cb] = (byte)a; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
                     cb++;
                     if(cb > 7) { //CUANDO EL BYTE FLAG ESTA LLENO SE ESCRIBE EL CONTENIDO DE LOS VECTORES
                         res.write((byte)flag);
@@ -111,21 +117,31 @@ public class LZ78 extends LZ{
                 }
                 if(j == 0xFFFF) j = 1; //SI MAP LLEGA A SU LIMITE SE SOBREESCRIBE
             }
-            if(act != "") {
-                res.write(posb);
-                res.write(x);
+            if(cb != 0) {
+                flag = flag << (8-cb);
+                res.write((byte)flag);
+                for(int k = 0; k < cb; k++) {
+                    if(fpos[k] > 0xFF) { //SI LA POSICION NO ENTRA EN UN BYTE SE SEPARA EN DOS
+                        posx = intToByteArray(fpos[k]);
+                        res.write(posx[0]);
+                        res.write(posx[1]);
+                    }else res.write((byte)fpos[k]);
+                    res.write(fx[k]);
+                }
+                //res.write(posb);
+                //res.write(x);
             } //AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
             String npath = f.getPath();
             npath = npath.replace(".txt",".lz78"); 
             byte[] result = res.toByteArray();
             ArxiuBytes comp = new ArxiuBytes(npath,result);
             long end = System.currentTimeMillis();
-            Estadistiques e = new Estadistiques(start,end,f.getContingut().length, result.length);
+            Estadistiques e = new Estadistiques(start,end,f.getContingut().length(), result.length);
             comp.setEstadistiques(e);
             return comp;
         }
         
-        public static ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
+        public ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
             long start = System.currentTimeMillis();
             int pos = 1;
             int j = 1;
@@ -141,7 +157,7 @@ public class LZ78 extends LZ{
             HashMap<Integer, String> map = new HashMap<Integer, String> ();
             ArxiuBytes  b = (ArxiuBytes) f;
             byte[] data = b.getContingut();
-            for(int i = 0; i < data.length-2;i+=2) {
+            for(int i = 0; i < data.length-1;i+=2) {
                 if(cb == 0) {
                     flag = unsignedToBytes(data[i]); //SE LEE EL BYTE DE FLAG QUE INDICA EL NUMERO DE BYTES QUE OCUPA LA POSICIÓN DE LOS PROXIMOS 8 PAREJAS
                     i++;
@@ -156,8 +172,9 @@ public class LZ78 extends LZ{
                 flag = (flag << 1); //SE PREPARA FLAG PARA LA PROXIMA ITERACIÓN
                 cb++;
                 if(cb == 8) cb = 0; //CONTADOR, CUANDO ACABA SE VUELVE A LEER FLAG
-                ca = unsignedToBytes(data[i+1]);
+                //ca = unsignedToBytes(data[i+1]);
                 a = (char)byteToUnsignedInt(data[i+1]); //SE LEE EL CARACTER EN CODIFICACIÓN POSITIVA
+                //a = (char)data[i+1];
                 act = "";
                 if(pos == 0) {
                     sb.append(a); //SE ESCRIBE A AL RESULTAD0

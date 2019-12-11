@@ -24,7 +24,7 @@ public class DriverControladorDescomprimir {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
 
         int opcion;
         IOArxius cd = new IOArxius();

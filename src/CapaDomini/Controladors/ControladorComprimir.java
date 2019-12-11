@@ -42,7 +42,7 @@ public class ControladorComprimir {
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, ExtensionIncorrecta, IOException, CaracterNoASCII {
+    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, ExtensionIncorrecta, IOException, CaracterNoASCII, Exception {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();
         switch(algoritmo) {
@@ -68,7 +68,7 @@ public class ControladorComprimir {
                 comprimit = c.comprimir(b);
                 resultat=comprimit;
                 if (guardar) {
-                    i.guardaArxiuTXT(comprimit.getPath(),comprimit.getContingut());
+                    i.guardaArxiuTXT(comprimit.getPath(),comprimit.getContingut(),false);
                 }
                 break;
             }
@@ -80,19 +80,19 @@ public class ControladorComprimir {
                 LZSS lzss = new LZSS();
                 ArxiuBytes comprimit = lzss.comprimir(normal);
                 resultat=comprimit;
-                if(guardar) i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
+                if(guardar) i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                 break;
             }
             
             //LZ78
             case 4: {
-                byte[] cont = i.llegeixArxiuBinari(path, ".txt");
-                ArxiuBytes normal = new ArxiuBytes(path,cont);
+                String cont = i.llegeixArxiuTxt(path);
+                ArxiuTXT normal = new ArxiuTXT(path,cont);
                 LZ78 c = new LZ78();
                 ArxiuBytes comprimit = c.comprimir(normal);
                 resultat=comprimit;
                 if(guardar) {
-                    i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
+                    i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                 
                 break;
                 }
@@ -107,6 +107,9 @@ public class ControladorComprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
+        
+        ControladorEstadisticas cest = new ControladorEstadisticas(result,true,Integer.toUnsignedString(algoritmo));
+        cest.executar();
 
     }
 

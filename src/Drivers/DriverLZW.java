@@ -58,7 +58,7 @@ public class DriverLZW {
                         System.out.println("Descomprimit amb exit!");
                         if(guardar.equals("S")) {
                             IOArxius i = new IOArxius();
-                            i.guardaArxiuTXT(processat.getPath(), processat.getContingut());
+                            i.guardaArxiuTXT(processat.getPath(), processat.getContingut(),false);
                         }
                         break;
                     } catch (ExtensionIncorrecta ex) {
@@ -139,7 +139,7 @@ public class DriverLZW {
         IOArxius c = new IOArxius();
         String newpath = comprimit.getPath();
         String newcontingut = comprimit.getContingut();
-        c.guardaArxiuTXT(newpath,newcontingut);
+        c.guardaArxiuTXT(newpath,newcontingut,false);
     }
 
 }

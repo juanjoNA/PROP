@@ -101,7 +101,7 @@ public class ControladorComprimirCarpeta {
                             String path_intern_comp = comprimit_lzw.getPath();
                             path_intern_comp = path_intern_comp.replaceAll(path, "");
                             io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
-                            io.guardaArxiuTXT(path_cc, comprimit_lzw.getContingut());
+                            io.guardaArxiuTXT(path_cc, comprimit_lzw.getContingut(),true);
                         }
                         break;
                     }
@@ -120,14 +120,15 @@ public class ControladorComprimirCarpeta {
                             String path_intern_comp = comprimit.getPath();
                             path_intern_comp = path_intern_comp.replaceAll(path, "");
                             io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
-                            io.guardaArxiuBinari(path_cc, comprimit.getContingut());
+                            io.guardaArxiuBinari(path_cc, comprimit.getContingut(),true);
                         }
                         break;
                     }
                         
                     case 3: {
                         byte[] cont = io.llegeixArxiuBinari(path_intern, ".txt");
-                        ArxiuBytes normal = new ArxiuBytes(path_intern,cont);
+                        String contingut = new String(cont);
+                        ArxiuTXT normal = new ArxiuTXT(path_intern,contingut);
                         LZ78 c = new LZ78();
                         ArxiuBytes comprimit = c.comprimir(normal);
                         resultat=comprimit;
@@ -137,7 +138,7 @@ public class ControladorComprimirCarpeta {
                             String path_intern_comp = comprimit.getPath();
                             path_intern_comp = path_intern_comp.replaceAll(path, "");
                             io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
-                            io.guardaArxiuBinari(path_cc, comprimit.getContingut());
+                            io.guardaArxiuBinari(path_cc, comprimit.getContingut(),true);
                         } 
                         break;
                     }

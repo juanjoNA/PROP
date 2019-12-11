@@ -69,14 +69,14 @@ public class DriverIOArxius {
                     System.out.println("Introdueix el contingut a escriure: ");
                     String contingutEntrat = intro.readLine();
                     contingutBytes = contingutEntrat.getBytes();
-                    io.guardaArxiuBinari(path, contingutBytes);
+                    io.guardaArxiuBinari(path, contingutBytes,false);
                     break;
                 case 4: 
                     System.out.println("Introdueix el path on vols guardar el contingut: ");
                     path = intro.readLine();
                     System.out.println("Introdueix el contingut a escriure: ");
                     contingutChars = intro.readLine();
-                    io.guardaArxiuTXT(path, contingutChars);
+                    io.guardaArxiuTXT(path, contingutChars,false);
                     break;
                 case 5:
                     salir = true;

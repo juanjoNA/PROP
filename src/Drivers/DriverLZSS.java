@@ -56,7 +56,7 @@ public class DriverLZSS {
                     }
                     System.out.println("Arxiu comprimit correctament: ");
                     System.out.println(comprimit.getContingut());
-                    ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
+                    ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                     break;
                 
                 case 2: 
@@ -68,7 +68,7 @@ public class DriverLZSS {
                     comprimit = new ArxiuBytes(in, contB);
                     descomprimit = lzss.descomprimir(comprimit);
                     System.out.println("Arxiu descomprimit: ");
-                    ioa.guardaArxiuTXT(descomprimit.getPath(), descomprimit.getContingut());
+                    ioa.guardaArxiuTXT(descomprimit.getPath(), descomprimit.getContingut(),false);
                 } catch (ExtensionIncorrecta ex) {
                     Logger.getLogger(DriverLZSS.class.getName()).log(Level.SEVERE, null, ex);
                 }

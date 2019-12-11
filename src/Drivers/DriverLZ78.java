@@ -26,10 +26,11 @@ public class DriverLZ78 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, CaracterNoASCII {
+    public static void main(String[] args) throws IOException, CaracterNoASCII, ExtensionIncorrecta {
         int opcion;
         boolean salir=false;
         IOArxius ioa = new IOArxius();
+        LZ78 lz78 = new LZ78();
         
         while(!salir){
             System.out.println("Selecciona una opció: ");
@@ -42,8 +43,9 @@ public class DriverLZ78 {
             String guardar;
             Arxiu a;
             byte[] contingut;
-            ArxiuBytes comprimit, normal;
-            ArxiuTXT descomprimit;
+            String data;
+            ArxiuBytes comprimit;
+            ArxiuTXT descomprimit, normal;
 
             switch(opcion) {
                 case 1: {
@@ -57,10 +59,10 @@ public class DriverLZ78 {
                         break;
                     }
                 try {
-                    contingut = llegeix_arxiu(path,".lz78");
+                    contingut = ioa.llegeixArxiuBinari(path, ".lz78");
                     comprimit = new ArxiuBytes(path,contingut);
-                    descomprimit = LZ78.descomprimir(comprimit);
-                    if (guardar.equals("S")) ioa.guardaArxiuTXT(descomprimit.getPath(),descomprimit.getContingut());
+                    descomprimit = lz78.descomprimir(comprimit);
+                    if (guardar.equals("S")) ioa.guardaArxiuTXT(descomprimit.getPath(),descomprimit.getContingut(),false);
                 } catch (ExtensionIncorrecta ex) {
                     System.out.println("Extensió incorrecta!");
                 }
@@ -74,20 +76,19 @@ public class DriverLZ78 {
                     System.out.println("Vols guardar arxiu a disc \n S/N: ");
                     guardar = intro.readLine();
                 try {
-                    contingut = llegeix_arxiu(path,".txt");
-                    normal = new ArxiuBytes(path,contingut);
-                    comprimit = LZ78.comprimir(normal);
-                    if (guardar.equals("S")) ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
-                 break;
+                    data = ioa.llegeixArxiuTxt(path);
+                    normal = new ArxiuTXT(path,data);
+                    comprimit = lz78.comprimir(normal);
+                    if (guardar.equals("S")) ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                 }
                 catch (ExtensionIncorrecta ex) {
-                    Logger.getLogger(DriverLZ78.class.getName()).log(Level.SEVERE, null, ex);
-                }catch (CaracterNoASCII ex) {
-                     System.out.println("L'arxiu conté caracters no ASCII!");
-                }
-                finally {    
-                    break;
-                }
+                    System.out.println("Extensió incorrecta!");
+                    //Logger.getLogger(DriverLZ78.class.getName()).log(Level.SEVERE, null, ex);
+                }catch(CaracterNoASCII ex){
+                        System.out.println("caracter no ascii al fitxer");
+                        break;
+                    }
+                break;
    
                 }
                 case 3: 
