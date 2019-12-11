@@ -19,10 +19,7 @@ public class ZigZag {
 
 
     public boolean isEnd() {
-        if (x == 8 && y == 7) {
-            return true;
-        }
-        return false;
+        return x == 8 && y == 7;
     }
 
     private void nextPosition() {
@@ -78,7 +75,7 @@ public class ZigZag {
     }
 
     public int[][] getMatrix() {
-        return mat;
+        return mat.clone();
     }
 
     public void nextSquare() {

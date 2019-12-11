@@ -47,7 +47,7 @@ public class DriverHuffman {
                     System.out.println("S'ha codificat correctament");
                     System.out.println("Ara decodificarem per veure que obtenim el mateix resultat");
 
-                    contingut = h.huffmanDecode(huff_cod, 8);
+                    //contingut = h.huffmanDecode(huff_cod, 8);
 
                     System.out.println("Resultat obtingut");
                     for(Pair par : contingut){

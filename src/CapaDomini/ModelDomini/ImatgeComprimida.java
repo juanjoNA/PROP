@@ -18,13 +18,17 @@ public class ImatgeComprimida extends Imatge{
     private int modifiedSizeV;
     private HashMap <String, Integer> decoder;
     private int numPairs;
+    int ratioCompression;
+    int[] subsampling;
 
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, int[] subsampling) throws VersionPPMIncorrecta, ExtensionIncorrecta {
         super(path,content,v,sv,sh,maxValue);
-         modifiedSizeV = modSizeV;
-         modifiedSizeH = modSizeH;
-         decoder = dec;
-         numPairs = numberPairs;
+         this.modifiedSizeV = modSizeV;
+         this.modifiedSizeH = modSizeH;
+         this.decoder = dec;
+         this.numPairs = numberPairs;
+         this.ratioCompression = ratioCompression;
+         this.subsampling = subsampling;
      }
 
    public  ImatgeComprimida(String path, byte[] content, HashMap<String,Integer> dec) throws VersionPPMIncorrecta {
@@ -41,6 +45,17 @@ public class ImatgeComprimida extends Imatge{
         newPos = super.readLine(modifiedSizes, newPos, contingutActual);
         numPairs = Integer.parseInt(modifiedSizes.toString());
         modifiedSizes.setLength(0);
+        newPos = super.readLine(modifiedSizes,newPos,contingutActual);
+        this.ratioCompression = Integer.parseInt(modifiedSizes.toString());
+        modifiedSizes.setLength(0);
+        newPos = super.readLine(modifiedSizes, newPos, contingutActual);
+        String unparsed = modifiedSizes.toString();
+                modifiedSizes.setLength(0);
+        String[] parsed = unparsed.split(":");
+        this.subsampling = new int[3];
+        for (int i = 0; i < 3; ++i) {
+            this.subsampling[i] = Integer.parseInt(parsed[i]);
+        }
         byte[] finalContent = new byte[contingutActual.length-newPos];
         for (int i = 0; i < finalContent.length; ++i) {
             finalContent[i] = contingutActual[i+newPos];
@@ -62,10 +77,18 @@ public class ImatgeComprimida extends Imatge{
     public int getNumPairs() {
        return numPairs;
     }
+    
+    public int getRatioCompressio() {
+        return this.ratioCompression;
+    }
+    
+    public int[] getSubsamplingRatio() {
+        return this.subsampling;
+    }
 
     @Override
     public String getHeader() {
-       String header = super.getVersion() + "\n" + Integer.toString(super.getSizeH()) + " " + Integer.toString(super.getSizeV()) + "\n" + Integer.toString(super.getMaxVal()) + "\n" +Integer.toString(modifiedSizeV) + " " + Integer.toString(modifiedSizeH) + "\n" + Integer.toString(numPairs) + "\n";
+       String header = super.getVersion() + "\n" + Integer.toString(super.getSizeH()) + " " + Integer.toString(super.getSizeV()) + "\n" + Integer.toString(super.getMaxVal()) + "\n" +Integer.toString(modifiedSizeV) + " " + Integer.toString(modifiedSizeH) + "\n" + Integer.toString(numPairs) + "\n" + Integer.toString(this.ratioCompression) + "\n" + Integer.toString(this.subsampling[0]) + ":" + Integer.toString(this.subsampling[1]) + ":" + Integer.toString(this.subsampling[2]) + "\n";
        return header;
     }
 

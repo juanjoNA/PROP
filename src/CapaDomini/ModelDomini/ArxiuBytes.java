@@ -17,7 +17,7 @@ public class ArxiuBytes extends Arxiu{
         super(path, e);
         this.contingut = contingut;
     }
-    
+
     public byte[] getContingut() {
         return contingut;
     }

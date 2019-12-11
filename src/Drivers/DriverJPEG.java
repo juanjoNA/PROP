@@ -35,7 +35,7 @@ public class DriverJPEG {
         while(!salir){
             System.out.println("Selecciona una opció: ");
             System.out.println("\n\t1. Comprimir Arxiu."
-                         + "\n\t2.Descomprimir Arxiu."
+                         + "\n\t2. Descomprimir Arxiu."
                          + "\n\t3. Salir.");
             
             opcion = Integer.parseInt(intro.readLine());
@@ -48,17 +48,23 @@ public class DriverJPEG {
             switch(opcion) {
                 case 1: {
                     System.out.println("Introdueix el path de l'arxiu: ");
-                    path = intro.readLine();
+                    //path = intro.readLine();
+                    path = "D:\\Java\\assets\\pooh.ppm";
                     System.out.println("Vols guardar arxiu a disc \n S/N: ");
-                    guardar = intro.readLine();
+                    //guardar = intro.readLine();
                     try {
                         contingut = persistencia.llegeixArxiuBinari(path,".ppm");
                         Imatge imatgeLlegida = new Imatge(path,contingut);
-                        ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
-                        if (guardar.equals("S")) {
+                        //Imatge desprocessat = compressor.comprimir(imatgeLlegida);
+                        String subsampling = "4:4:4";
+                        ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, 1, subsampling);
+                        //if (guardar.equals("S")) {
                             System.out.println("Introdueix el path de on es guarda l'arxiu");
+                            //desprocessat.setPath(desprocessat.getPath().replace(".ppm", "desco.ppm"));
+                            System.out.println("Going to save");
+                            //persistencia.guardaImatge(desprocessat.getPath(), desprocessat.getHeader(), desprocessat.getContingut());
                             persistencia.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
-                        }
+                        //}
                     }
                     catch (VersionPPMIncorrecta e) {
                         System.out.println("Versió de PPM incorrecta.");
@@ -69,13 +75,15 @@ public class DriverJPEG {
                     catch (DatosIncorrectos e) {
                         System.out.println("Les dades del fitxer son incorrectes");
                     }
-                    break;
+                    
                 }
                 case 2: {
                     System.out.println("Introdueix el path de l'arxiu: ");
-                    path = intro.readLine();
+                    //path = intro.readLine();
+                    path = "D:\\Java\\assets\\pooh.jimg";
                     System.out.println("Vols guardar arxiu a disc \n S/N: ");
-                    guardar = intro.readLine();
+                    //guardar = intro.readLine();
+                    guardar = "S";
                     try {
                         DTOImatge llegit =persistencia.llegeixImatgeComprimida(path);
                         contingut = llegit.getBytes();
@@ -86,6 +94,7 @@ public class DriverJPEG {
 
                         if (guardar.equals("S")) {
                             System.out.println("Introdueix el path de on es guarda l'arxiu");
+                            desprocessat.setPath(desprocessat.getPath().replace(".ppm", "desco.ppm"));
                             persistencia.guardaImatge(desprocessat.getPath(), desprocessat.getHeader(), desprocessat.getContingut());
                         }
                     }
