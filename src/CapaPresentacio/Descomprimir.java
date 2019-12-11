@@ -5,9 +5,7 @@
  */
 package CapaPresentacio;
 
-import CapaDomini.Controladors.ControladorComprimir;
 import CapaDomini.Controladors.ControladorDescomprimir;
-import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
@@ -24,9 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Descomprimir extends javax.swing.JPanel {
 
     ControladorDescomprimir ctrDescomprimir;
-    /**
-     * Creates new form Descomprimir
-     */
+    
     public Descomprimir() {
         initComponents();
     }
@@ -40,8 +36,16 @@ public class Descomprimir extends javax.swing.JPanel {
         tfPath = new javax.swing.JTextField();
         bBrowser = new javax.swing.JButton();
         bDescomprimir = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        panelEstadistiques = new javax.swing.JPanel();
+        jVelocitat = new javax.swing.JLabel();
+        labelVelCompr = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        labelPercCompr = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        labelTempsCompr = new javax.swing.JLabel();
 
+        setMinimumSize(new java.awt.Dimension(900, 164));
+        setPreferredSize(new java.awt.Dimension(900, 164));
         setLayout(new java.awt.GridBagLayout());
 
         lSelectFitxer.setMaximumSize(new java.awt.Dimension(32767, 30));
@@ -78,6 +82,7 @@ public class Descomprimir extends javax.swing.JPanel {
         add(bBrowser, gridBagConstraints);
 
         bDescomprimir.setText("Descomprimir");
+        bDescomprimir.setVisible(false);
         bDescomprimir.setMinimumSize(new java.awt.Dimension(120, 50));
         bDescomprimir.setPreferredSize(new java.awt.Dimension(120, 50));
         bDescomprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -91,32 +96,83 @@ public class Descomprimir extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 30);
         add(bDescomprimir, gridBagConstraints);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(500, 100));
+        panelEstadistiques.setLayout(new java.awt.GridBagLayout());
+        panelEstadistiques.setVisible(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 878, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
-        );
+        jVelocitat.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jVelocitat.setText("Velocitat de Compressio: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        panelEstadistiques.add(jVelocitat, gridBagConstraints);
+
+        labelVelCompr.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelVelCompr.setText("vel");
+        labelVelCompr.setMaximumSize(new java.awt.Dimension(150, 20));
+        labelVelCompr.setMinimumSize(new java.awt.Dimension(150, 20));
+        labelVelCompr.setPreferredSize(new java.awt.Dimension(150, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 0);
+        panelEstadistiques.add(labelVelCompr, gridBagConstraints);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel4.setText("Percentatge de Compresdió: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelEstadistiques.add(jLabel4, gridBagConstraints);
+
+        labelPercCompr.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelPercCompr.setText("perc");
+        labelPercCompr.setMaximumSize(new java.awt.Dimension(200, 20));
+        labelPercCompr.setMinimumSize(new java.awt.Dimension(150, 20));
+        labelPercCompr.setPreferredSize(new java.awt.Dimension(150, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        panelEstadistiques.add(labelPercCompr, gridBagConstraints);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel1.setText("Temps total:");
+        jLabel1.setPreferredSize(new java.awt.Dimension(900, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 150, 20, 0);
+        panelEstadistiques.add(jLabel1, gridBagConstraints);
+
+        labelTempsCompr.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelTempsCompr.setText("temp");
+        labelTempsCompr.setMaximumSize(new java.awt.Dimension(150, 20));
+        labelTempsCompr.setMinimumSize(new java.awt.Dimension(150, 20));
+        labelTempsCompr.setName(""); // NOI18N
+        labelTempsCompr.setPreferredSize(new java.awt.Dimension(150, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 0);
+        panelEstadistiques.add(labelTempsCompr, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(20, 30, 0, 30);
-        add(jPanel1, gridBagConstraints);
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(75, 0, 0, 0);
+        add(panelEstadistiques, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bDescomprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescomprimirActionPerformed
         
         String alg;
+        double resultat[];
         if(tfPath.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
             return;
@@ -133,8 +189,14 @@ public class Descomprimir extends javax.swing.JPanel {
         
         try {
             ctrDescomprimir.executar();
+            resultat= ctrDescomprimir.getResult();
             JOptionPane.showMessageDialog(this, "Fitxer descomprimit");
             tfPath.setText("");
+            bDescomprimir.setVisible(false);
+            panelEstadistiques.setVisible(true);
+            labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
+            labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
+            labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
         } catch (VersionPPMIncorrecta ex) {
             Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DatosIncorrectos ex) {
@@ -154,6 +216,8 @@ public class Descomprimir extends javax.swing.JPanel {
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             tfPath.setText(chooser.getSelectedFile().getPath());
+            bDescomprimir.setVisible(true);
+            panelEstadistiques.setVisible(false);
         }        
     }//GEN-LAST:event_bBrowserActionPerformed
 
@@ -161,8 +225,14 @@ public class Descomprimir extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBrowser;
     private javax.swing.JButton bDescomprimir;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jVelocitat;
     private java.awt.Label lSelectFitxer;
+    private javax.swing.JLabel labelPercCompr;
+    private javax.swing.JLabel labelTempsCompr;
+    private javax.swing.JLabel labelVelCompr;
+    private javax.swing.JPanel panelEstadistiques;
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
 

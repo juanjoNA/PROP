@@ -10,7 +10,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
-        cambiarPanel(new Inici(this), 1000, 500);
+        this.setLocationRelativeTo(null);
+        cambiarPanel(new Inici(this));
     }
     
     @SuppressWarnings("unchecked")
@@ -31,10 +32,10 @@ public class MainFrame extends javax.swing.JFrame {
         menuCompararTXT = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(2500, 2000));
-        setMinimumSize(new java.awt.Dimension(800, 300));
+        setMaximumSize(new java.awt.Dimension(1000, 500));
+        setMinimumSize(new java.awt.Dimension(1000, 500));
         setName("Main"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1000, 507));
+        setPreferredSize(new java.awt.Dimension(1000, 500));
         setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(20, 20));
 
@@ -52,9 +53,9 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(pMostrar, java.awt.BorderLayout.NORTH);
 
         menuInici.setText("Inici");
-        menuInici.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuIniciActionPerformed(evt);
+        menuInici.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuIniciMouseClicked(evt);
             }
         });
         menu.add(menuInici);
@@ -105,6 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuComparar.setText("Comparar");
 
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/IconIMG.png"))); // NOI18N
         jMenu5.setText("Comparar IMG");
         jMenu5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,10 +115,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menuComparar.add(jMenu5);
 
+        menuCompararTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/IconTXT.png"))); // NOI18N
         menuCompararTXT.setText("Comparar TXT");
-        menuCompararTXT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuCompararTXTActionPerformed(evt);
+        menuCompararTXT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompararTXTMouseClicked(evt);
             }
         });
         menuComparar.add(menuCompararTXT);
@@ -128,33 +131,33 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuIniciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuIniciActionPerformed
-        cambiarPanel(new Inici(this), 1000, 500);
-    }//GEN-LAST:event_menuIniciActionPerformed
-
     private void bCompFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompFitxerActionPerformed
-        cambiarPanel(new Comprimir(), 1000, 400);
+        cambiarPanel(new Comprimir());
     }//GEN-LAST:event_bCompFitxerActionPerformed
 
     private void bCompCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompCarpetaActionPerformed
-        cambiarPanel(new Comprimir(), 1000, 400);
+        cambiarPanel(new Comprimir());
     }//GEN-LAST:event_bCompCarpetaActionPerformed
 
     private void bDescFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescFitxerActionPerformed
-        cambiarPanel(new Descomprimir(), 900, 450);
+        cambiarPanel(new Descomprimir());
     }//GEN-LAST:event_bDescFitxerActionPerformed
 
     private void bDescCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescCarpetaActionPerformed
-        cambiarPanel(new Descomprimir(), 900, 450);
+        cambiarPanel(new Descomprimir());
     }//GEN-LAST:event_bDescCarpetaActionPerformed
 
     private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
-        cambiarPanel(new Comparar(), 1000, 700);
+        cambiarPanel(new Comparar(this));
     }//GEN-LAST:event_jMenu5ActionPerformed
 
-    private void menuCompararTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCompararTXTActionPerformed
-        cambiarPanel(new Comparar(), 1000, 700);
-    }//GEN-LAST:event_menuCompararTXTActionPerformed
+    private void menuIniciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciMouseClicked
+        cambiarPanel(new Inici(this));
+    }//GEN-LAST:event_menuIniciMouseClicked
+
+    private void menuCompararTXTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompararTXTMouseClicked
+        cambiarPanel(new Comparar(this));
+    }//GEN-LAST:event_menuCompararTXTMouseClicked
 
     /**
      * @param args the command line arguments
@@ -207,9 +210,8 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 
-    public void cambiarPanel(JPanel panel, int ample, int alt){
+    public void cambiarPanel(JPanel panel){
         this.setContentPane(panel);
-        this.setSize(ample, alt);
         this.invalidate();
         this.validate();
     }
