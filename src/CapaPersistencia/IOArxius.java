@@ -28,6 +28,16 @@ public class IOArxius {
 
     public IOArxius() {
     }
+    
+    public void guardaCabezeraArxiuCarpeta(String path_cc,String path_intern_comp,byte[] tamany_bytes) throws IOException {
+        File f = new File(path_cc);
+        OutputStream o = new FileOutputStream(path_cc,true);
+        o.write(path_intern_comp.getBytes());
+        o.write('\n');
+        o.write(tamany_bytes);
+        o.write('\n');
+        o.close();
+    }
     public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
         if ((!path.contains(".ppm") && extensio.contains(".ppm")) ||
                 (!path.contains(".lzso") && extensio.contains(".lzso")) ||
@@ -60,8 +70,10 @@ public class IOArxius {
             OutputStream o = null;
          try {
 
-             o = new FileOutputStream(path);
+             o = new FileOutputStream(path,true);
              o.write(contingut);
+             //o.write('\n');
+             o.close();
            } catch (FileNotFoundException ex) {
                Logger.getLogger(IOArxius.class.getName()).log(Level.SEVERE, null, ex);
            } catch (IOException ex) {
@@ -158,7 +170,7 @@ public class IOArxius {
 
             BufferedWriter bw;
             try {
-                bw = new BufferedWriter(new FileWriter(new File(path)));
+                bw = new BufferedWriter(new FileWriter(new File(path),true));
                 bw.write(contingut);
                 bw.close();
             } catch (IOException ex) {
