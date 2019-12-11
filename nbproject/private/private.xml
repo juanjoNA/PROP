@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/ArxiuBytes.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/Huffman.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorDescomprimir.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/DTOComparar.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComprimir.java</file>
             <file>file:/D:/PropGithub/PROP/src/Drivers/DriverImatgeComprimida.java</file>
             <file>file:/D:/PropGithub/PROP/src/Drivers/DriverJPEG.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComparar.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/ImatgeComprimida.java</file>
             <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/JPEG.java</file>
         </group>

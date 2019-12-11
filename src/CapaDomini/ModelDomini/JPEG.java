@@ -74,15 +74,16 @@ public class JPEG {
                 //Taking care that quantization did not make the value greater than the max value or less than the minimum value
                 if (r < -128) newRGB[0][i][j] = -128;
                 else if (r > 127) newRGB[0][i][j] = 127;
-                else newRGB[0][i][j] = (byte)r;
+                else newRGB[0][i][j] = (byte)(r);
 
                 if (g < -128) newRGB[1][i][j] = -128;
                 else if (g > 127) newRGB[1][i][j] = 127;
-                else newRGB[1][i][j] = (byte)g;
+                else newRGB[1][i][j] = (byte)(g);
 
                 if (b < -128) newRGB[2][i][j] = -128;
                 else if (b > 127) newRGB[2][i][j] = 127;
-                else newRGB[2][i][j] = (byte)b;
+                else newRGB[2][i][j] = (byte)(b);
+                //System.out.println("b is : " + b);
             }
         }
         return newRGB;
@@ -107,8 +108,8 @@ public class JPEG {
         
         for (int i = 0; i < maxV; ++i) {
             for (int j = 0; j < maxH; ++j) {
-                float sumCb = 0;
-                float sumCr = 0;
+                double sumCb = 0;
+                double sumCr = 0;
                 for (int u = 0; u < subY; ++u) {
                     for (int v = 0; v < subX; ++v) {
                         //System.out.println(i + " -- " + j +  " _-_ " + u + " -- " + v + " : " + i*subY+u + " -- "+ j*subX+v);
@@ -116,8 +117,8 @@ public class JPEG {
                         sumCr += mat[2][i*subY+u][j*subX+v];
                     }
                 }
-                result[1][i][j] = sumCb/npixels;
-                result[2][i][j] = sumCr/npixels;
+                result[1][i][j] = (float) (sumCb/npixels);
+                result[2][i][j] = (float) (sumCr/npixels);
             }
         }
         return result;
@@ -235,9 +236,11 @@ public class JPEG {
     private int[][][] quantize(float[][][] matrix, int[][][] actual, int a, int b, int ratioCompression) {
         double percentage = ratioCompression/100.0;
         for(int i = a; i < a+8; ++i) {
-            for (int j = b; j < b+8; ++j) { 
-                actual[1][i][j] = (int) Math.round(matrix[1][i][j]/(QcTable[i%8][j%8]*percentage));
-                actual[2][i][j] = (int) Math.round(matrix[2][i][j]/(QcTable[i%8][j%8]*percentage));
+            for (int j = b; j < b+8; ++j) {
+                double coeficient = QcTable[i%8][j%8]*percentage;
+                coeficient = Math.max(coeficient, 1);
+                actual[1][i][j] = (int) Math.round(matrix[1][i][j]/coeficient);
+                actual[2][i][j] = (int) Math.round(matrix[2][i][j]/coeficient);
             }
         }
         return actual;
@@ -253,8 +256,10 @@ public class JPEG {
         }
         for(int i = 0; i < ssVSize; ++i) {
             for (int j = 0; j < ssHSize; ++j) {
-                actual[1][i][j] = (float) (matrix[1][i][j]*(QcTable[i%8][j%8]*percentage));
-                actual[2][i][j] = (float) (matrix[2][i][j]*(QcTable[i%8][j%8]*percentage));
+                double coeficient = QcTable[i%8][j%8]*percentage;
+                coeficient = Math.max(coeficient, 1);
+                actual[1][i][j] = (float) (matrix[1][i][j]*coeficient);
+                actual[2][i][j] = (float) (matrix[2][i][j]*coeficient);
             }
         }
         return actual;
@@ -311,10 +316,6 @@ public class JPEG {
         Short zeros = 0;
         while (index < encoded.size()) {
             Pair<Byte,Short> p = encoded.get(index);
-            if (!p.equals(encoded.get(index)))
-            {
-                System.out.println("RLE Pair is different");
-            }
             ++index;
             if (p.getFirst().equals(zerob) && p.getSecond().equals(zeros)) {
                 while (!rl[matNum].isEnd()) {
@@ -339,7 +340,14 @@ public class JPEG {
         return decoded.clone();
     }
 
-    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, int[] subsampling) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, String subsamplingString) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+        
+        String[] subsamplingParsed = subsamplingString.split(":");
+        int[] subsampling = new int[3];
+        for (int i = 0; i < 3; ++i) {
+            subsampling[i] = Integer.parseInt(subsamplingParsed[i]);
+        }
+        
         
         long start = System.currentTimeMillis();
         origVsize = imatgeDescomprimida.getSizeV();
