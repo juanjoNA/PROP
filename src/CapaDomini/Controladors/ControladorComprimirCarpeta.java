@@ -18,7 +18,6 @@ import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.File;
 import java.io.IOException;
@@ -76,9 +75,8 @@ public class ControladorComprimirCarpeta {
         return paths;
     }
     
-    public void executar() throws ExtensionIncorrecta, IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos {
+    public void executar() throws IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos {
         File carpeta = new File(path);
-        if (carpeta.isFile()) throw new ExtensionIncorrecta();
         ArrayList<String> paths = Obte_paths(path);
         IOArxius io = new IOArxius();
         String path_cc = path + ".carp";
@@ -155,7 +153,6 @@ public class ControladorComprimirCarpeta {
                 }
                 break;
             }
-            else throw new ExtensionIncorrecta();
             
             Estadistiques e = resultat.getEstadistiques();
             result[0] = result[0] + e.getTemps_compressio();
