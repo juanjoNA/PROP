@@ -9,9 +9,6 @@ import CapaDomini.ModelDomini.Arxiu;
 import CapaDomini.ModelDomini.ArxiuBytes;
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Estadistiques;
-import CapaDomini.ModelDomini.Imatge;
-import CapaDomini.ModelDomini.ImatgeComprimida;
-import CapaDomini.ModelDomini.JPEG;
 import CapaDomini.ModelDomini.LZ78;
 import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
@@ -48,15 +45,15 @@ public class ControladorComprimir {
         switch(algoritmo) {
             //JPEG
             case 1:{
-                byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
+                /*byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
-                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
+                //ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
                 resultat = comprimit;
                 if (guardar) {
                     i.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
                 }
-                break;
+                break;*/
             }
             //LZW
             case 2: {

@@ -7,7 +7,9 @@ import java.lang.StringBuilder;
 import java.util.Map;
 import CapaDomini.ModelDomini.Pair;
 
-class HuffmanNode {
+public class Huffman {
+    
+    class HuffmanNode {
     Pair<Byte,Short> content;
     int freq;
     HuffmanNode left;
@@ -19,7 +21,7 @@ class HuffmanNode {
         left = l;
         right = r;
     }
-}
+  }
 
 class HuffmanComparator implements Comparator<HuffmanNode> {
     @Override
@@ -38,8 +40,8 @@ class CodeNode {
     }
 }
 
-public class Huffman {
 
+    String codesString;
     HashMap <String,Pair<Byte,Short>> decodificationTable;
     ArrayList <CodeNode> codes;
 
@@ -101,7 +103,7 @@ public class Huffman {
         }
     }
 
-    public byte[] huffmanEncode(ArrayList<Pair<Byte,Short>> contentToEncode) {
+    public byte[] huffmanEncode(ArrayList<Pair<Byte,Short>> contentToEncode) {                
         buildTree(contentToEncode);
         ArrayList<Byte> encodedContent = new ArrayList<Byte>();
 
@@ -110,26 +112,31 @@ public class Huffman {
         for (CodeNode codeNode :  codes) {
             codifier.put(codeNode.data,codeNode.code);
         }
-
+        StringBuilder s = new StringBuilder();
         int index = 0;
         byte payload = 0;
         for (Pair<Byte,Short> actual : contentToEncode) {
             String pairCode = codifier.get(actual);
             for (int j = 0; j < pairCode.length(); ++j) {
                 if (pairCode.charAt(j) == '1') {
+                    payload = (byte)(payload << 1);
                     payload += 1;
+                }
+                else {
+                    payload = (byte)(payload << 1);
                 }
                 ++index;
                 if (index == 8) {
                     encodedContent.add(payload);
-                    payload = 0;
+                    payload = 0x00;
                     index = 0;
                 }
-                payload = (byte) (payload << 1);
             }
         }
-        int sizeLastCode = codifier.get(contentToEncode.get(contentToEncode.size()-1)).length();
-        payload = (byte)(payload << (8-sizeLastCode));
+        codesString = s.toString();
+        if (index > 0) {
+            payload = (byte)(payload << (8-index));
+        }
         encodedContent.add(payload);
         buildDecodeHashMap();
         byte[] result = new byte[encodedContent.size()];
@@ -139,10 +146,10 @@ public class Huffman {
         return result;
     }
 
-    public ArrayList<Pair<Byte,Short>>huffmanDecode(byte[] data,int numPairs) {
+    public ArrayList<Pair<Byte,Short>>huffmanDecode(byte[] data,int numPairs, ArrayList<Pair<Byte,Short>> decodedData) {
         int flag = 0x0080;
         StringBuilder builder = new StringBuilder();
-        ArrayList<Pair<Byte,Short>> decodedData = new ArrayList<Pair<Byte,Short>>();
+        
         for (byte actual : data) {
             while (flag != 0x00 && decodedData.size() < numPairs) {
                 if ((actual&flag) > ((byte)0)) {
@@ -162,6 +169,7 @@ public class Huffman {
         }
         return decodedData;
     }
+    
 
     public HashMap <String, Integer> getDecodingHashMap() {
         HashMap<String ,Integer> decoding = new HashMap<String,Integer>();
@@ -170,5 +178,15 @@ public class Huffman {
             decoding.put(e.getKey(), second);
         }
          return decoding;
+    }
+    
+    public void setDecodingHashMap(HashMap <String, Integer> decodeHashMap) {
+        decodificationTable = new HashMap<String, Pair<Byte,Short>>();
+        for (Map.Entry<String,Integer> e: decodeHashMap.entrySet()) {
+            byte first = e.getValue().byteValue();
+            Integer temp =(e.getValue() >> 8) ;
+            short second = temp.shortValue();
+           decodificationTable.put(e.getKey(),new Pair<Byte,Short>(first,second));
+        }
     }
 }
