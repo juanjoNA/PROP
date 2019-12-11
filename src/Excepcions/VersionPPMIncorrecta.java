@@ -7,10 +7,9 @@ package Excepcions;
 
 /**
  *
- * @author bubu0
+ * @author Juanjo
  */
 public class VersionPPMIncorrecta extends Exception{
-    
     public VersionPPMIncorrecta(){
         super();
     }

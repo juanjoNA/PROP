@@ -5,7 +5,6 @@
  */
 package CapaDomini.ModelDomini;
 
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.util.HashMap;
 
@@ -21,7 +20,7 @@ public class ImatgeComprimida extends Imatge{
     int ratioCompression;
     int[] subsampling;
 
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, int[] subsampling) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs) throws VersionPPMIncorrecta {
         super(path,content,v,sv,sh,maxValue);
          this.modifiedSizeV = modSizeV;
          this.modifiedSizeH = modSizeH;
@@ -77,11 +76,11 @@ public class ImatgeComprimida extends Imatge{
     public int getNumPairs() {
        return numPairs;
     }
-    
+
     public int getRatioCompressio() {
         return this.ratioCompression;
     }
-    
+
     public int[] getSubsamplingRatio() {
         return this.subsampling;
     }

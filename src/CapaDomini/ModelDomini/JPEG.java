@@ -1,7 +1,6 @@
 package CapaDomini.ModelDomini;
 
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.*;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class JPEG {
                 YCbCr[0][i][j] =        (0.299f     * r + 0.587f    * g + 0.114f    * b);
                 YCbCr[1][i][j] = (-0.168736f * r - 0.331264f * g + 0.5f      * b);
                 YCbCr[2][i][j] = (0.5f       * r - 0.418688f * g - 0.081312f * b);
-                
+
             }
         }
         return YCbCr;
@@ -67,7 +66,7 @@ public class JPEG {
                 float y =  YCbCr[0][i][j];
                 float cb = YCbCr[1][i][j];
                 float cr = YCbCr[2][i][j] ;
-                
+
                 int r  = Math.round(y +                              1.402f * cr);
                 int g = Math.round(y - 0.34414f * cb - 0.71414f * cr);
                 int b = Math.round(y + 1.772f     * cb                        );
@@ -88,7 +87,7 @@ public class JPEG {
         }
         return newRGB;
     }
-    
+
     float[][][] subsample(float[][][] mat,int[] subsampling) {
         float[][][] result = new float[3][ssVSize][ssHSize];
         result[0] = mat[0].clone();
@@ -105,7 +104,7 @@ public class JPEG {
         }
         double div1 = subsampling[0]/subsampling[1];
         int maxH =  (int) (hsize / (div1));
-        
+
         for (int i = 0; i < maxV; ++i) {
             for (int j = 0; j < maxH; ++j) {
                 double sumCb = 0;
@@ -123,14 +122,14 @@ public class JPEG {
         }
         return result;
     }
-    
+
     float[][][] unSubsample(float[][][] mat, int[] subsampling) {
         float[][][] result = new float[3][vsize][hsize];
         result[0] = mat[0].clone();
         int subX = subsampling[0]/subsampling[1];
         int subY = 1;
         if (subsampling[2] == 0)  subY = 2;
-        
+
         int maxV = 0;
          if (subsampling[2] == 0) {
             maxV = vsize / 2;
@@ -140,7 +139,7 @@ public class JPEG {
         }
         double div1 = subsampling[0]/subsampling[1];
         int maxH =  (int) (hsize / (div1));
-        
+
         for (int i = 0; i < maxV; ++i) {
             for (int j = 0; j < maxH; ++j) {
                 for (int u = 0; u < subY; ++u) {
@@ -183,7 +182,7 @@ public class JPEG {
         }
         return temp;
     }
-    
+
     static double[] normalizingScale = new double[] {1.0/Math.sqrt(2.0),1.0,1.0,1.0,1.0,1.0,1.0,1.0};
 
     private float [][][] doDCT(float[][][] YCbCr,float[][][] actual,int initialX, int initialY) {
@@ -193,8 +192,8 @@ public class JPEG {
                     double sum = 0.0;
                     for (int x = 0; x < 8; ++x) {
                         for (int y = 0; y < 8; ++y) {
-                            sum +=   YCbCr[i][initialX + x][initialY + y] * 
-                                            Math.cos((Math.PI * (2.0*x+1.0) *  u)/16.0) * 
+                            sum +=   YCbCr[i][initialX + x][initialY + y] *
+                                            Math.cos((Math.PI * (2.0*x+1.0) *  u)/16.0) *
                                             Math.cos((Math.PI * (2.0*y +1.0) * v)/16.0);
                         }
                     }
@@ -202,7 +201,7 @@ public class JPEG {
                 }
             }
         }
-        
+
         return actual;
     }
 
@@ -266,7 +265,7 @@ public class JPEG {
     }
 
     private ArrayList<Pair<Byte,Short>> runLengthEncode(int[][][] mat, int row, int col, ArrayList<Pair<Byte,Short>> result) {
-        
+
         ZigZag rlCb = new ZigZag(mat[1], row, col);
         ZigZag rlCr = new ZigZag(mat[2], row, col);
 
@@ -341,14 +340,14 @@ public class JPEG {
     }
 
     public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, String subsamplingString) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
-        
+
         String[] subsamplingParsed = subsamplingString.split(":");
         int[] subsampling = new int[3];
         for (int i = 0; i < 3; ++i) {
             subsampling[i] = Integer.parseInt(subsamplingParsed[i]);
         }
-        
-        
+
+
         long start = System.currentTimeMillis();
         origVsize = imatgeDescomprimida.getSizeV();
         origHsize = imatgeDescomprimida.getSizeH();
@@ -363,7 +362,7 @@ public class JPEG {
             vsize = origVsize + (8 - (origVsize % 8));
         }
         else vsize = origVsize;
-        
+
         if (subsampling[2] == 0) {
             ssVSize = vsize / 2;
         }
@@ -381,14 +380,14 @@ public class JPEG {
         if (ssVSize%8 != 0) {
             ssVSize = ssVSize + (8 - (ssVSize % 8));
         }
-        
+
         float[][][] YCbCr = RGBToYCbCr(imatgeDescomprimida.getContingut());
-        
+
         System.out.println(ssHSize + " -- " + ssVSize);
         System.out.println(hsize + " -- " + vsize);
-        
+
         float[][][] subsampled = subsample(YCbCr,subsampling);
-        
+
         YCbCr = subtract128(subsampled);
         float[][][] DCTed = new float[3][ssVSize][ssHSize];
         int[][][] quantized = new int[3][ssVSize][ssHSize];
@@ -424,8 +423,7 @@ public class JPEG {
         return imatgeComprimida;
     }
 
-
-    public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, ExtensionIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+    public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, DatosIncorrectos {
         long start = System.currentTimeMillis();
         vsize = imatgeComprimida.getModifiedSizeV();
         hsize = imatgeComprimida.getModifiedSizeH();
@@ -451,7 +449,7 @@ public class JPEG {
 
          System.out.println(ssHSize + " -- " + ssVSize);
         System.out.println(hsize + " -- " + vsize);
-        
+
         byte[] encodedContent = imatgeComprimida.getContingut();
         if (encodedContent.length < vsize*hsize) {
             throw new DatosIncorrectos();
@@ -478,7 +476,7 @@ public class JPEG {
 
         int[][][] decoded = new int[3][ssVSize][ssHSize];
         decoded = runLengthDecode(huffmanDecoded,decoded,luminance);
-        
+
         float[][][] unDCTed = new float[3][ssVSize][ssHSize];
         float[][][] unQuantized = new float[3][ssVSize][ssHSize];
         unQuantized = dequantize(decoded,imatgeComprimida.getRatioCompressio());
@@ -489,7 +487,7 @@ public class JPEG {
         }
         unDCTed[0] = unQuantized[0].clone();
         unDCTed = add128(unDCTed);
-        
+
         float [][][]unSubsampled = unSubsample(unDCTed, subsampling);
 
         byte [][][] RGB = YCbCrToRGB(unSubsampled);

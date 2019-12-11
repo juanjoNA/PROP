@@ -9,7 +9,6 @@ import CapaDomini.Controladors.ControladorComprimir;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,7 +41,9 @@ public class DriverControladorComprimir {
             String path;
             int algoritmo;
             boolean guardar;
-
+        }
+    }
+/*
             switch(opcion){
                 case 1:
                     System.out.println("Introdueix el path de l'arxiu: ");
@@ -70,9 +71,6 @@ public class DriverControladorComprimir {
                     catch (VersionPPMIncorrecta e) {
                         System.out.println("Versió de PPM incorrecta.");
                     }
-                    catch (ExtensionIncorrecta e) {
-                        System.out.println("Extensió de la imatge incorrecte");
-                    }
                     catch (DatosIncorrectos e) {
                         System.out.println("Les dades del fitxer son incorrectes");
                     }
@@ -97,4 +95,5 @@ public class DriverControladorComprimir {
         if (path.contains(".ppm")) return 1;
         else return 2;
     }
+*/
 }

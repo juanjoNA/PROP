@@ -1,7 +1,6 @@
 package CapaPersistencia;
 
 import CapaDomini.Controladors.DTOImatge;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,7 +27,7 @@ public class IOArxius {
 
     public IOArxius() {
     }
-    
+
     public void guardaCabezeraArxiuCarpeta(String path_cc,String path_intern_comp,byte[] tamany_bytes) throws IOException {
         File f = new File(path_cc);
         OutputStream o = new FileOutputStream(path_cc,true);
@@ -117,10 +116,7 @@ public class IOArxius {
          }
     }
 
-    public DTOImatge llegeixImatgeComprimida(String path) throws ExtensionIncorrecta {
-        if (!path.contains(".jimg")) {
-            throw new ExtensionIncorrecta();
-        }
+    public DTOImatge llegeixImatgeComprimida(String path) {
         byte[] result = null;
         DTOImatge resultDTO = null;
         try{

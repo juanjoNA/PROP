@@ -15,7 +15,6 @@ import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
 /**
@@ -24,7 +23,7 @@ import java.io.IOException;
  */
 public class ControladorComprimir {
     private String path;
-    private int algoritmo;
+    private String algoritmo;
     private boolean guardar;
     private double[] result;
 
@@ -32,20 +31,20 @@ public class ControladorComprimir {
         return result;
     }
 
-    public ControladorComprimir (String path, int algoritmo, boolean guardar) {
+    public ControladorComprimir (String path, String algoritmo, boolean guardar) {
         this.path = path;
         this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, ExtensionIncorrecta, IOException, CaracterNoASCII, Exception {
+    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();
         switch(algoritmo) {
             //JPEG
-            case 1:{
-                /*byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
+            case "JPEG":{
+                byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
                 //ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
@@ -56,7 +55,7 @@ public class ControladorComprimir {
                 break;*/
             }
             //LZW
-            case 2: {
+            case "LZW": {
                 byte[] con = i.llegeixArxiuBinari(path,".txt");
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
@@ -71,7 +70,7 @@ public class ControladorComprimir {
             }
 
             //LZSS
-            case 3: {
+            case "LZSS": {
                 String cont = i.llegeixArxiuTxt(path);
                 ArxiuTXT normal = new ArxiuTXT(path, cont);
                 LZSS lzss = new LZSS();
@@ -80,23 +79,23 @@ public class ControladorComprimir {
                 if(guardar) i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                 break;
             }
-            
+
             //LZ78
-            case 4: {
-                String cont = i.llegeixArxiuTxt(path);
-                ArxiuTXT normal = new ArxiuTXT(path,cont);
+            case "LZ78": {
+                byte[] cont = i.llegeixArxiuBinari(path, ".txt");
+                ArxiuBytes normal = new ArxiuBytes(path,cont);
                 LZ78 c = new LZ78();
                 ArxiuBytes comprimit = c.comprimir(normal);
                 resultat=comprimit;
                 if(guardar) {
                     i.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
-                
+
                 break;
                 }
             }
-                
-                
-                
+
+
+
 
         }
 
@@ -104,7 +103,7 @@ public class ControladorComprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
-        
+
         ControladorEstadisticas cest = new ControladorEstadisticas(result,true,Integer.toUnsignedString(algoritmo));
         cest.executar();
 
