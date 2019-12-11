@@ -57,7 +57,7 @@ public class DriverJPEG {
                         Imatge imatgeLlegida = new Imatge(path,contingut);
                         //Imatge desprocessat = compressor.comprimir(imatgeLlegida);
                         String subsampling = "4:4:4";
-                        ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, 100, subsampling);
+                        ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, 1, subsampling);
                         //if (guardar.equals("S")) {
                             System.out.println("Introdueix el path de on es guarda l'arxiu");
                             //desprocessat.setPath(desprocessat.getPath().replace(".ppm", "desco.ppm"));

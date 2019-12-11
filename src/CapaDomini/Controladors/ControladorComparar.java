@@ -120,7 +120,7 @@ public class ControladorComparar {
                 LZSS compressor = new LZSS();
                 ArxiuBytes comprimit = compressor.comprimir(arxiuNormal);
                 processat = comprimit;
-                ArxiuTXT descomprimit = compressor.descomprimir(b);
+                ArxiuTXT descomprimit = compressor.descomprimir(comprimit);
                 resultat = descomprimit;
                 contingutFinal = descomprimit.getContingut().getBytes();
                 if (pathGuardar != ".notvalid.") {
