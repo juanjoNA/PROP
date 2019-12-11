@@ -5,25 +5,13 @@
  */
 package CapaDomini.ModelDomini;
 
-import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -50,7 +38,7 @@ public class LZ78 extends LZ{
         }
         
     
-        public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII, ExtensionIncorrecta {
+        public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII {
             long start = System.currentTimeMillis();
             int pos = 0;
             int j = 1;
@@ -71,7 +59,6 @@ public class LZ78 extends LZ{
             List<String> index = new ArrayList<String>(); //LISTA QUE CONTIENE RELACIÓN ENTRE POSICÓN I LA CLAVE DEL MAP
             HashMap<String, Integer> map = new HashMap<> ();
             String path = f.getPath();
-            if (!path.contains(".txt")) throw new ExtensionIncorrecta();
             for(int i = 0; i < data.length();i++) {
                 
                 if(data.charAt(i)<0 || data.charAt(i)>255) throw new CaracterNoASCII();
