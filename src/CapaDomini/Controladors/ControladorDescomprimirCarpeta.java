@@ -16,7 +16,6 @@ import CapaDomini.ModelDomini.LZ78;
 import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
-import Excepcions.ExtensionIncorrecta;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -35,8 +34,7 @@ public class ControladorDescomprimirCarpeta {
         this.result=new double[3];
     }
     
-    public void executar() throws ExtensionIncorrecta {
-        if (!path.contains(".carp")) throw new ExtensionIncorrecta();
+    public void executar() {
     }
     
 }

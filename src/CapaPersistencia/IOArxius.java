@@ -1,7 +1,6 @@
 package CapaPersistencia;
 
 import CapaDomini.Controladors.DTOImatge;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,7 +27,7 @@ public class IOArxius {
 
     public IOArxius() {
     }
-    
+
     public void guardaCabezeraArxiuCarpeta(String path_cc,String path_intern_comp,byte[] tamany_bytes) throws IOException {
         File f = new File(path_cc);
         OutputStream o = new FileOutputStream(path_cc,true);
@@ -38,16 +37,9 @@ public class IOArxius {
         o.write('\n');
         o.close();
     }
-    public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
-        if ((!path.contains(".ppm") && extensio.contains(".ppm")) ||
-                (!path.contains(".lz78") && extensio.contains(".lz78")) ||
-                (!path.contains(".lzss") && extensio.contains(".lzss")) ||
-                (!path.contains(".lzw") && extensio.contains(".lzw")) ||
-                 (extensio.contains("driver"))) {
-            throw new ExtensionIncorrecta();
-        }
 
-         try {
+    public byte[] llegeixArxiuBinari(String path,String extensio) {
+        try {
              InputStream is = null;
              File file = new File(path);
              is = new FileInputStream(file);
@@ -117,10 +109,7 @@ public class IOArxius {
          }
     }
 
-    public DTOImatge llegeixImatgeComprimida(String path) throws ExtensionIncorrecta {
-        if (!path.contains(".jimg")) {
-            throw new ExtensionIncorrecta();
-        }
+    public DTOImatge llegeixImatgeComprimida(String path) {
         byte[] result = null;
         DTOImatge resultDTO = null;
         try{

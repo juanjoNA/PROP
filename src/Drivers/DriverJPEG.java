@@ -6,13 +6,11 @@
 package Drivers;
 
 import CapaDomini.Controladors.DTOImatge;
-import CapaDomini.ModelDomini.Estadistiques;
 import CapaDomini.ModelDomini.Imatge;
 import CapaDomini.ModelDomini.ImatgeComprimida;
 import CapaDomini.ModelDomini.JPEG;
 import CapaPersistencia.IOArxius;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,9 +67,6 @@ public class DriverJPEG {
                     catch (VersionPPMIncorrecta e) {
                         System.out.println("Versió de PPM incorrecta.");
                     }
-                    catch (ExtensionIncorrecta e) {
-                        System.out.println("Extensió de la imatge incorrecte");
-                    }
                     catch (DatosIncorrectos e) {
                         System.out.println("Les dades del fitxer son incorrectes");
                     }
@@ -100,9 +95,6 @@ public class DriverJPEG {
                     }
                     catch (VersionPPMIncorrecta e) {
                         System.out.println("Versió de PPM incorrecta.");
-                    }
-                    catch (ExtensionIncorrecta e) {
-                        System.out.println("Extensió de la imatge incorrecte");
                     }
                     catch (DatosIncorrectos e) {
                         System.out.println("Les dades del fitxer son incorrectes");

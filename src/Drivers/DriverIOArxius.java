@@ -7,12 +7,9 @@ package Drivers;
 
 
 import CapaPersistencia.IOArxius;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -47,13 +44,11 @@ public class DriverIOArxius {
                     path = intro.readLine();
                     io = new IOArxius();
                     byte[] cont = null;
-                    try {
-                        cont = io.llegeixArxiuBinari(path,"driver");
-                        System.out.println("El contingut del ficher " + path + "es :");
-                        for (int i = 0; i < cont.length;++i) System.out.print((char) cont[i]);
-                    } catch (ExtensionIncorrecta ex) {
-                        System.out.println("Extensió d'arxiu incorrecte");
-                    }
+                    
+                    cont = io.llegeixArxiuBinari(path,"driver");
+                    System.out.println("El contingut del ficher " + path + "es :");
+                    for (int i = 0; i < cont.length;++i) System.out.print((char) cont[i]);
+                    
                     break;
                 case 2: 
                     System.out.println("Introdueix el path de l'arxiu a llegir: ");

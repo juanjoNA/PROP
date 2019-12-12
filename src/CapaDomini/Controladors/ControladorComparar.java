@@ -17,7 +17,6 @@ import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
 
@@ -72,7 +71,7 @@ public class ControladorComparar {
         this.subsampling = subsampling;
     }
     
-    public DTOComparar executar() throws CaracterNoASCII, ExtensionIncorrecta, IOException, VersionPPMIncorrecta, DatosIncorrectos {
+    public DTOComparar executar() throws CaracterNoASCII, IOException, VersionPPMIncorrecta, DatosIncorrectos {
         IOArxius io = new IOArxius();
         Arxiu processat = null;
         Arxiu resultat = null;
