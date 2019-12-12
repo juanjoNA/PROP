@@ -35,7 +35,8 @@ public class DriverEstDisc {
             System.out.println("\n\t1. escriure estadisticas compressió."
                          + "\n\t2. escriure estadisticas descompressió."
                          + "\n\t3. lleguir estadisticas."
-                         + "\n\t4. Sortir.");
+                         + "\n\t4. obte algoritme mes eficient."
+                         + "\n\t5. Sortir.");
             
             opcion = Integer.parseInt(intro.readLine());
             String algoritmo;
@@ -65,7 +66,7 @@ public class DriverEstDisc {
                 case 3: 
                     System.out.println("Indica un algoritme: ");           
                     algoritmo = intro.readLine();
-                    long res[] = est.readEstDisc(algoritmo);
+                    double res[] = est.readEstDisc(algoritmo);
                     System.out.println("Las estadisticas són: ");
                     System.out.print("temps de compressio: ");
                     System.out.println(res[0]);
@@ -81,6 +82,10 @@ public class DriverEstDisc {
                     System.out.println(res[5]);
                     break;
                 case 4:
+                    algoritmo = est.getBestAlgorithm();
+                    System.out.print("El algorisme mes eficient es: ");
+                    System.out.println(algoritmo);
+                case 5:
                     salir = true;
                     break;
                 default: 

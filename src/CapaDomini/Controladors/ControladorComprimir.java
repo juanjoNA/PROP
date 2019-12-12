@@ -104,6 +104,7 @@ public class ControladorComprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
+        e.guardaEst(result,Integer.toString(algoritmo),true);
         
         ControladorEstadisticas cest = new ControladorEstadisticas(result,true,Integer.toUnsignedString(algoritmo));
         cest.executar();

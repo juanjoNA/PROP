@@ -40,7 +40,7 @@ public class IOArxius {
     }
     public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
         if ((!path.contains(".ppm") && extensio.contains(".ppm")) ||
-                (!path.contains(".lzso") && extensio.contains(".lzso")) ||
+                (!path.contains(".lz78") && extensio.contains(".lz78")) ||
                 (!path.contains(".lzss") && extensio.contains(".lzss")) ||
                 (!path.contains(".lzw") && extensio.contains(".lzw")) ||
                  (extensio.contains("driver"))) {
@@ -153,6 +153,7 @@ public class IOArxius {
              BufferedReader br = new BufferedReader(fr);
              while ((s =br.readLine()) != null){
                  sb.append(s);
+                 sb.append("\n");
              }
              fr.close();
          } catch (FileNotFoundException ex) {

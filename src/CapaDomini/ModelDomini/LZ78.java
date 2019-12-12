@@ -54,7 +54,7 @@ public class LZ78 extends LZ{
             long start = System.currentTimeMillis();
             int pos = 0;
             int j = 1;
-            char a;
+            char a = 0;
             String ini = "";
             String act = "";
             byte posb = 0;
@@ -117,6 +117,13 @@ public class LZ78 extends LZ{
                 }
                 if(j == 0xFFFF) j = 1; //SI MAP LLEGA A SU LIMITE SE SOBREESCRIBE
             }
+            /*if(act != "") {
+                fpos[cb] = posb;
+                flag = (flag << 1);
+                if(pos > 255) flag = flag | 0x01;
+                fx[cb] = (byte)a;
+                cb++;
+            }*/
             if(cb != 0) {
                 flag = flag << (8-cb);
                 res.write((byte)flag);
@@ -145,7 +152,7 @@ public class LZ78 extends LZ{
             long start = System.currentTimeMillis();
             int pos = 1;
             int j = 1;
-            char a;
+            char a = 0;
             int ca = 0;
             int cb = 0;
             int flag = 0;
