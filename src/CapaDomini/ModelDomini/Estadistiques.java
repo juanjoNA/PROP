@@ -75,7 +75,7 @@ public class Estadistiques {
     public String[][] getEstadisticasMitjana() throws Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
         String[] alg = estd.getalgoritmos();
-        String[][] res = new String[alg.length][6];
+        String[][] res = new String[alg.length][17];
         for(int i = 0; i < alg.length; i++) {
             double[] ealg = estd.readEstDisc(alg[i]);
             res[i] = canviarformato(alg[i],ealg);
@@ -84,14 +84,24 @@ public class Estadistiques {
     }
 
     private String[] canviarformato(String algorithm, double[] ealg) {
-        String[] res = new String[7];
+        String[] res = new String[17];
         res[0] = algorithm;
-        res[1] = Double.toString(ealg[0]) + uvel(ealg[0]);
-        res[2] = Double.toString(ealg[1]) + utiempo(ealg[1]);
-        res[3] = Double.toString(ealg[2]) + "%";
-        res[4] = Double.toString(ealg[3]) + uvel(ealg[3]);
-        res[5] = Double.toString(ealg[4]) + utiempo(ealg[4]);
-        res[6] = Double.toString(ealg[5]) + "%";
+        res[1] = "velocitat de compressio";
+        res[2] = Double.toString(ealg[0]) + uvel(ealg[0]);
+        res[3] = "temps de compressio";
+        res[4] = Double.toString(ealg[1]) + utiempo(ealg[1]);
+        res[5] = "percentatge de compressio";
+        res[6] = Double.toString(ealg[2]) + "%";
+        res[7] = "velocitat de descompressio";
+        res[8] = Double.toString(ealg[3]) + uvel(ealg[3]);
+        res[9] = "temps de compressio";
+        res[10] = Double.toString(ealg[4]) + utiempo(ealg[4]);
+        res[11] = "percentatge de compressio";
+        res[12] = Double.toString(ealg[5]) + "%";
+        res[13] = "numero de compressions";
+        res[14] = Double.toString(ealg[6]);
+        res[15] = "numero de descompressions";
+        res[16] = Double.toString(ealg[7]);
         return res;
     }
 

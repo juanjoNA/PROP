@@ -72,11 +72,11 @@ public class DriverControladorEstadisticas {
                     //est.writeEstCompressio(tempsdesc, percdes, veldes, algoritmo);
                     break;
                 case 3: 
-                    /*System.out.println("Indica un algoritme: ");           
+                    System.out.println("Indica un algoritme: ");           
                     algoritmo = intro.readLine();
                     ControladorEstadisticas cer = new ControladorEstadisticas();
-                    //double res[] = cer.executar();
-                            //est.readEstDisc(algoritmo);
+                    double res[];
+                    res = est.readEstDisc(algoritmo);
                     System.out.println("Las estadisticas són: ");
                     System.out.print("temps de compressio: ");
                     System.out.println(res[0]);
@@ -89,7 +89,7 @@ public class DriverControladorEstadisticas {
                     System.out.print("percentatge de descompressio: ");
                     System.out.println(res[4]);
                     System.out.print("velocitat de descompressio: ");
-                    System.out.println(res[5]);*/
+                    System.out.println(res[5]);
                     break;
                 case 4:
                     ControladorEstadisticas cerr = new ControladorEstadisticas();

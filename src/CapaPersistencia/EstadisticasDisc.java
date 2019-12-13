@@ -25,17 +25,19 @@ public class EstadisticasDisc {
     private String path;
     private String[] alg;
     
-public EstadisticasDisc() {
+public EstadisticasDisc() throws Exception {
     path = System.getProperty("user.home") + "/DB.json";
     alg = new String[4];
     alg[0] = "LZW";
     alg[1] = "LZSS";
     alg[2] = "LZ78";
     alg[3] = "JPEG";
+    resetEstDisc();
 }
     
 private void resetEstDisc() throws Exception {
     JSONArray est = new JSONArray();
+    StringBuilder sb = new StringBuilder();
     for(int i = 0; i < alg.length; i++){
         JSONObject algoritmo = new JSONObject();
         algoritmo.put("id", alg[i]);
@@ -50,9 +52,10 @@ private void resetEstDisc() throws Exception {
         
         est.add(algoritmo);
         }
-    StringBuilder sb = new StringBuilder();
     sb.append(est.toJSONString());
-    Files.write(Paths.get(path), sb.toString().getBytes());
+    IOArxius ioa = new IOArxius();
+    ioa.guardaArxiuTXT(this.path, sb.toString(),false);
+    //Files.write(Paths.get(path), sb.toString().getBytes());
 }
     
 public double[] readEstDisc(String algorithm) {
@@ -60,12 +63,12 @@ public double[] readEstDisc(String algorithm) {
 JSONParser jsonParser = new JSONParser();
 try {
 
-    FileReader reader = new FileReader(path);
+    FileReader reader = new FileReader(this.path);
     JSONArray jsonArray = (JSONArray) jsonParser.parse(reader);
-    File f = new File(path);
+    File f = new File(this.path);
     if(!f.exists()) resetEstDisc();
     Iterator<?> i = jsonArray.iterator();
-    double[] est = new double[6];
+    double[] est = new double[8];
     while (i.hasNext()) {
         JSONObject obj = (JSONObject) i.next();
         String id =(String) obj.get("id");
@@ -76,6 +79,8 @@ try {
             est[3] = (double) obj.get("velocitat_descompressio");
             est[4] = (double) obj.get("temps_descompressio");
             est[5] = (double) obj.get("temps_descompressio");
+            est[6] = (double) obj.get("num_compressions");
+            est[7] = (double) obj.get("num_descompressions");
         }
     }
     return est;
@@ -87,15 +92,11 @@ return null;
     
 
 public void writeEstCompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
-    //cojer numero de compressiones i descompressiones i volver a hacer la media con los nuevos valores.
     JSONParser jsonParser = new JSONParser();
         File f = new File(path);
 
-//    File f = new File("/home/lucas/Escritorio/DB.json");
     if(!f.exists()) resetEstDisc();
         FileReader reader = new FileReader(path);
-
-    //FileReader reader = new FileReader("/home/lucas/Escritorio/DB.json");
 
     JSONArray jsonArray = (JSONArray) jsonParser.parse(reader);
 
@@ -112,7 +113,7 @@ public void writeEstCompressio(double temps, double perct, double vel, String al
             obj.put("temps_compressio", new Double(tempscomp*ncomp+temps)/(ncomp+1));
             obj.put("velocitat_compressio", new Double(veloc*ncomp+vel)/(ncomp+1));
             obj.put("percentatge_compressio", new Double(perc*ncomp+perct)/(ncomp+1));
-            obj.put("num_compressions",new Double((int)ncomp)+1);
+            obj.put("num_compressions",new Double(ncomp+1));
         }
     }
         Files.write(Paths.get(path), jsonArray.toString().getBytes());
@@ -121,15 +122,11 @@ public void writeEstCompressio(double temps, double perct, double vel, String al
 
 
 public void writeEstDescompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
-    //cojer numero de compressiones i descompressiones i volver a hacer la media con los nuevos valores.
     JSONParser jsonParser = new JSONParser();
         File f = new File(path);
 
-    //File f = new File("/home/lucas/Escritorio/DB.json");
     if(!f.exists()) resetEstDisc();
         FileReader reader = new FileReader(path);
-
-   // FileReader reader = new FileReader("/home/lucas/Escritorio/DB.json");
 
     JSONArray jsonArray = (JSONArray) jsonParser.parse(reader);
 
@@ -138,23 +135,17 @@ public void writeEstDescompressio(double temps, double perct, double vel, String
     while (i.hasNext()) {
         JSONObject obj = (JSONObject) i.next();
         String id =(String) obj.get("id");
-        //System.out.println(obj.get("id"));
         if(id.equals(algorithm)) {
-            //System.out.println("entra if");
-            long tempsdescomp = (long) obj.get("temps_descompressio");
-            long velodes = (long) obj.get("velocitat_descompressio");
-            long perdes = (long) obj.get("percentatge_descompressio");
-            //System.out.println(tempscomp);
-            //System.out.print(veloc);
-            long ndes = (long)obj.get("num_descompressions");
+            double tempsdescomp = (double) obj.get("temps_descompressio");
+            double velodes = (double) obj.get("velocitat_descompressio");
+            double perdes = (double) obj.get("percentatge_descompressio");
+            double ndes = (double)obj.get("num_descompressions");
             obj.put("temps_descompressio", new Double(tempsdescomp*ndes+temps)/(ndes+1));
             obj.put("velocitat_descompressio", new Double(velodes*ndes+vel)/(ndes+1));
             obj.put("percentatge_descompressio", new Double(perdes*ndes+perct)/(ndes+1));
-            obj.put("num_descompressions",new Double((int)ndes)+1);
+            obj.put("num_descompressions",new Double(ndes)+1);
         }
     }
-        //path = "/home/lucas/Escritorio/DB.json";
-
         Files.write(Paths.get(path), jsonArray.toString().getBytes());
 
 }

@@ -85,8 +85,8 @@ public class ControladorComprimir {
 
             //LZ78
             case "LZ78": {
-                byte[] cont = i.llegeixArxiuBinari(path, ".txt");
-                ArxiuBytes normal = new ArxiuBytes(path,cont);
+                String cont = i.llegeixArxiuTxt(path);
+                ArxiuTXT normal = new ArxiuTXT(path,cont);
                 LZ78 c = new LZ78();
                 ArxiuBytes comprimit = c.comprimir(normal);
                 resultat=comprimit;
