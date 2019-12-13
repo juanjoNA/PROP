@@ -17,7 +17,6 @@ import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class ControladorDescomprimir {
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos, IOException {
+    public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;
         switch(algoritmo) {

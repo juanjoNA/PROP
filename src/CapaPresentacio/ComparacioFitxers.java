@@ -16,11 +16,14 @@ public class ComparacioFitxers extends javax.swing.JPanel {
 
     JPanel comparar;
     JFrame main;
+    byte[] textInicial, textFinal;
     
-    public ComparacioFitxers(JPanel comparar, JFrame main) {
+    public ComparacioFitxers(JPanel comparar, JFrame main, byte[] textInicial, byte[] textFinal) {
         initComponents();
         this.comparar = comparar;
         this.main = main;
+        editorPaneInici.setText(new String(textInicial));
+        editorPaneFinal.setText(new String(textFinal));
     }
 
     /**
@@ -36,9 +39,9 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         labelFitxerNorm = new javax.swing.JLabel();
         labelFitxerDesc = new javax.swing.JLabel();
         scrollFitxNorm = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        editorPaneInici = new javax.swing.JEditorPane();
         scrollFitxProcs = new javax.swing.JScrollPane();
-        jEditorPane2 = new javax.swing.JEditorPane();
+        editorPaneFinal = new javax.swing.JEditorPane();
         bTornar = new javax.swing.JButton();
 
         setLayout(new java.awt.GridBagLayout());
@@ -55,7 +58,7 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         add(labelFitxerDesc, gridBagConstraints);
 
-        scrollFitxNorm.setViewportView(jEditorPane1);
+        scrollFitxNorm.setViewportView(editorPaneInici);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -66,7 +69,7 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
         add(scrollFitxNorm, gridBagConstraints);
 
-        scrollFitxProcs.setViewportView(jEditorPane2);
+        scrollFitxProcs.setViewportView(editorPaneFinal);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -105,8 +108,8 @@ public class ComparacioFitxers extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bTornar;
-    private javax.swing.JEditorPane jEditorPane1;
-    private javax.swing.JEditorPane jEditorPane2;
+    private javax.swing.JEditorPane editorPaneFinal;
+    private javax.swing.JEditorPane editorPaneInici;
     private javax.swing.JLabel labelFitxerDesc;
     private javax.swing.JLabel labelFitxerNorm;
     private javax.swing.JScrollPane scrollFitxNorm;

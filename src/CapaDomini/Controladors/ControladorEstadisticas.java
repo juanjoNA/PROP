@@ -5,6 +5,7 @@
  */
 package CapaDomini.Controladors;
 
+import CapaDomini.ModelDomini.Estadistiques;
 import CapaPersistencia.EstadisticasDisc;
 import org.json.simple.parser.ParseException;
 
@@ -20,10 +21,9 @@ public class ControladorEstadisticas {
     private String algoritmo;
     private long[] e;
     
-    public ControladorEstadisticas(String algoritmo) {
+    public ControladorEstadisticas() {
         est = new EstadisticasDisc();
         guardar = false;
-        this.algoritmo = algoritmo;
     }
     
     public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo) {
@@ -37,8 +37,8 @@ public class ControladorEstadisticas {
         this.e[2] = Double.valueOf(estad[2]).longValue();
     }
     
-    public long[] executar() throws Exception {
-        if(!guardar) return getEstadisticas(algoritmo);
+    public String[][] executar() throws Exception {
+        if(!guardar) return getEstGeneral();
         else if(comprimir) guardarEstadisticasComp(e, algoritmo);
         else guardarEstadisticasDescomp(e, algoritmo);
         return null;
@@ -52,8 +52,13 @@ public class ControladorEstadisticas {
         est.writeEstDescompressio(a[0],a[1],a[2],algoritmo);
 }
     
-    private long[] getEstadisticas(String algoritmo) {
+    private double[] getEstadisticas(String algoritmo) {
         return est.readEstDisc(algoritmo);
+    }
+    
+    private String[][] getEstGeneral() throws Exception {
+        Estadistiques e = new Estadistiques();
+        return e.getEstadisticasMitjana();
     }
     
 }

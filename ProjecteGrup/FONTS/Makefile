@@ -48,7 +48,6 @@ IMATGE = \
 	CapaDomini/ModelDomini/Arxiu.java \
         CapaDomini/ModelDomini/Estadistiques.java \
 	CapaDomini/ModelDomini/Imatge.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Excepcions/VersionPPMIncorrecta.java \
 	Drivers/DriverImatge.java
         
@@ -58,7 +57,6 @@ IMATGECOMPRIMIDA = \
 	CapaDomini/ModelDomini/Arxiu.java \
         CapaDomini/ModelDomini/Estadistiques.java \
 	CapaDomini/ModelDomini/Imatge.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Excepcions/VersionPPMIncorrecta.java \
 	Drivers/DriverImatgeComprimida.java
         
@@ -74,7 +72,6 @@ LZSS = \
         CapaPersistencia/IOArxius.java \
         CapaDomini/ModelDomini/ArxiuTXT.java \
 	Excepcions/CaracterNoASCII.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Drivers/DriverLZSS.java
 
 PAIR = \
@@ -92,7 +89,6 @@ ESTADISTIQUES = \
 
 IOARXIUS = \
         CapaPersistencia/IOArxius.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Drivers/DriverIOArxius.java
 
 JEPG = \
@@ -110,7 +106,6 @@ JEPG = \
 	CapaDomini/ModelDomini/JPEG.java \
 	CapaDomini/Controladors/DTOImatge.java \
 	Excepcions/DatosIncorrectos.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Excepcions/VersionPPMIncorrecta.java 
 
 LZ78 = \
@@ -120,7 +115,6 @@ LZ78 = \
         CapaDomini/ModelDomini/LZ78.java \
         CapaPersistencia/IOArxius.java \
 	Excepcions/CaracterNoASCII.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Drivers/DriverLZ78.java
 
 COMPRIMIR = \
@@ -138,7 +132,6 @@ COMPRIMIR = \
 	CapaDomini/ModelDomini/JPEG.java \
 	CapaDomini/Controladors/DTOImatge.java \
 	Excepcions/DatosIncorrectos.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Excepcions/VersionPPMIncorrecta.java \
 	Excepcions/CaracterNoASCII.java \
         Drivers/DriverControladorComprimir.java
@@ -158,7 +151,6 @@ DESCOMPRIMIR = \
 	CapaDomini/ModelDomini/JPEG.java \
 	CapaDomini/Controladors/DTOImatge.java \
 	Excepcions/DatosIncorrectos.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Excepcions/VersionPPMIncorrecta.java \
 	Excepcions/CaracterNoASCII.java \
         Drivers/DriverControladorDescomprimir.java
@@ -170,7 +162,6 @@ LZW = \
 	CapaDomini/ModelDomini/LZW.java \
 	CapaPersistencia/IOArxius.java \
 	Excepcions/CaracterNoASCII.java \
-	Excepcions/ExtensionIncorrecta.java \
 	Drivers/DriverLZW.java
 
 
@@ -233,7 +224,7 @@ cl_huffman : $(HUFFMAN:.java=.class)
 	jar cmf ./Manifests/manifest_HUFFMAN.txt ../EXE/DriverHuffman/driverHuffman.jar $(HUFFMAN:.java=.class)
 
 junit_lzw: $(JUNIT:.java=.class)
-	javac -g -cp ./Manifests/manifest_JUNIT.txt ../EXE/JUNIT/JUNITtest.jar $(LIBS) Test/LZWTest.java Excepcions/CaracterNoASCII.java Excepcions/ExtensionIncorrecta.java
+	javac -g -cp ./Manifests/manifest_JUNIT.txt ../EXE/JUNIT/JUNITtest.jar $(LIBS) Test/LZWTest.java Excepcions/CaracterNoASCII.java 
 
 	
 run: $(MAIN).class

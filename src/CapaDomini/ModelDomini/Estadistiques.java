@@ -5,6 +5,9 @@
  */
 package CapaDomini.ModelDomini;
 
+import CapaPersistencia.EstadisticasDisc;
+import org.json.simple.parser.ParseException;
+
 /**
  *
  * @author Lucas.Pinilla
@@ -61,6 +64,51 @@ public class Estadistiques {
         est[1] = temps_compressio;
         est[2] = percentatge_compressio;
         return est;
+    }
+
+    public void guardaEst(double[] result, String algorithm, boolean comp) throws ParseException, Exception {
+        EstadisticasDisc estd = new EstadisticasDisc();
+        if(comp) estd.writeEstCompressio(result[0], result[1], result[2], algorithm);
+        else estd.writeEstDescompressio(result[0], result[1], result[2], algorithm);
+    }
+
+    public String[][] getEstadisticasMitjana() throws Exception {
+        EstadisticasDisc estd = new EstadisticasDisc();
+        String[] alg = estd.getalgoritmos();
+        String[][] res = new String[alg.length][6];
+        for(int i = 0; i < alg.length; i++) {
+            double[] ealg = estd.readEstDisc(alg[i]);
+            res[i] = canviarformato(alg[i],ealg);
+        }
+        return res;
+    }
+
+    private String[] canviarformato(String algorithm, double[] ealg) {
+        String[] res = new String[7];
+        res[0] = algorithm;
+        res[1] = Double.toString(ealg[0]) + uvel(ealg[0]);
+        res[2] = Double.toString(ealg[1]) + utiempo(ealg[1]);
+        res[3] = Double.toString(ealg[2]) + "%";
+        res[4] = Double.toString(ealg[3]) + uvel(ealg[3]);
+        res[5] = Double.toString(ealg[4]) + utiempo(ealg[4]);
+        res[6] = Double.toString(ealg[5]) + "%";
+        return res;
+    }
+
+    private String uvel(double d) {
+        if(d > 1000) {
+            d = d/1000;
+            return "MB/s";
+        }
+        return "KB/s";
+    }
+
+    private String utiempo(double d) {
+        if(d > 1000) {
+            d = d/1000;
+            return "s";
+        }
+        return "ms";
     }
 
 }

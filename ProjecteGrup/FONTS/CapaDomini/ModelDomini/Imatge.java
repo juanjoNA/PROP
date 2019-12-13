@@ -5,7 +5,6 @@
  */
 package CapaDomini.ModelDomini;
 
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 
 /**
@@ -18,7 +17,7 @@ public class Imatge extends ArxiuBytes {
     private final int sizeV;
     private final int maxVal;
 
-    public Imatge (String path, byte[] contingut, String v, int sv, int sh, int maxValue) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+    public Imatge (String path, byte[] contingut, String v, int sv, int sh, int maxValue) throws VersionPPMIncorrecta {
         super(path,contingut);
         if (!v.equals("P6")) {
             throw new VersionPPMIncorrecta();

@@ -10,8 +10,6 @@ import Excepcions.CaracterNoASCII;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +22,7 @@ public class DriverLZ78 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, CaracterNoASCII, ExtensionIncorrecta {
+    public static void main(String[] args) throws IOException, CaracterNoASCII{
         int opcion;
         boolean salir=false;
         IOArxius ioa = new IOArxius();

@@ -339,7 +339,7 @@ public class JPEG {
         return decoded.clone();
     }
 
-    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, String subsamplingString) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos {
+    public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, String subsamplingString) throws IOException, VersionPPMIncorrecta, DatosIncorrectos {
 
         String[] subsamplingParsed = subsamplingString.split(":");
         int[] subsampling = new int[3];

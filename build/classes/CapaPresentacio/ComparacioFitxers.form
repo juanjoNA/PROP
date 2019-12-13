@@ -54,7 +54,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JEditorPane" name="jEditorPane1">
+        <Component class="javax.swing.JEditorPane" name="editorPaneInici">
         </Component>
       </SubComponents>
     </Container>
@@ -70,7 +70,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JEditorPane" name="jEditorPane2">
+        <Component class="javax.swing.JEditorPane" name="editorPaneFinal">
         </Component>
       </SubComponents>
     </Container>

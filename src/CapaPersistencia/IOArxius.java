@@ -37,15 +37,8 @@ public class IOArxius {
         o.write('\n');
         o.close();
     }
-    public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
-        if ((!path.contains(".ppm") && extensio.contains(".ppm")) ||
-                (!path.contains(".lzso") && extensio.contains(".lzso")) ||
-                (!path.contains(".lzss") && extensio.contains(".lzss")) ||
-                (!path.contains(".lzw") && extensio.contains(".lzw")) ||
-                 (extensio.contains("driver"))) {
-            throw new ExtensionIncorrecta();
-        }
-
+    public byte[] llegeixArxiuBinari(String path,String extensio) {
+       
          try {
              InputStream is = null;
              File file = new File(path);
