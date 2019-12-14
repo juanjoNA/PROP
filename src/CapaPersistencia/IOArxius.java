@@ -38,20 +38,19 @@ public class IOArxius {
 
     public ArrayList<ArxCarpetaComp> llegeixCarpComp(String carpcomp) throws FileNotFoundException, IOException, ClassNotFoundException {
         File f = new File(carpcomp);
+        ArrayList<ArxCarpetaComp> result = new ArrayList<>();
         FileInputStream fis = new FileInputStream(f);
         ObjectInputStream ois = new ObjectInputStream(fis);
         HashMap<String,Integer> readedHashMap;
         byte[] contingut;
         StringBuilder sb =new StringBuilder();
-        ArrayList<ArxCarpetaComp> result = new ArrayList<>();
         byte b;
         while(fis.available() >0) {
             sb = new StringBuilder();
             b = ois.readByte();
             while (b != 10) {
-                    sb.append((char) b);
-                    b = ois.readByte();
-
+                sb.append((char) b);
+                b = ois.readByte();
             }
             String path = sb.toString();
             if (path.contains(".jimg")) {
@@ -63,8 +62,9 @@ public class IOArxius {
                 result.add(acc);
             }
             else {
-                int tamany = ois.readInt();
+                
                 if (path.contains(".lzw")) {
+                    int tamany = ois.readInt();
                     int count = 0;
                     StringBuilder contchars=new StringBuilder();
                     while (count < tamany) {
@@ -74,14 +74,21 @@ public class IOArxius {
                     }
                     ArxCarpetaComp acc = new ArxCarpetaComp(path,contchars.toString());
                     result.add(acc);
+                    b=ois.readByte();
                 }
-                else {
+                else if (path.contains(".lzss") | path.contains(".lzss")){
+                    int tamany = ois.readInt();
                     contingut = new byte[tamany];
                     ois.readFully(contingut);
                     ArxCarpetaComp acc = new ArxCarpetaComp(path,contingut);
                     result.add(acc);
+                    b=ois.readByte();
                 }
-                b=ois.readByte();
+                else {
+                    ArxCarpetaComp acc = new ArxCarpetaComp(path);
+                    result.add(acc);
+                }
+
             }
         }
         return result;
@@ -144,7 +151,6 @@ public class IOArxius {
              MyObjectOutputStream  oos = new MyObjectOutputStream (o);
              oos.writeObject(resultMap);
              long totalLength = header.getBytes().length + content.length;
-             System.out.println(totalLength);
              oos.writeLong(totalLength);
              oos.write(header.getBytes());
              oos.write(content);

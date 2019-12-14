@@ -64,13 +64,14 @@ public class ArxCarpetaComp {
     public ArxCarpetaComp(String path, byte[] contingut) {
         this.path = path;
         this.contingutBytes = contingut;
-        this.readedHashMap = readedHashMap;
     }
     
     public ArxCarpetaComp(String path, String contingut) {
         this.path = path;
         this.contingutChars = contingut;
-        this.readedHashMap = readedHashMap;
+    }
+        public ArxCarpetaComp(String path) {
+        this.path = path;
     }
     
 }
