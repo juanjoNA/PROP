@@ -7,7 +7,6 @@ package CapaDomini.ModelDomini;
 
 import java.util.HashMap;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 
 /**
  *
@@ -15,7 +14,7 @@ import Excepcions.ExtensionIncorrecta;
  */
 public class LZW extends LZ{
 
-     public ArxiuTXT descomprimir (ArxiuTXT a) throws ExtensionIncorrecta {
+     public ArxiuTXT descomprimir (ArxiuTXT a) {
         long start = System.currentTimeMillis();
         HashMap <Character,String> traductor = new HashMap <> ();
         for (int i = 0; i < 256; ++i) {
@@ -23,7 +22,6 @@ public class LZW extends LZ{
             traductor.put((char) i,letra);
 	}
         String path = a.getPath();
-        if (!path.contains(".lzw")) throw new ExtensionIncorrecta();
         String contenido = a.getContingut();
         if(contenido.length() == 0) {
             String pathnuevo = path.replace(".lzw","(2).txt");
@@ -65,7 +63,7 @@ public class LZW extends LZ{
         return arxiudescomprimit;
     }
 
-    public ArxiuTXT comprimir (ArxiuTXT a) throws CaracterNoASCII, ExtensionIncorrecta {
+    public ArxiuTXT comprimir (ArxiuTXT a) throws CaracterNoASCII {
         long start = System.currentTimeMillis();
         HashMap <String, Character> traductor = new HashMap <> ();
         for (int i = 0; i < 256; ++i) {
@@ -78,7 +76,6 @@ public class LZW extends LZ{
         String wk = new String();
         String contingut = a.getContingut();
         String path = a.getPath();
-        if (!path.contains(".txt")) throw new ExtensionIncorrecta();
         String w = new String();
         for (int i = 0; i < contingut.length(); ++i) {
             k = contingut.charAt(i);

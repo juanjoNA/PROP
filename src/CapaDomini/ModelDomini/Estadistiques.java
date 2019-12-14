@@ -18,7 +18,7 @@ public class Estadistiques {
     private double percentatge_compressio;
 
     public Estadistiques() {
-        
+
     }
 
     public Estadistiques(long start, long end, int tamIni, int tamFi){
@@ -26,13 +26,13 @@ public class Estadistiques {
         this.temps_compressio = (end-start);
         this.velocitat_compressio = ((float)tamIni/(float)(end-start))/1000;
     }
-    
+
     public Estadistiques(double vel, long temps, double perc){
         this.velocitat_compressio = vel;
         this.temps_compressio = temps;
         this.percentatge_compressio = perc;
     }
-    
+
     public double getVelocitat_compressio() {
         return velocitat_compressio;
     }

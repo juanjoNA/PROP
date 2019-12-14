@@ -1,5 +1,7 @@
 package CapaPresentacio;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -30,12 +32,13 @@ public class MainFrame extends javax.swing.JFrame {
         menuComparar = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         menuCompararTXT = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1000, 500));
-        setMinimumSize(new java.awt.Dimension(1000, 500));
+        setMaximumSize(new java.awt.Dimension(1000, 600));
+        setMinimumSize(new java.awt.Dimension(1000, 600));
         setName("Main"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1000, 500));
+        setPreferredSize(new java.awt.Dimension(1000, 600));
         setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(20, 20));
 
@@ -126,6 +129,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         menu.add(menuComparar);
 
+        jMenu1.setText("Estadistiques");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        menu.add(jMenu1);
+
         setJMenuBar(menu);
 
         pack();
@@ -159,11 +170,18 @@ public class MainFrame extends javax.swing.JFrame {
         cambiarPanel(new Comparar(this));
     }//GEN-LAST:event_menuCompararTXTMouseClicked
 
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        try {
+            cambiarPanel(new Estadistiques());
+        } catch (Exception ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu1MouseClicked
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -185,8 +203,6 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
@@ -200,6 +216,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem bDescCarpeta;
     private javax.swing.JMenuItem bDescFitxer;
     private javax.swing.JMenu bDescomprimir;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuComparar;
@@ -212,8 +229,13 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void cambiarPanel(JPanel panel){
         this.setContentPane(panel);
+        this.setLocationRelativeTo(null);
+        this.setSize(this.WIDTH, this.HEIGHT);
+        this.setLocationRelativeTo(null);
         this.invalidate();
         this.validate();
+        
+        
     }
 
 

@@ -20,13 +20,13 @@ public class ControladorEstadisticas {
     private boolean comprimir;
     private String algoritmo;
     private long[] e;
-    
-    public ControladorEstadisticas() {
+
+    public ControladorEstadisticas() throws Exception {
         est = new EstadisticasDisc();
         guardar = false;
     }
-    
-    public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo) {
+
+    public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo)throws Exception {
         est = new EstadisticasDisc();
         this.guardar = true;
         this.comprimir = comprimir;
@@ -36,29 +36,29 @@ public class ControladorEstadisticas {
         this.e[1] = Double.valueOf(estad[1]).longValue();
         this.e[2] = Double.valueOf(estad[2]).longValue();
     }
-    
+
     public String[][] executar() throws Exception {
         if(!guardar) return getEstGeneral();
         else if(comprimir) guardarEstadisticasComp(e, algoritmo);
         else guardarEstadisticasDescomp(e, algoritmo);
         return null;
     }
-    
+
     private void guardarEstadisticasComp(long[] a, String algoritmo) throws ParseException, Exception {
         est.writeEstCompressio(a[0],a[1],a[2],algoritmo);
 }
-    
+
     private void guardarEstadisticasDescomp(long[] a, String algoritmo) throws ParseException, Exception {
         est.writeEstDescompressio(a[0],a[1],a[2],algoritmo);
 }
-    
+
     private double[] getEstadisticas(String algoritmo) {
         return est.readEstDisc(algoritmo);
     }
-    
+
     private String[][] getEstGeneral() throws Exception {
         Estadistiques e = new Estadistiques();
         return e.getEstadisticasMitjana();
     }
-    
+
 }

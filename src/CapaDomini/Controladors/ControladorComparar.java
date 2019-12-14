@@ -28,13 +28,13 @@ public class ControladorComparar {
     
     private final String pathLlegir;
     private final String pathGuardar;
-    private final int algoritmo;
+    private final String algoritmo;
     private final double[] result;
     private final int ratioCompression;
     private final String subsampling;
     
     
-    public ControladorComparar(String pathLlegir, int algoritmo) {
+    public ControladorComparar(String pathLlegir, String algoritmo) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = ".notvalid.";
@@ -44,7 +44,7 @@ public class ControladorComparar {
         
     }
     
-    public ControladorComparar(String pathLlegir, String pathGuardar, int algoritmo) {
+    public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = pathGuardar;
@@ -53,7 +53,7 @@ public class ControladorComparar {
         this.subsampling = "";
     }
     
-    public ControladorComparar(String pathLlegir, int algoritmo, int ratioCompression, String subsampling) {
+    public ControladorComparar(String pathLlegir, String algoritmo, int ratioCompression, String subsampling) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = ".notvalid.";
@@ -62,7 +62,7 @@ public class ControladorComparar {
         this.subsampling = subsampling;
     }
     
-    public ControladorComparar(String pathLlegir, String pathGuardar, int algoritmo, int ratioCompression, String subsampling) {
+    public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo, int ratioCompression, String subsampling) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = pathGuardar;
@@ -78,13 +78,13 @@ public class ControladorComparar {
         byte[] contingutInicial = null;
         byte[] contingutFinal = null;
         switch (algoritmo) {
-            case 1: {
+            case "JPEG": {
                 byte[] contingut = io.llegeixArxiuBinari(pathLlegir,".ppm");
                 contingutInicial = contingut;
                 Imatge imatgeLlegida = new Imatge(pathLlegir,contingut);
                 contingutInicial = new byte[imatgeLlegida.getHeader().getBytes().length + imatgeLlegida.getContingut().length];
                 JPEG compressor = new JPEG();
-                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, ratioCompression, subsampling);;
+                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida, ratioCompression, subsampling);
                 processat = comprimit;
                 Imatge desprocessat = compressor.descomprimir(comprimit);
                 resultat = desprocessat;
@@ -95,7 +95,7 @@ public class ControladorComparar {
                     io.guardaImatge(pathGuardar, desprocessat.getHeader(), desprocessat.getContingut());
                 }
             }
-            case 2: {
+            case "LZW": {
                 byte[] con = io.llegeixArxiuBinari(pathLlegir,".txt");
                 contingutInicial = con;
                 String contingut = new String(con);
@@ -112,7 +112,7 @@ public class ControladorComparar {
                 }
                 break;
             }
-            case 3: {
+            case "LZSS": {
                 String cont = io.llegeixArxiuTxt(pathLlegir);
                 contingutInicial = cont.getBytes();
                 ArxiuTXT arxiuNormal = new ArxiuTXT(pathLlegir, cont);
@@ -127,7 +127,7 @@ public class ControladorComparar {
                 }
                 break;
             }
-            case 4: {
+            case "LZ78": {
                 String con = io.llegeixArxiuTxt(pathLlegir);
                 contingutInicial = con.getBytes();
                 ArxiuTXT arxiuNormal = new ArxiuTXT(pathLlegir,con);
