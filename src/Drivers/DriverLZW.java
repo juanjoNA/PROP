@@ -3,6 +3,7 @@ package Drivers;
 
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Arxiu;
+import CapaDomini.ModelDomini.ArxiuBytes;
 import CapaDomini.ModelDomini.Estadistiques;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;

@@ -36,7 +36,7 @@ public class LZW extends LZ{
         result.append(caracter);
         int valor = 256;
         String insertar = new String();
-        String char_prim = new String();
+        String char_prim = caracter;
         for (int i = 1; i < contenido.length(); ++i) {
             Character codnuevo = contenido.charAt(i);
 

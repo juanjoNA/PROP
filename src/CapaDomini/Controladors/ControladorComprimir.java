@@ -64,8 +64,7 @@ public class ControladorComprimir {
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
                 LZW c = new LZW();
-                ArxiuTXT comprimit = new ArxiuTXT();
-                comprimit = c.comprimir(b);
+                ArxiuTXT comprimit = c.comprimir(b);
                 resultat=comprimit;
                 if (guardar) {
                     i.guardaArxiuTXT(comprimit.getPath(),comprimit.getContingut());
