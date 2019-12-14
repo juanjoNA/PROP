@@ -24,15 +24,35 @@ import org.json.simple.parser.ParseException;
 public class EstadisticasDisc {
     private String path;
     private String[] alg;
+    private String[] est;
     
 public EstadisticasDisc() throws Exception {
     path = System.getProperty("user.home") + "/DB.json";
+    inicializaralg(alg);
+    inicializarest(est);
+    File f = new File(this.path);
+    if(!f.exists()) resetEstDisc();
+}
+
+private void inicializaralg(String[] s) {
     alg = new String[4];
     alg[0] = "LZW";
     alg[1] = "LZSS";
     alg[2] = "LZ78";
     alg[3] = "JPEG";
-    resetEstDisc();
+}
+
+private void inicializarest(String[] e) {
+    est = new String[9];
+    est[0] = "id";
+    est[1] = "velocitat_compressio";
+    est[2] = "percentatge_compressio";
+    est[3] = "temps_compressio";
+    est[4] = "velocitat_descompressio";
+    est[5] = "percentatge_descompressio";
+    est[6] = "temps_descompressio";
+    est[7] = "num_compressions";
+    est[8] = "num_descompressions";
 }
     
 private void resetEstDisc() throws Exception {
@@ -41,14 +61,17 @@ private void resetEstDisc() throws Exception {
     for(int i = 0; i < alg.length; i++){
         JSONObject algoritmo = new JSONObject();
         algoritmo.put("id", alg[i]);
-        algoritmo.put("velocitat_compressio", new Double(0));
+        for(int j = 1; j < this.est.length; j++) {
+            algoritmo.put(this.est[j],new Double(0));
+        }
+        /*algoritmo.put("velocitat_compressio", new Double(0));
         algoritmo.put("percentatge_compressio", new Double(0));
         algoritmo.put("temps_compressio", new Double(0));
         algoritmo.put("num_compressions",new Double(0));
         algoritmo.put("num_descompressions", new Double(0));
         algoritmo.put("velocitat_descompressio", new Double(0));
         algoritmo.put("percentatge_descompressio", new Double(0));
-        algoritmo.put("temps_descompressio", new Double(0));
+        algoritmo.put("temps_descompressio", new Double(0));*/
         
         est.add(algoritmo);
         }
@@ -73,14 +96,17 @@ try {
         JSONObject obj = (JSONObject) i.next();
         String id =(String) obj.get("id");
         if(id.equals(algorithm)) {
-            est[0] = (double) obj.get("velocitat_compressio");
+            for(int j = 1; j < this.est.length; j++) {
+                est[j-1] = (double) obj.get(this.est[j]);
+            }    
+            /*est[0] = (double) obj.get("velocitat_compressio");
             est[1] = (double) obj.get("temps_compressio");
             est[2] = (double) obj.get("percentatge_compressio");
             est[3] = (double) obj.get("velocitat_descompressio");
             est[4] = (double) obj.get("temps_descompressio");
             est[5] = (double) obj.get("temps_descompressio");
             est[6] = (double) obj.get("num_compressions");
-            est[7] = (double) obj.get("num_descompressions");
+            est[7] = (double) obj.get("num_descompressions");*/
         }
     }
     return est;
@@ -177,5 +203,9 @@ public String getBestAlgorithm() throws Exception{
 
     public String[] getalgoritmos() {
         return this.alg;
+    }
+    
+    public String[] getnomEst() {
+        return this.est;
     }
 }
