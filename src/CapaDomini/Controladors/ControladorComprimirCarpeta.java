@@ -29,11 +29,11 @@ import java.util.ArrayList;
  */
 public class ControladorComprimirCarpeta {
     private String path;
-    private int alg_txt;
+    private String alg_txt;
     private boolean guardar;
     private double[] result;
     
-    public ControladorComprimirCarpeta(String path, int alg_txt, boolean guardar) {
+    public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar) {
         this.path = path;
         this.alg_txt = alg_txt;
         this.guardar = guardar;
@@ -86,7 +86,7 @@ public class ControladorComprimirCarpeta {
             if (path_intern.contains(".txt")) {
                 switch(alg_txt) {
                     //LZW
-                    case 1: {
+                    case "LZW": {
                         byte[] con = io.llegeixArxiuBinari(path_intern,".txt");
                         String contingut = new String(con);
                         ArxiuTXT b = new ArxiuTXT(path_intern,contingut);
@@ -97,7 +97,7 @@ public class ControladorComprimirCarpeta {
                             long tamany_long = (comprimit_lzw.getContingut()).length();
                             byte[] tamany_bytes = TamToBytes(tamany_long);
                             String path_intern_comp = comprimit_lzw.getPath();
-                            path_intern_comp = path_intern_comp.replaceAll(path, "");
+                            path_intern_comp = path_intern_comp.replace(path, "");
                             io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
                             io.guardaArxiuTXT(path_cc, comprimit_lzw.getContingut(),true);
                         }
@@ -105,7 +105,7 @@ public class ControladorComprimirCarpeta {
                     }
                         
                         //LZSS
-                    case 2: {
+                    case "LZSS": {
                         byte[] cont = io.llegeixArxiuBinari(path_intern,".txt");
                         String contingut = new String(cont);
                         ArxiuTXT normal = new ArxiuTXT(path_intern, contingut);
@@ -123,7 +123,7 @@ public class ControladorComprimirCarpeta {
                         break;
                     }
                         
-                    case 3: {
+                    case "LZ78": {
                         byte[] cont = io.llegeixArxiuBinari(path_intern, ".txt");
                         String contingut = new String(cont);
                         ArxiuTXT normal = new ArxiuTXT(path_intern,contingut);

@@ -74,30 +74,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Comparar"/>
           </Properties>
-          <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenu5">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/IconIMG.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Comparar IMG"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu5ActionPerformed"/>
-              </Events>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="menuCompararTXT">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/IconTXT.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Comparar TXT"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuCompararTXTMouseClicked"/>
-              </Events>
-            </Menu>
-          </SubComponents>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuCompararMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>

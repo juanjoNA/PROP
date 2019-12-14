@@ -30,8 +30,6 @@ public class MainFrame extends javax.swing.JFrame {
         bDescFitxer = new javax.swing.JMenuItem();
         bDescCarpeta = new javax.swing.JMenuItem();
         menuComparar = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        menuCompararTXT = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,25 +106,11 @@ public class MainFrame extends javax.swing.JFrame {
         menu.add(bDescomprimir);
 
         menuComparar.setText("Comparar");
-
-        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/IconIMG.png"))); // NOI18N
-        jMenu5.setText("Comparar IMG");
-        jMenu5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu5ActionPerformed(evt);
-            }
-        });
-        menuComparar.add(jMenu5);
-
-        menuCompararTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/IconTXT.png"))); // NOI18N
-        menuCompararTXT.setText("Comparar TXT");
-        menuCompararTXT.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuComparar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuCompararTXTMouseClicked(evt);
+                menuCompararMouseClicked(evt);
             }
         });
-        menuComparar.add(menuCompararTXT);
-
         menu.add(menuComparar);
 
         jMenu1.setText("Estadistiques");
@@ -147,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCompFitxerActionPerformed
 
     private void bCompCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompCarpetaActionPerformed
-        cambiarPanel(new Comprimir());
+        cambiarPanel(new ComprimirCarpeta());
     }//GEN-LAST:event_bCompCarpetaActionPerformed
 
     private void bDescFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescFitxerActionPerformed
@@ -158,17 +142,9 @@ public class MainFrame extends javax.swing.JFrame {
         cambiarPanel(new Descomprimir());
     }//GEN-LAST:event_bDescCarpetaActionPerformed
 
-    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
-        cambiarPanel(new Comparar(this));
-    }//GEN-LAST:event_jMenu5ActionPerformed
-
     private void menuIniciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciMouseClicked
         cambiarPanel(new Inici(this));
     }//GEN-LAST:event_menuIniciMouseClicked
-
-    private void menuCompararTXTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompararTXTMouseClicked
-        cambiarPanel(new Comparar(this));
-    }//GEN-LAST:event_menuCompararTXTMouseClicked
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         try {
@@ -177,6 +153,10 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void menuCompararMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompararMouseClicked
+        cambiarPanel(new Comparar(this));
+    }//GEN-LAST:event_menuCompararMouseClicked
 
     /**
      * @param args the command line arguments
@@ -217,10 +197,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem bDescFitxer;
     private javax.swing.JMenu bDescomprimir;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuComparar;
-    private javax.swing.JMenu menuCompararTXT;
     private javax.swing.JMenu menuComprimir;
     private javax.swing.JMenu menuInici;
     private javax.swing.JPanel pMostrar;
