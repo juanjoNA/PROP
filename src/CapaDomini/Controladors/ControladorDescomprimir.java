@@ -42,7 +42,7 @@ public class ControladorDescomprimir {
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException {
+    public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException, Exception {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;
         switch(algoritmo) {
@@ -108,7 +108,8 @@ public class ControladorDescomprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
-        ControladorEstadisticas cest = new ControladorEstadisticas(result,false,Integer.toUnsignedString(algoritmo));
+        e.guardaEst(result, algoritmo, false);
+        ControladorEstadisticas cest = new ControladorEstadisticas(result,false,algoritmo);
         cest.executar();
     }
 }

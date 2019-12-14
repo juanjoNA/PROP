@@ -6,7 +6,9 @@
 package CapaPresentacio;
 
 import CapaDomini.Controladors.ControladorEstadisticas;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -25,14 +27,21 @@ public class Estadistiques extends javax.swing.JPanel {
         String[][] resultat;
         int sizeX, sizeY;
         
-        
         ctrEstadistiques = new ControladorEstadisticas();
         resultat = ctrEstadistiques.executar();
         sizeX = resultat.length;
-        DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
-        for(int i=0; i<sizeX; i++){
-            model.addRow(resultat[i]);
+        sizeY = resultat[0].length;
+        DefaultTableModel model = (DefaultTableModel) tablaEstadisticas.getModel();
+        
+        for(int i=0; i<sizeY; i++){
+            model.addColumn(resultat[0][i]);
         }
+        for(int j=1; j<sizeX; j++){
+            model.addRow(resultat[j]);
+        }
+        
+        tablaEstadisticas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        scrollPanelTable.setAutoscrolls(true);
     }
     
     
@@ -47,62 +56,40 @@ public class Estadistiques extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        tableEstadisticas = new javax.swing.JTable();
+        scrollPanelTable = new javax.swing.JScrollPane();
+        tablaEstadisticas = new javax.swing.JTable();
 
         setMinimumSize(new java.awt.Dimension(1000, 700));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setLayout(new java.awt.GridBagLayout());
 
-        tableEstadisticas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tableEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
+        scrollPanelTable.setMinimumSize(new java.awt.Dimension(600, 31));
+        scrollPanelTable.setName(""); // NOI18N
+        scrollPanelTable.setPreferredSize(new java.awt.Dimension(900, 402));
+        scrollPanelTable.setRequestFocusEnabled(false);
+
+        tablaEstadisticas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tablaEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "", "Velocitat", "Percentatge", "Temps"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
+        ));
+        tablaEstadisticas.setMaximumSize(new java.awt.Dimension(1000, 600));
+        tablaEstadisticas.setMinimumSize(new java.awt.Dimension(600, 0));
+        tablaEstadisticas.setRowHeight(50);
+        scrollPanelTable.setViewportView(tablaEstadisticas);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tableEstadisticas.setFocusable(false);
-        tableEstadisticas.setMinimumSize(new java.awt.Dimension(800, 550));
-        tableEstadisticas.setPreferredSize(new java.awt.Dimension(800, 550));
-        tableEstadisticas.setRequestFocusEnabled(false);
-        tableEstadisticas.setRowHeight(50);
-        tableEstadisticas.setRowMargin(10);
-        tableEstadisticas.setRowSelectionAllowed(false);
-        tableEstadisticas.getTableHeader().setResizingAllowed(false);
-        tableEstadisticas.getTableHeader().setReorderingAllowed(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        add(tableEstadisticas, gridBagConstraints);
-        if (tableEstadisticas.getColumnModel().getColumnCount() > 0) {
-            tableEstadisticas.getColumnModel().getColumn(0).setResizable(false);
-            tableEstadisticas.getColumnModel().getColumn(1).setResizable(false);
-            tableEstadisticas.getColumnModel().getColumn(2).setResizable(false);
-            tableEstadisticas.getColumnModel().getColumn(3).setResizable(false);
-        }
+        add(scrollPanelTable, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable tableEstadisticas;
+    private javax.swing.JScrollPane scrollPanelTable;
+    private javax.swing.JTable tablaEstadisticas;
     // End of variables declaration//GEN-END:variables
 }

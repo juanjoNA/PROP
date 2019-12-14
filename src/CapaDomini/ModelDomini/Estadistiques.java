@@ -75,16 +75,17 @@ public class Estadistiques {
     public String[][] getEstadisticasMitjana() throws Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
         String[] alg = estd.getalgoritmos();
-        String[][] res = new String[alg.length][6];
+        String[][] res = new String[alg.length+1][9];
+        res[0] = estd.getnomEst();
         for(int i = 0; i < alg.length; i++) {
             double[] ealg = estd.readEstDisc(alg[i]);
-            res[i] = canviarformato(alg[i],ealg);
+            res[i+1] = canviarformato(alg[i],ealg);
         }
         return res;
     }
 
     private String[] canviarformato(String algorithm, double[] ealg) {
-        String[] res = new String[7];
+        String[] res = new String[9];
         res[0] = algorithm;
         res[1] = Double.toString(ealg[0]) + uvel(ealg[0]);
         res[2] = Double.toString(ealg[1]) + utiempo(ealg[1]);
@@ -92,6 +93,8 @@ public class Estadistiques {
         res[4] = Double.toString(ealg[3]) + uvel(ealg[3]);
         res[5] = Double.toString(ealg[4]) + utiempo(ealg[4]);
         res[6] = Double.toString(ealg[5]) + "%";
+        res[7] = Double.toString(ealg[6]);
+        res[8] = Double.toString(ealg[7]);
         return res;
     }
 

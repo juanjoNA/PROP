@@ -21,12 +21,12 @@ public class ControladorEstadisticas {
     private String algoritmo;
     private long[] e;
     
-    public ControladorEstadisticas() {
+    public ControladorEstadisticas() throws Exception {
         est = new EstadisticasDisc();
         guardar = false;
     }
     
-    public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo) {
+    public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo)throws Exception {
         est = new EstadisticasDisc();
         this.guardar = true;
         this.comprimir = comprimir;

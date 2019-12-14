@@ -9,6 +9,9 @@ import CapaDomini.ModelDomini.Arxiu;
 import CapaDomini.ModelDomini.ArxiuBytes;
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Estadistiques;
+import CapaDomini.ModelDomini.Imatge;
+import CapaDomini.ModelDomini.ImatgeComprimida;
+import CapaDomini.ModelDomini.JPEG;
 import CapaDomini.ModelDomini.LZ78;
 import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
@@ -38,7 +41,7 @@ public class ControladorComprimir {
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII {
+    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII, Exception {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();
         switch(algoritmo) {
@@ -47,12 +50,12 @@ public class ControladorComprimir {
                 byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
-                //ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
+                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
                 resultat = comprimit;
                 if (guardar) {
                     i.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
                 }
-                break;*/
+                break;
             }
             //LZW
             case "LZW": {
@@ -82,8 +85,8 @@ public class ControladorComprimir {
 
             //LZ78
             case "LZ78": {
-                byte[] cont = i.llegeixArxiuBinari(path, ".txt");
-                ArxiuBytes normal = new ArxiuBytes(path,cont);
+                String cont = i.llegeixArxiuTxt(path);
+                ArxiuTXT normal = new ArxiuTXT(path,cont);
                 LZ78 c = new LZ78();
                 ArxiuBytes comprimit = c.comprimir(normal);
                 resultat=comprimit;
@@ -103,8 +106,9 @@ public class ControladorComprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
+        e.guardaEst(result,algoritmo,true);
 
-        ControladorEstadisticas cest = new ControladorEstadisticas(result,true,Integer.toUnsignedString(algoritmo));
+        ControladorEstadisticas cest = new ControladorEstadisticas(result,true,algoritmo);
         cest.executar();
 
     }

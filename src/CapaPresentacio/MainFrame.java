@@ -1,5 +1,7 @@
 package CapaPresentacio;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -30,6 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuComparar = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         menuCompararTXT = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 600));
@@ -126,6 +129,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         menu.add(menuComparar);
 
+        jMenu1.setText("Estadistiques");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        menu.add(jMenu1);
+
         setJMenuBar(menu);
 
         pack();
@@ -158,6 +169,14 @@ public class MainFrame extends javax.swing.JFrame {
     private void menuCompararTXTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompararTXTMouseClicked
         cambiarPanel(new Comparar(this));
     }//GEN-LAST:event_menuCompararTXTMouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        try {
+            cambiarPanel(new Estadistiques());
+        } catch (Exception ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -197,6 +216,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem bDescCarpeta;
     private javax.swing.JMenuItem bDescFitxer;
     private javax.swing.JMenu bDescomprimir;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuComparar;
