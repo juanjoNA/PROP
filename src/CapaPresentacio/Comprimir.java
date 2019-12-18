@@ -208,6 +208,7 @@ public class Comprimir extends javax.swing.JPanel {
 
         bgSubsampling.add(radio444);
         radio444.setText("4 : 4 : 4");
+        radio444.setActionCommand("4:4:4");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -216,6 +217,7 @@ public class Comprimir extends javax.swing.JPanel {
 
         bgSubsampling.add(radio440);
         radio440.setText("4 : 4 : 0");
+        radio440.setActionCommand("4:4:0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -224,6 +226,7 @@ public class Comprimir extends javax.swing.JPanel {
 
         bgSubsampling.add(radio411);
         radio411.setText("4 : 1 : 1");
+        radio411.setActionCommand("4:1:1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -232,6 +235,7 @@ public class Comprimir extends javax.swing.JPanel {
 
         bgSubsampling.add(radio422);
         radio422.setText("4 : 2 : 2");
+        radio422.setActionCommand("4:2:2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -240,6 +244,7 @@ public class Comprimir extends javax.swing.JPanel {
 
         bgSubsampling.add(radio420);
         radio420.setText("4 : 2 : 0");
+        radio420.setActionCommand("4:2:0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -323,12 +328,13 @@ public class Comprimir extends javax.swing.JPanel {
         }  
             
         alg = bgAlgoritmos.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
-        int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
-
-        if (guardar==JOptionPane.YES_OPTION){
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, true);
-        }else {
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, false);
+        int resposta = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
+        boolean guardar = (resposta==JOptionPane.YES_OPTION);
+        
+        if(alg.equals("JPEG")){
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else{
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
         }
         
         try {

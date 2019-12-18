@@ -4,8 +4,6 @@ import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class JPEG {
 
@@ -19,18 +17,6 @@ public class JPEG {
             {99, 99, 99, 99, 99, 99, 99, 99},
             {99, 99, 99, 99, 99, 99, 99, 99}
     };
-
-    int[][] QcTable2 = new int[][] {
-            {16, 11, 10, 16, 24, 40, 51, 61},
-            {12, 12, 14, 19, 26, 58, 60, 55},
-            {14, 13, 16, 24, 40, 57, 69, 56},
-            {14, 17, 22, 29, 51, 87, 80, 62},
-            {18, 22, 37, 56, 68, 109, 103, 77},
-            {24, 35, 55, 64, 81, 104, 113, 92},
-            {49, 64, 78, 87, 103, 121, 120, 101},
-            {82, 92, 95, 98, 112, 100, 103, 99}
-    };
-
 
     private int hsize;
     private int vsize;
@@ -82,7 +68,7 @@ public class JPEG {
                 if (b < -128) newRGB[2][i][j] = -128;
                 else if (b > 127) newRGB[2][i][j] = 127;
                 else newRGB[2][i][j] = (byte)(b);
-                //System.out.println("b is : " + b);
+                
             }
         }
         return newRGB;
@@ -111,7 +97,7 @@ public class JPEG {
                 double sumCr = 0;
                 for (int u = 0; u < subY; ++u) {
                     for (int v = 0; v < subX; ++v) {
-                        //System.out.println(i + " -- " + j +  " _-_ " + u + " -- " + v + " : " + i*subY+u + " -- "+ j*subX+v);
+                        
                         sumCb += mat[1][i*subY+u][j*subX+v];
                         sumCr += mat[2][i*subY+u][j*subX+v];
                     }
@@ -383,8 +369,6 @@ public class JPEG {
 
         float[][][] YCbCr = RGBToYCbCr(imatgeDescomprimida.getContingut());
 
-        System.out.println(ssHSize + " -- " + ssVSize);
-        System.out.println(hsize + " -- " + vsize);
 
         float[][][] subsampled = subsample(YCbCr,subsampling);
 
@@ -451,9 +435,6 @@ public class JPEG {
         if (ssVSize%8 != 0) {
             ssVSize = ssVSize + (8 - (ssVSize % 8));
         }
-
-         System.out.println(ssHSize + " -- " + ssVSize);
-        System.out.println(hsize + " -- " + vsize);
 
         byte[] encodedContent = imatgeComprimida.getContingut();
         if (encodedContent.length < vsize*hsize) {
