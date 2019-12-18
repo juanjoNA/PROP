@@ -16,14 +16,11 @@ import CapaDomini.ModelDomini.LZ78;
 import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
-<<<<<<< HEAD
 import Excepcions.DatosIncorrectos;
 import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-=======
->>>>>>> master
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,14 +41,13 @@ public class ControladorDescomprimirCarpeta {
     private String path;
     private boolean guardar;
     private double[] result;
-    
+
     public ControladorDescomprimirCarpeta (String path, boolean guardar) {
         this.path=path;
         this.guardar=guardar;
         this.result=new double[3];
     }
-    
-<<<<<<< HEAD
+
     public void executar() throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos {
         if (!path.contains(".carp")) throw new ExtensionIncorrecta();
         IOArxius io = new IOArxius();
@@ -188,10 +184,5 @@ public class ControladorDescomprimirCarpeta {
                 }
             }
         }
-    }   
-=======
-    public void executar() {
     }
-    
->>>>>>> master
 }

@@ -5,9 +5,6 @@
  */
 package CapaDomini.ModelDomini;
 
-import CapaPersistencia.EstadisticasDisc;
-import org.json.simple.parser.ParseException;
-
 /**
  *
  * @author Lucas.Pinilla
