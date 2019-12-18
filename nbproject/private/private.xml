@@ -3,13 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Comparar.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/ComprimirCarpeta.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaDomini/Controladors/ControladorComprimirCarpeta.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Comprimir.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/MainFrame.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Inici.java</file>
-            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/ComparacioFitxers.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaPersistencia/EstadisticasDisc.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComprimirCarpeta.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/Huffman.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorDescomprimir.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/DTOComparar.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComprimir.java</file>
+            <file>file:/D:/PropGithub/PROP/src/Drivers/DriverImatgeComprimida.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorComparar.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/Controladors/ControladorDescomprimirCarpeta.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/ArxiuBytes.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaPersistencia/IOArxius.java</file>
+            <file>file:/D:/PropGithub/PROP/src/Drivers/DriverJPEG.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/ImatgeComprimida.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/Estadistiques.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaPresentacio/Comprimir.java</file>
+            <file>file:/D:/PropGithub/PROP/src/CapaDomini/ModelDomini/JPEG.java</file>
         </group>
     </open-files>
 </project-private>

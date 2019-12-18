@@ -3,6 +3,11 @@ package Drivers;
 
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Arxiu;
+<<<<<<< HEAD
+import CapaDomini.ModelDomini.ArxiuBytes;
+import CapaDomini.ModelDomini.Estadistiques;
+=======
+>>>>>>> master
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
