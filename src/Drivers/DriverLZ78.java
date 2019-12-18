@@ -10,8 +10,6 @@ import Excepcions.CaracterNoASCII;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -98,7 +96,7 @@ public class DriverLZ78 {
     static byte[] llegeix_arxiu (String path,String extensio) {
         IOArxius c;
         c = new IOArxius();
-        byte[] con = c.llegeixArxiuBinari(path,extensio);
+        byte[] con = c.llegeixArxiuBinari(path);
         return con;
     }
 }

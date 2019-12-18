@@ -4,11 +4,9 @@ package Drivers;
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Arxiu;
 import CapaDomini.ModelDomini.ArxiuBytes;
-import CapaDomini.ModelDomini.Estadistiques;
 import CapaDomini.ModelDomini.LZ78;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,16 +54,11 @@ public class DriverLZ78 {
                         System.out.println("L'arxiu no té l'extensió lz78!");
                         break;
                     }
-                try {
                     contingut = llegeix_arxiu(path,".lz78");
                     comprimit = new ArxiuBytes(path,contingut);
                     descomprimit = LZ78.descomprimir(comprimit);
                     if (guardar.equals("S")) ioa.guardaArxiuTXT(descomprimit.getPath(),descomprimit.getContingut());
-                } catch (ExtensionIncorrecta ex) {
-                    System.out.println("Extensió incorrecta!");
-                }
-                    
-
+                
                     break;
                 }
                 case 2: {
@@ -80,9 +73,7 @@ public class DriverLZ78 {
                     if (guardar.equals("S")) ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
                  break;
                 }
-                catch (ExtensionIncorrecta ex) {
-                    Logger.getLogger(DriverLZ78.class.getName()).log(Level.SEVERE, null, ex);
-                }catch (CaracterNoASCII ex) {
+                catch (CaracterNoASCII ex) {
                      System.out.println("L'arxiu conté caracters no ASCII!");
                 }
                 finally {    
@@ -102,7 +93,7 @@ public class DriverLZ78 {
         }
     }
     
-    static byte[] llegeix_arxiu (String path,String extensio) throws ExtensionIncorrecta {
+    static byte[] llegeix_arxiu (String path,String extensio){
         IOArxius c;
         c = new IOArxius();
         byte[] con = c.llegeixArxiuBinari(path,extensio);

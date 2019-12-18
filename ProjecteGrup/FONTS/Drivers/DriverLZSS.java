@@ -5,7 +5,6 @@ import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.LZSS;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -63,15 +62,13 @@ public class DriverLZSS {
                     System.out.println("Intodueix el path del fitxer a DESCOMPRIMIR:");
                     in = intro.readLine();
                     byte[] contB;
-                try {
+                
                     contB = ioa.llegeixArxiuBinari(in,".lzss");
                     comprimit = new ArxiuBytes(in, contB);
                     descomprimit = lzss.descomprimir(comprimit);
                     System.out.println("Arxiu descomprimit: ");
                     ioa.guardaArxiuTXT(descomprimit.getPath(), descomprimit.getContingut());
-                } catch (ExtensionIncorrecta ex) {
-                    Logger.getLogger(DriverLZSS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
                     break;
                 
                 case 3: 

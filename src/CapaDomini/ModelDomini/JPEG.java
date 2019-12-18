@@ -416,7 +416,7 @@ public class JPEG {
         long end = System.currentTimeMillis();
         String newPath = imatgeDescomprimida.getPath();
         newPath = newPath.replace(".ppm",".jimg");
-        ImatgeComprimida imatgeComprimida = new ImatgeComprimida(newPath,resultContent, imatgeDescomprimida.getVersion(),origVsize, origHsize, imatgeDescomprimida.getMaxVal(), vsize, hsize, huffmanEncoder.getDecodingHashMap(),encoded.size(),ratioCompression,subsampling);
+        ImatgeComprimida imatgeComprimida = new ImatgeComprimida(newPath,resultContent, imatgeDescomprimida.getVersion(),origVsize, origHsize, imatgeDescomprimida.getMaxVal(), vsize, hsize, huffmanEncoder.getDecodingHashMap(),encoded.size(),ratioCompression,subsamplingString);
         Estadistiques e = new Estadistiques(start,end,imatgeDescomprimida.getMida(),imatgeComprimida.getMida());
         imatgeComprimida.setEstadistiques(e);
 
@@ -429,7 +429,12 @@ public class JPEG {
         hsize = imatgeComprimida.getModifiedSizeH();
         origVsize = imatgeComprimida.getSizeV();
         origHsize = imatgeComprimida.getSizeH();
-        int[] subsampling = imatgeComprimida.getSubsamplingRatio();
+        String subsamplingString = imatgeComprimida.getSubsampling();
+        String[] subsamplingParsed = subsamplingString.split(":");
+        int[] subsampling = new int[3];
+        for (int i = 0; i < 3; ++i) {
+            subsampling[i] = Integer.parseInt(subsamplingParsed[i]);
+        }
         if (subsampling[2] == 0) {
             ssVSize = vsize / 2;
         }

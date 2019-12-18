@@ -29,6 +29,8 @@ public class ControladorComprimir {
     private String algoritmo;
     private boolean guardar;
     private double[] result;
+    private int ratioCompression;
+    private String subsampling;
 
     public double[] getResult() {
         return result;
@@ -39,6 +41,17 @@ public class ControladorComprimir {
         this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
+        this.ratioCompression = -1;
+        this.subsampling = ".invalid.";
+    }
+    
+    public ControladorComprimir (String path, String algoritmo, boolean guardar, int ratioCompression, String subsampling) {
+        this.path = path;
+        this.algoritmo = algoritmo;
+        this.guardar = guardar;
+        this.result = new double[3];
+        this.ratioCompression = ratioCompression;
+        this.subsampling = subsampling;
     }
 
     public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII, Exception {
@@ -47,10 +60,10 @@ public class ControladorComprimir {
         switch(algoritmo) {
             //JPEG
             case "JPEG":{
-                byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
+                byte[] contingut = i.llegeixArxiuBinari(path);
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
-                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
+                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida,ratioCompression,subsampling);
                 resultat = comprimit;
                 if (guardar) {
                     i.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
@@ -59,12 +72,11 @@ public class ControladorComprimir {
             }
             //LZW
             case "LZW": {
-                byte[] con = i.llegeixArxiuBinari(path,".txt");
+                byte[] con = i.llegeixArxiuBinari(path);
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
                 LZW c = new LZW();
-                ArxiuTXT comprimit = new ArxiuTXT();
-                comprimit = c.comprimir(b);
+                ArxiuTXT comprimit = c.comprimir(b);
                 resultat=comprimit;
                 if (guardar) {
                     i.guardaArxiuTXT(comprimit.getPath(),comprimit.getContingut(),false);

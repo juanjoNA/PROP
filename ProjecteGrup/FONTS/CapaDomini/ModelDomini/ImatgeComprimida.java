@@ -5,7 +5,6 @@
  */
 package CapaDomini.ModelDomini;
 
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.util.HashMap;
 

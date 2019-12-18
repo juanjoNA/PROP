@@ -64,7 +64,7 @@ public class ControladorDescomprimir {
             }
             //LZW
             case "LZW": {
-                byte[] con = i.llegeixArxiuBinari(path,".lzw");
+                byte[] con = i.llegeixArxiuBinari(path);
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
                 LZW c = new LZW();
@@ -78,7 +78,7 @@ public class ControladorDescomprimir {
 
             //LZSS
             case "LZSS": {
-                byte[] con = i.llegeixArxiuBinari(path,".lzss");
+                byte[] con = i.llegeixArxiuBinari(path);
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZSS des = new LZSS();
                 ArxiuTXT d = des.descomprimir(b);
@@ -91,7 +91,7 @@ public class ControladorDescomprimir {
             }
             //LZ78
             case "LZ78": {
-                byte[] con = i.llegeixArxiuBinari(path,".lz78");
+                byte[] con = i.llegeixArxiuBinari(path);
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZ78 des = new LZ78();
                 ArxiuTXT d = des.descomprimir(b);

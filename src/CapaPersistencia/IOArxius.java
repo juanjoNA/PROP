@@ -1,8 +1,11 @@
 package CapaPersistencia;
 
+
+import CapaDomini.Controladors.ArxCarpetaComp;
 import CapaDomini.Controladors.DTOImatge;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +17,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,17 +34,144 @@ public class IOArxius {
     public IOArxius() {
     }
 
-    public void guardaCabezeraArxiuCarpeta(String path_cc,String path_intern_comp,byte[] tamany_bytes) throws IOException {
+    public ArrayList<ArxCarpetaComp> llegeixCarpComp(String carpcomp) throws FileNotFoundException, IOException, ClassNotFoundException {
+        File f = new File(carpcomp);
+        ArrayList<ArxCarpetaComp> result = new ArrayList<>();
+        FileInputStream fis = new FileInputStream(f);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        HashMap<String,Integer> readedHashMap;
+        byte[] contingut;
+        StringBuilder sb =new StringBuilder();
+        byte b;
+        while(fis.available() >0) {
+            sb = new StringBuilder();
+            b = ois.readByte();
+            while (b != 10) {
+                sb.append((char) b);
+                b = ois.readByte();
+            }
+            String path = sb.toString();
+            if (path.contains(".jimg")) {
+                readedHashMap = (HashMap)ois.readObject();
+                long fullLength = ois.readLong();
+                contingut = new byte[(int)fullLength];
+                ois.readFully(contingut);
+                ArxCarpetaComp acc = new ArxCarpetaComp(path,contingut,readedHashMap);
+                result.add(acc);
+            }
+            else {
+
+                if (path.contains(".lzw")) {
+                    int tamany = ois.readInt();
+                    int count = 0;
+                    StringBuilder contchars=new StringBuilder();
+                    while (count < tamany) {
+                        char c = ois.readChar();
+                        contchars.append(c);
+                        ++count;
+                    }
+                    ArxCarpetaComp acc = new ArxCarpetaComp(path,contchars.toString());
+                    result.add(acc);
+                    b=ois.readByte();
+                }
+                else if (path.contains(".lzss") | path.contains(".lzss")){
+                    int tamany = ois.readInt();
+                    contingut = new byte[tamany];
+                    ois.readFully(contingut);
+                    ArxCarpetaComp acc = new ArxCarpetaComp(path,contingut);
+                    result.add(acc);
+                    b=ois.readByte();
+                }
+                else {
+                    ArxCarpetaComp acc = new ArxCarpetaComp(path);
+                    result.add(acc);
+                }
+
+            }
+        }
+        return result;
+    }
+    public ByteBuffer llegeixArxiuTXTCarpetaComprimida(File f) throws FileNotFoundException, IOException {
+        ByteBuffer ret = ByteBuffer.allocate((int)f.length());
+        FileInputStream fis = new FileInputStream(f);
+        FileChannel fc = fis.getChannel();
+        fc.read(ret);
+        return ret;
+    }
+
+    public void guardaPathRelatiuArxCarp(String path_cc,String path_intern_comp, boolean inici) throws IOException {
         File f = new File(path_cc);
-        OutputStream o = new FileOutputStream(path_cc,true);
-        o.write(path_intern_comp.getBytes());
-        o.write('\n');
-        o.write(tamany_bytes);
-        o.write('\n');
+        FileOutputStream o = new FileOutputStream(path_cc,true);
+        if(!inici) {
+            MyObjectOutputStream dos = new MyObjectOutputStream(o);
+            dos.write(path_intern_comp.getBytes());
+            dos.writeByte(10);
+            dos.close();
+            o.close();
+        }
+        else {
+            ObjectOutputStream dos = new ObjectOutputStream(o);
+            dos.write(path_intern_comp.getBytes());
+            dos.writeByte(10);
+            dos.close();
+            o.close();
+        }
+
+    }
+
+    public void guardaContBytesCarp(String path_cc,byte[] cont) throws IOException {
+        File f = new File(path_cc);
+        FileOutputStream o = new FileOutputStream(path_cc,true);
+        MyObjectOutputStream dos = new MyObjectOutputStream(o);
+        dos.write(cont);
+        dos.writeByte(10);
+        dos.close();
         o.close();
     }
 
-    public byte[] llegeixArxiuBinari(String path,String extensio) {
+
+    public void guardaContCharsCarp(String path_cc,String cont) throws IOException {
+        File f = new File(path_cc);
+        FileOutputStream o = new FileOutputStream(path_cc,true);
+        MyObjectOutputStream dos = new MyObjectOutputStream(o);
+        for (int i = 0; i < cont.length();++i) {
+            dos.writeChar(cont.charAt(i));
+        }
+        dos.writeByte(10);
+        dos.close();
+        o.close();
+    }
+
+    public void guardaContImatgeCarp(String path_cc,HashMap<String,Integer> resultMap, String header, byte[] content) {
+         FileOutputStream o = null;
+         try {
+             o = new FileOutputStream(path_cc,true);
+             MyObjectOutputStream  oos = new MyObjectOutputStream (o);
+             oos.writeObject(resultMap);
+             long totalLength = header.getBytes().length + content.length;
+             oos.writeLong(totalLength);
+             oos.write(header.getBytes());
+             oos.write(content);
+             oos.close();
+             o.close();
+         } catch (FileNotFoundException ex) {
+             Logger.getLogger(IOArxius.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+             Logger.getLogger(IOArxius.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
+
+
+    public void guardaTamanyArxiuTXTCarpeta(String path_cc,int tamany_bytes) throws IOException {
+        File f = new File(path_cc);
+        FileOutputStream o = new FileOutputStream(path_cc,true);
+        MyObjectOutputStream dos = new MyObjectOutputStream(o);
+        dos.writeInt(tamany_bytes);
+        dos.close();
+        o.close();
+    }
+
+    public byte[] llegeixArxiuBinari(String path) {
         try {
              InputStream is = null;
              File file = new File(path);
@@ -92,11 +225,11 @@ public class IOArxius {
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
-             System.out.println(path);
-             o = new FileOutputStream(path);
+             o = new FileOutputStream(path,true);
              ObjectOutputStream  oos = new ObjectOutputStream (o);
              oos.writeObject(resultMap);
              long totalLength = header.getBytes().length + content.length;
+             System.out.println(totalLength);
              oos.writeLong(totalLength);
              oos.write(header.getBytes());
              oos.write(content);

@@ -6,7 +6,6 @@
 package Drivers;
 
 import CapaDomini.ModelDomini.Imatge;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class DriverImatge {
 
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) throws IOException, VersionPPMIncorrecta, ExtensionIncorrecta{
+    public static void main(String[] args) throws IOException, VersionPPMIncorrecta{
         
         
         

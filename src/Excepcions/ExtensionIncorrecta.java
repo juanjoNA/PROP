@@ -7,11 +7,10 @@ package Excepcions;
 
 /**
  *
- * @author bubu0
+ * @author lucas
  */
 public class ExtensionIncorrecta extends Exception{
-    
-    public ExtensionIncorrecta(){
+    public ExtensionIncorrecta() {
         super();
     }
 }

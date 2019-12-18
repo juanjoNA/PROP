@@ -45,7 +45,7 @@ public class DriverIOArxius {
                     io = new IOArxius();
                     byte[] cont = null;
                     
-                    cont = io.llegeixArxiuBinari(path,"driver");
+                    cont = io.llegeixArxiuBinari(path);
                     System.out.println("El contingut del ficher " + path + "es :");
                     for (int i = 0; i < cont.length;++i) System.out.print((char) cont[i]);
                     

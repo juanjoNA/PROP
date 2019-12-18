@@ -18,12 +18,13 @@ import java.io.InputStreamReader;
  *
  * @author ivgasa99
  */
-public class DriverControladorComprimirCarpetes {
+public class DriverControladorComprimirCarpetes {/*
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * @param args the command line arguments
      */
+    /*
     public static void main(String[] args) throws IOException {
         int opcion;
         IOArxius cd = new IOArxius();
@@ -88,5 +89,5 @@ public class DriverControladorComprimirCarpetes {
     static public int seleccionarAlgoritme(String path) {
         return 1;
     }
-    
+    */
 }

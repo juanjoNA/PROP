@@ -203,6 +203,8 @@ public class Descomprimir extends javax.swing.JPanel {
             Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Descomprimir.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_bDescomprimirActionPerformed

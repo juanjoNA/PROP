@@ -51,7 +51,7 @@ public class DriverJPEG {
                     System.out.println("Vols guardar arxiu a disc \n S/N: ");
                     //guardar = intro.readLine();
                     try {
-                        contingut = persistencia.llegeixArxiuBinari(path,".ppm");
+                        contingut = persistencia.llegeixArxiuBinari(path);
                         Imatge imatgeLlegida = new Imatge(path,contingut);
                         //Imatge desprocessat = compressor.comprimir(imatgeLlegida);
                         String subsampling = "4:4:4";

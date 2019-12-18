@@ -350,6 +350,8 @@ public class Comprimir extends javax.swing.JPanel {
             Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CaracterNoASCII ex) {
             Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bComprimirActionPerformed
 

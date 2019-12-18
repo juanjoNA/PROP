@@ -25,14 +25,15 @@ public class ControladorEstadisticas {
     
     public ControladorEstadisticas(boolean auto) {
         est = new Estadistiques();
-        this.auto = auto;  
+        this.auto = auto;
     }
-    
+
+
     public String[][] executar() throws Exception {
         if(!auto) return getEstGeneral();
         else return getAutomatic();
     }
-    
+
     private String[][] getEstGeneral() throws Exception {
         return est.getEstadisticasMitjana();
     }
@@ -42,5 +43,5 @@ public class ControladorEstadisticas {
         auto[0][0] = est.getAuto();
         return auto;   
     }
-    
+
 }

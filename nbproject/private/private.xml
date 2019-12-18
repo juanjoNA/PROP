@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/lucas/Escritorio/PROP/src/CapaDomini/Controladors/ControladorComprimir.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/Drivers/DriverControladorEstadisticas.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/Drivers/DriverEstDisc.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/CapaPersistencia/EstadisticasDisc.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/CapaDomini/ModelDomini/Estadistiques.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/Drivers/DriverLZ78.java</file>
+            <file>file:/home/lucas/Escritorio/PROP/src/CapaDomini/Controladors/ControladorComprimirCarpeta.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/Drivers/DriverControladorComprimir.java</file>
+            <file>file:/home/lucas/Escritorio/PROP/src/CapaPresentacio/Comprimir.java</file>
+            <file>file:/home/lucas/Escritorio/PROP/src/CapaPresentacio/MainFrame.java</file>
             <file>file:/home/lucas/Escritorio/PROP/src/CapaDomini/Controladors/ControladorEstadisticas.java</file>
         </group>
     </open-files>

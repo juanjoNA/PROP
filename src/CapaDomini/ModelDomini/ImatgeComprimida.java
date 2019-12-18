@@ -13,14 +13,15 @@ import java.util.HashMap;
  * @author paumu
  */
 public class ImatgeComprimida extends Imatge{
+
     private int modifiedSizeH;
     private int modifiedSizeV;
     private HashMap <String, Integer> decoder;
     private int numPairs;
     int ratioCompression;
-    int[] subsampling;
+    String subsampling;
 
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs) throws VersionPPMIncorrecta {
+    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, String subsampling) throws VersionPPMIncorrecta {
         super(path,content,v,sv,sh,maxValue);
          this.modifiedSizeV = modSizeV;
          this.modifiedSizeH = modSizeH;
@@ -48,13 +49,8 @@ public class ImatgeComprimida extends Imatge{
         this.ratioCompression = Integer.parseInt(modifiedSizes.toString());
         modifiedSizes.setLength(0);
         newPos = super.readLine(modifiedSizes, newPos, contingutActual);
-        String unparsed = modifiedSizes.toString();
-                modifiedSizes.setLength(0);
-        String[] parsed = unparsed.split(":");
-        this.subsampling = new int[3];
-        for (int i = 0; i < 3; ++i) {
-            this.subsampling[i] = Integer.parseInt(parsed[i]);
-        }
+        this.subsampling = modifiedSizes.toString();
+        modifiedSizes.setLength(0);
         byte[] finalContent = new byte[contingutActual.length-newPos];
         for (int i = 0; i < finalContent.length; ++i) {
             finalContent[i] = contingutActual[i+newPos];
@@ -81,13 +77,10 @@ public class ImatgeComprimida extends Imatge{
         return this.ratioCompression;
     }
 
-    public int[] getSubsamplingRatio() {
-        return this.subsampling;
-    }
 
     @Override
     public String getHeader() {
-       String header = super.getVersion() + "\n" + Integer.toString(super.getSizeH()) + " " + Integer.toString(super.getSizeV()) + "\n" + Integer.toString(super.getMaxVal()) + "\n" +Integer.toString(modifiedSizeV) + " " + Integer.toString(modifiedSizeH) + "\n" + Integer.toString(numPairs) + "\n" + Integer.toString(this.ratioCompression) + "\n" + Integer.toString(this.subsampling[0]) + ":" + Integer.toString(this.subsampling[1]) + ":" + Integer.toString(this.subsampling[2]) + "\n";
+       String header = super.getVersion() + "\n" + Integer.toString(super.getSizeH()) + " " + Integer.toString(super.getSizeV()) + "\n" + Integer.toString(super.getMaxVal()) + "\n" +Integer.toString(modifiedSizeV) + " " + Integer.toString(modifiedSizeH) + "\n" + Integer.toString(numPairs) + "\n" + Integer.toString(this.ratioCompression) + "\n" + this.subsampling + "\n";
        return header;
     }
 
@@ -95,5 +88,13 @@ public class ImatgeComprimida extends Imatge{
     public int getMida() {
         int mida = getHeader().length() + decoder.toString().length() + super.getContingut().length;
         return mida;
+    }
+    
+    public int getRatioCompression() {
+        return ratioCompression;
+    }
+
+    public String getSubsampling() {
+        return subsampling;
     }
 }

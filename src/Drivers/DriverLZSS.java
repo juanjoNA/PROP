@@ -63,7 +63,7 @@ public class DriverLZSS {
                     in = intro.readLine();
                     byte[] contB;
 
-                    contB = ioa.llegeixArxiuBinari(in,".lzss");
+                    contB = ioa.llegeixArxiuBinari(in);
                     comprimit = new ArxiuBytes(in, contB);
                     descomprimit = lzss.descomprimir(comprimit);
                     System.out.println("Arxiu descomprimit: ");
