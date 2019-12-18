@@ -432,6 +432,13 @@ public class JPEG {
          if (ssHSize%8 != 0) {
             ssHSize = ssHSize + (8 - (ssHSize % 8));
         }
+        if (subsampling[2] == 0) {
+            ssVSize = vsize / 2;
+        }
+        else {
+            if (subsampling[2] != subsampling[1]) throw new DatosIncorrectos();
+            ssVSize = vsize;
+        }
         if (ssVSize%8 != 0) {
             ssVSize = ssVSize + (8 - (ssVSize % 8));
         }

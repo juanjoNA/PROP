@@ -23,7 +23,6 @@ import Excepcions.VersionPPMIncorrecta;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -45,25 +44,18 @@ public class ControladorComprimirCarpeta {
         this.ratioCompression = ratioCompression;
         this.subsampling = subsampling;
     }
+    
+     public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar) {
+        this.path = path;
+        this.alg_txt = alg_txt;
+        this.guardar = guardar;
+        this.result = new double[3];
+        this.ratioCompression = 80;
+        this.subsampling = "4:4:4";
+    }
 
     public double[] getResult() {
         return result;
-    }
-
-    private static byte[] TamToBytes(long size) {
-        long itero = size;
-        ArrayList<Byte> tam = new ArrayList<Byte>();
-        while (itero >= 256) {
-            itero = itero/256;
-            byte b = (byte) (itero%256);
-            tam.add(b);
-        }
-        tam.add((byte) itero);
-        byte[] ret = new byte[tam.size()];
-        for (int i = 0; i < tam.size(); ++i) {
-            ret[i] = tam.get(tam.size()-1-i);
-        }
-        return ret;
     }
 
     private static ArrayList<String> Obte_paths(String path) throws IOException {
@@ -104,9 +96,9 @@ public class ControladorComprimirCarpeta {
             }
             else {
                 if (path_intern.contains(".txt")) {
-                    switch(Integer.parseInt(alg_txt)) {
+                    switch(alg_txt) {
                         //LZW
-                        case 1: {
+                        case "LZW": {
                             byte[] con = io.llegeixArxiuBinari(path_intern);
                             String contingut = new String(con);
                             ArxiuTXT b = new ArxiuTXT(path_intern,contingut);
@@ -123,7 +115,7 @@ public class ControladorComprimirCarpeta {
                         }
 
                             //LZSS
-                        case 2: {
+                        case "LZSS": {
                             byte[] cont = io.llegeixArxiuBinari(path_intern);
                             String contingut = new String(cont);
                             ArxiuTXT normal = new ArxiuTXT(path_intern, contingut);
@@ -139,7 +131,7 @@ public class ControladorComprimirCarpeta {
                             break;
                         }
 
-                        case 3: {
+                        case "LZ78": {
                             String cont = io.llegeixArxiuTxt(path_intern);
                             ArxiuTXT normal = new ArxiuTXT(path_intern,cont);
                             LZ78 c = new LZ78();
@@ -183,7 +175,7 @@ public class ControladorComprimirCarpeta {
     }
     private void preparaCapcaleraArxiu(String path_cc, Arxiu comprimit, IOArxius io, int i) throws IOException {
         String path_intern_comp = comprimit.getPath();
-        path_intern_comp = path_intern_comp.replaceAll(path, "");
+        path_intern_comp = path_intern_comp.replace(path, "");
         io.guardaPathRelatiuArxCarp(path_cc,path_intern_comp,(i==0));
     }
 

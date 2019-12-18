@@ -12,6 +12,7 @@ import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
 import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -21,7 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -381,15 +381,21 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
         algTXT = bgRadiosTXT.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
         algPPM = bgRadiosPPM.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
         
-        int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
-
-        ctrComprimirCarpetes = new ControladorComprimirCarpeta(tfPath.getText(), algTXT, guardar==JOptionPane.YES_OPTION,50,"4:4:4");
+        int resposta = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
+        boolean guardar = (resposta==JOptionPane.YES_OPTION);
+        
+        if(algPPM.equals("JPEG")){
+            ctrComprimirCarpetes = new ControladorComprimirCarpeta(tfPath.getText(), algTXT, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else{
+            ctrComprimirCarpetes = new ControladorComprimirCarpeta(tfPath.getText(), algTXT, guardar);
+        }
 
         
         try {
-            
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
             ctrComprimirCarpetes.executar();
             resultat = ctrComprimirCarpetes.getResult();
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
