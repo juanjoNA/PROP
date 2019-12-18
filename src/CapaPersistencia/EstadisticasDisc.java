@@ -169,7 +169,7 @@ public void writeEstDescompressio(double temps, double perct, double vel, String
             obj.put("temps_descompressio", new Double(tempsdescomp*ndes+temps)/(ndes+1));
             obj.put("velocitat_descompressio", new Double(velodes*ndes+vel)/(ndes+1));
             obj.put("percentatge_descompressio", new Double(perdes*ndes+perct)/(ndes+1));
-            obj.put("num_descompressions",new Double(ndes)+1);
+            obj.put("num_descompressions",new Double(ndes+1));
         }
     }
         Files.write(Paths.get(path), jsonArray.toString().getBytes());

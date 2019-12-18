@@ -108,9 +108,6 @@ public class ControladorComprimir {
         result[2] = e.getVelocitat_compressio();
         e.guardaEst(result,algoritmo,true);
 
-        ControladorEstadisticas cest = new ControladorEstadisticas(result,true,algoritmo);
-        cest.executar();
-
     }
 
 

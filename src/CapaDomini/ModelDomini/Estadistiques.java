@@ -27,7 +27,7 @@ public class Estadistiques {
         this.velocitat_compressio = ((float)tamIni/(float)(end-start))/1000;
     }
     
-    public Estadistiques(double vel, long temps, double perc){
+    public Estadistiques(double vel, double temps, double perc){
         this.velocitat_compressio = vel;
         this.temps_compressio = temps;
         this.percentatge_compressio = perc;
@@ -65,6 +65,11 @@ public class Estadistiques {
         est[2] = percentatge_compressio;
         return est;
     }
+    
+    public String getAuto() throws Exception {
+        EstadisticasDisc estd = new EstadisticasDisc();
+        return estd.getBestAlgorithm();
+    }
 
     public void guardaEst(double[] result, String algorithm, boolean comp) throws ParseException, Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
@@ -87,14 +92,14 @@ public class Estadistiques {
     private String[] canviarformato(String algorithm, double[] ealg) {
         String[] res = new String[9];
         res[0] = algorithm;
-        res[1] = Double.toString(ealg[0]) + uvel(ealg[0]);
-        res[2] = Double.toString(ealg[1]) + utiempo(ealg[1]);
-        res[3] = Double.toString(ealg[2]) + "%";
-        res[4] = Double.toString(ealg[3]) + uvel(ealg[3]);
-        res[5] = Double.toString(ealg[4]) + utiempo(ealg[4]);
-        res[6] = Double.toString(ealg[5]) + "%";
-        res[7] = Double.toString(ealg[6]);
-        res[8] = Double.toString(ealg[7]);
+        res[1] = String.format("%.2f", ealg[0]) + uvel(ealg[0]);
+        res[2] = String.format("%.2f", ealg[1])+ "%";
+        res[3] = String.format("%.2f", ealg[2]) + utiempo(ealg[2]);
+        res[4] = String.format("%.2f", ealg[3])+ uvel(ealg[3]);
+        res[5] = String.format("%.2f", ealg[4]) + "%";
+        res[6] = String.format("%.2f", ealg[5])+ utiempo(ealg[5]);
+        res[7] = String.format("%.2f", ealg[6]);
+        res[8] = String.format("%.2f", ealg[7]);
         return res;
     }
 

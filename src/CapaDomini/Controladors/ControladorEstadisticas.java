@@ -14,51 +14,33 @@ import org.json.simple.parser.ParseException;
  * @author lucas
  */
 public class ControladorEstadisticas {
-    //private String path;
-    private EstadisticasDisc est;
-    private boolean guardar;
-    private boolean comprimir;
-    private String algoritmo;
+    private Estadistiques est;
+    private boolean auto;
     private long[] e;
     
     public ControladorEstadisticas() {
-        est = new EstadisticasDisc();
-        guardar = false;
+        est = new Estadistiques();
+        this.auto = false;
     }
     
-    public ControladorEstadisticas(double[] estad, boolean comprimir, String algoritmo) {
-        est = new EstadisticasDisc();
-        this.guardar = true;
-        this.comprimir = comprimir;
-        this.algoritmo = algoritmo;
-        this.e = new long[3];
-        this.e[0] = Double.valueOf(estad[0]).longValue();
-        this.e[1] = Double.valueOf(estad[1]).longValue();
-        this.e[2] = Double.valueOf(estad[2]).longValue();
+    public ControladorEstadisticas(boolean auto) {
+        est = new Estadistiques();
+        this.auto = auto;  
     }
     
     public String[][] executar() throws Exception {
-        if(!guardar) return getEstGeneral();
-        else if(comprimir) guardarEstadisticasComp(e, algoritmo);
-        else guardarEstadisticasDescomp(e, algoritmo);
-        return null;
-    }
-    
-    private void guardarEstadisticasComp(long[] a, String algoritmo) throws ParseException, Exception {
-        est.writeEstCompressio(a[0],a[1],a[2],algoritmo);
-}
-    
-    private void guardarEstadisticasDescomp(long[] a, String algoritmo) throws ParseException, Exception {
-        est.writeEstDescompressio(a[0],a[1],a[2],algoritmo);
-}
-    
-    private double[] getEstadisticas(String algoritmo) {
-        return est.readEstDisc(algoritmo);
+        if(!auto) return getEstGeneral();
+        else return getAutomatic();
     }
     
     private String[][] getEstGeneral() throws Exception {
-        Estadistiques e = new Estadistiques();
-        return e.getEstadisticasMitjana();
+        return est.getEstadisticasMitjana();
+    }
+
+    private String[][] getAutomatic() throws Exception {
+        String auto[][] = new String[1][1];
+        auto[0][0] = est.getAuto();
+        return auto;   
     }
     
 }
