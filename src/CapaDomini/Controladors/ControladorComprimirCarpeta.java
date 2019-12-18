@@ -18,7 +18,6 @@ import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +30,11 @@ import java.util.HashMap;
  */
 public class ControladorComprimirCarpeta {
     private String path;
-    private int alg_txt;
+    private String alg_txt;
     private boolean guardar;
     private double[] result;
     
-    public ControladorComprimirCarpeta(String path, int alg_txt, boolean guardar) {
+    public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar) {
         this.path = path;
         this.alg_txt = alg_txt;
         this.guardar = guardar;
@@ -78,9 +77,8 @@ public class ControladorComprimirCarpeta {
         return paths;
     }
     
-    public void executar() throws ExtensionIncorrecta, IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos {
+    public void executar() throws IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos {
         File carpeta = new File(path);
-        if (carpeta.isFile()) throw new ExtensionIncorrecta();
         ArrayList<String> paths = Obte_paths(path);
         IOArxius io = new IOArxius();
         String path_cc = path + ".carp";
@@ -95,6 +93,7 @@ public class ControladorComprimirCarpeta {
             String path_intern = paths.get(i);
             File f = new File(path_intern);
             Arxiu resultat = new Arxiu();
+<<<<<<< HEAD
             if (f.isDirectory()) {
                 String path_intern_carp = path_intern.replaceAll(path, "");
                 boolean b = (i == 0) & (!path_intern.equals(path));
@@ -150,8 +149,47 @@ public class ControladorComprimirCarpeta {
                                 io.guardaContBytesCarp(path_cc, comprimit.getContingut());
                             } 
                             break;
+=======
+            if (path_intern.contains(".txt")) {
+                switch(alg_txt) {
+                    //LZW
+                    case "LZW": {
+                        byte[] con = io.llegeixArxiuBinari(path_intern,".txt");
+                        String contingut = new String(con);
+                        ArxiuTXT b = new ArxiuTXT(path_intern,contingut);
+                        LZW c = new LZW();
+                        ArxiuTXT comprimit_lzw = c.comprimir(b);
+                        resultat=comprimit_lzw;
+                        if (guardar) {
+                            long tamany_long = (comprimit_lzw.getContingut()).length();
+                            byte[] tamany_bytes = TamToBytes(tamany_long);
+                            String path_intern_comp = comprimit_lzw.getPath();
+                            path_intern_comp = path_intern_comp.replace(path, "");
+                            io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
+                            io.guardaArxiuTXT(path_cc, comprimit_lzw.getContingut(),true);
+                        }
+                        break;
+                    }
+                        
+                        //LZSS
+                    case "LZSS": {
+                        byte[] cont = io.llegeixArxiuBinari(path_intern,".txt");
+                        String contingut = new String(cont);
+                        ArxiuTXT normal = new ArxiuTXT(path_intern, contingut);
+                        LZSS lzss = new LZSS();
+                        ArxiuBytes comprimit = lzss.comprimir(normal);
+                        resultat=comprimit;
+                        if(guardar) {
+                            long tamany_long = (comprimit.getContingut()).length;
+                            byte[] tamany_bytes = TamToBytes(tamany_long);
+                            String path_intern_comp = comprimit.getPath();
+                            path_intern_comp = path_intern_comp.replaceAll(path, "");
+                            io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
+                            io.guardaArxiuBinari(path_cc, comprimit.getContingut(),true);
+>>>>>>> master
                         }
                     }
+<<<<<<< HEAD
                 }
                 else if (path_intern.contains(".ppm")) {
                     byte[] contingut = io.llegeixArxiuBinari(path_intern,".ppm");
@@ -163,6 +201,25 @@ public class ControladorComprimirCarpeta {
 
                         preparaCapcaleraArxiu(path_cc,comprimit,io,i);
                         io.guardaContImatgeCarp(path_cc,comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
+=======
+                        
+                    case "LZ78": {
+                        byte[] cont = io.llegeixArxiuBinari(path_intern, ".txt");
+                        String contingut = new String(cont);
+                        ArxiuTXT normal = new ArxiuTXT(path_intern,contingut);
+                        LZ78 c = new LZ78();
+                        ArxiuBytes comprimit = c.comprimir(normal);
+                        resultat=comprimit;
+                        if(guardar) {
+                            long tamany_long = (comprimit.getContingut()).length;
+                            byte[] tamany_bytes = TamToBytes(tamany_long);
+                            String path_intern_comp = comprimit.getPath();
+                            path_intern_comp = path_intern_comp.replaceAll(path, "");
+                            io.guardaCabezeraArxiuCarpeta(path_cc,path_intern_comp,tamany_bytes);
+                            io.guardaArxiuBinari(path_cc, comprimit.getContingut(),true);
+                        } 
+                        break;
+>>>>>>> master
                     }
                 }
 
@@ -174,9 +231,18 @@ public class ControladorComprimirCarpeta {
                 result[2] = result[2] + e.getVelocitat_compressio();
                 }
             }
+<<<<<<< HEAD
             result[0] /= paths.size();
             result[1] /= paths.size();
             result[2] /= paths.size();
+=======
+            
+            Estadistiques e = resultat.getEstadistiques();
+            result[0] = result[0] + e.getTemps_compressio();
+            result[1] = result[1] + e.getPercentatge_compressio();
+            result[2] = result[2] + e.getVelocitat_compressio();
+ 
+>>>>>>> master
         }
     }
     private void preparaCapcaleraArxiu(String path_cc, Arxiu comprimit, IOArxius io, int i) throws IOException {

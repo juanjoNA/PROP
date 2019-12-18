@@ -18,7 +18,6 @@ import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
 /**
@@ -42,7 +41,7 @@ public class ControladorComprimir {
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, ExtensionIncorrecta, IOException, CaracterNoASCII {
+    public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();
         switch(algoritmo) {

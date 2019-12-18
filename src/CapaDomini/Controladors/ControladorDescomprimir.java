@@ -17,7 +17,6 @@ import CapaDomini.ModelDomini.LZSS;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import java.util.HashMap;
  */
 public class ControladorDescomprimir {
     private String path;
-    private int algoritmo;
+    private String algoritmo;
     private boolean guardar;
     private double[] result;
 
@@ -36,19 +35,19 @@ public class ControladorDescomprimir {
         return result;
     }
 
-    public ControladorDescomprimir (String path, int algoritmo, boolean guardar) {
+    public ControladorDescomprimir (String path, String algoritmo, boolean guardar) {
         this.path = path;
         this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
     }
 
-    public void executar() throws VersionPPMIncorrecta, ExtensionIncorrecta, DatosIncorrectos, IOException {
+    public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException, Exception {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;
         switch(algoritmo) {
             //JPEG
-            case 1:{
+            case "JPEG":{
                 DTOImatge llegit =i.llegeixImatgeComprimida(path);
                 byte[] contingut = llegit.getBytes();
                 HashMap<String,Integer> map = llegit.getMap();
@@ -64,7 +63,7 @@ public class ControladorDescomprimir {
                 break;
             }
             //LZW
-            case 2: {
+            case "LZW": {
                 byte[] con = i.llegeixArxiuBinari(path,".lzw");
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
@@ -72,33 +71,33 @@ public class ControladorDescomprimir {
                 ArxiuTXT l = c.descomprimir(b);
                 descomprimit = l;
                 if (guardar) {
-                    i.guardaArxiuTXT(l.getPath(),l.getContingut());
+                    i.guardaArxiuTXT(l.getPath(),l.getContingut(),false);
                 }
                 break;
             }
 
             //LZSS
-            case 3: {
+            case "LZSS": {
                 byte[] con = i.llegeixArxiuBinari(path,".lzss");
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZSS des = new LZSS();
                 ArxiuTXT d = des.descomprimir(b);
                 descomprimit = d;
                 if (guardar) {
-                    i.guardaArxiuTXT(d.getPath(),d.getContingut());
+                    i.guardaArxiuTXT(d.getPath(),d.getContingut(),false);
                 }
                 break;
 
             }
             //LZ78
-            case 4: {
+            case "LZ78": {
                 byte[] con = i.llegeixArxiuBinari(path,".lz78");
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZ78 des = new LZ78();
                 ArxiuTXT d = des.descomprimir(b);
                 descomprimit = d;
                 if (guardar) {
-                    i.guardaArxiuTXT(d.getPath(),d.getContingut());
+                    i.guardaArxiuTXT(d.getPath(),d.getContingut(),false);
                 }
                 break;
 
@@ -109,5 +108,8 @@ public class ControladorDescomprimir {
         result[0] = e.getTemps_compressio();
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
+        e.guardaEst(result, algoritmo, false);
+        ControladorEstadisticas cest = new ControladorEstadisticas(result,false,algoritmo);
+        cest.executar();
     }
 }

@@ -3,7 +3,6 @@ package CapaPersistencia;
 
 import CapaDomini.Controladors.ArxCarpetaComp;
 import CapaDomini.Controladors.DTOImatge;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
@@ -32,10 +31,10 @@ import java.util.logging.Logger;
  */
 public class IOArxius {
 
-
     public IOArxius() {
     }
 
+<<<<<<< HEAD
     public ArrayList<ArxCarpetaComp> llegeixCarpComp(String carpcomp) throws FileNotFoundException, IOException, ClassNotFoundException {
         File f = new File(carpcomp);
         ArrayList<ArxCarpetaComp> result = new ArrayList<>();
@@ -165,6 +164,9 @@ public class IOArxius {
     
     
     public void guardaTamanyArxiuTXTCarpeta(String path_cc,int tamany_bytes) throws IOException {
+=======
+    public void guardaCabezeraArxiuCarpeta(String path_cc,String path_intern_comp,byte[] tamany_bytes) throws IOException {
+>>>>>>> master
         File f = new File(path_cc);
         FileOutputStream o = new FileOutputStream(path_cc,true);
         MyObjectOutputStream dos = new MyObjectOutputStream(o);
@@ -172,6 +174,7 @@ public class IOArxius {
         dos.close();
         o.close();
     }
+<<<<<<< HEAD
     
     public byte[] llegeixArxiuBinari(String path,String extensio) throws ExtensionIncorrecta {
         if ((!path.contains(".ppm") && extensio.contains(".ppm")) ||
@@ -181,8 +184,11 @@ public class IOArxius {
                  (extensio.contains("driver"))) {
             throw new ExtensionIncorrecta();
         }
+=======
+>>>>>>> master
 
-         try {
+    public byte[] llegeixArxiuBinari(String path,String extensio) {
+        try {
              InputStream is = null;
              File file = new File(path);
              is = new FileInputStream(file);
@@ -200,12 +206,12 @@ public class IOArxius {
 
     }
 
-    public void guardaArxiuBinari(String path, byte[] contingut) {
+    public void guardaArxiuBinari(String path, byte[] contingut, boolean append) {
 
             OutputStream o = null;
          try {
 
-             o = new FileOutputStream(path,true);
+             o = new FileOutputStream(path,append);
              o.write(contingut);
              //o.write('\n');
              o.close();
@@ -235,7 +241,12 @@ public class IOArxius {
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
+<<<<<<< HEAD
              o = new FileOutputStream(path,true);
+=======
+             System.out.println(path);
+             o = new FileOutputStream(path);
+>>>>>>> master
              ObjectOutputStream  oos = new ObjectOutputStream (o);
              oos.writeObject(resultMap);
              long totalLength = header.getBytes().length + content.length;
@@ -252,10 +263,7 @@ public class IOArxius {
          }
     }
 
-    public DTOImatge llegeixImatgeComprimida(String path) throws ExtensionIncorrecta {
-        if (!path.contains(".jimg")) {
-            throw new ExtensionIncorrecta();
-        }
+    public DTOImatge llegeixImatgeComprimida(String path) {
         byte[] result = null;
         DTOImatge resultDTO = null;
         try{
@@ -288,6 +296,7 @@ public class IOArxius {
              BufferedReader br = new BufferedReader(fr);
              while ((s =br.readLine()) != null){
                  sb.append(s);
+                 sb.append("\n");
              }
              fr.close();
          } catch (FileNotFoundException ex) {
@@ -301,11 +310,11 @@ public class IOArxius {
          return sb.toString();
     }
 
-    public void guardaArxiuTXT(String path, String contingut) {
+    public void guardaArxiuTXT(String path, String contingut, boolean append) {
 
             BufferedWriter bw;
             try {
-                bw = new BufferedWriter(new FileWriter(new File(path),true));
+                bw = new BufferedWriter(new FileWriter(new File(path),append));
                 bw.write(contingut);
                 bw.close();
             } catch (IOException ex) {

@@ -6,7 +6,6 @@
 package CapaDomini.ModelDomini;
 
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
@@ -36,8 +35,6 @@ public class LZWTest {
                             
         } catch (CaracterNoASCII ex) {
            excepcio=true;
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
         }
         
         assertEquals("a.lzw", processat.getPath());
@@ -60,8 +57,6 @@ public class LZWTest {
                             
         } catch (CaracterNoASCII ex) {
            excepcio=true;
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
         }
         assertEquals(excepcio,true);
     }
@@ -80,8 +75,6 @@ public class LZWTest {
           ArxiuTXT processat = l.comprimir(b);
                             
         } catch (CaracterNoASCII ex) {
-           excepcio=true;
-        } catch (ExtensionIncorrecta ex) {
            excepcio=true;
         }
         
@@ -104,8 +97,6 @@ public class LZWTest {
                             
         } catch (CaracterNoASCII ex) {
            excepcio=true;
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
         }
         ArxiuTXT comprimit = (ArxiuTXT) processat;
         assertEquals("/etc/a.lzw", comprimit.getPath());
@@ -122,12 +113,8 @@ public class LZWTest {
         Arxiu processat = new Arxiu ();
         LZW l = new LZW();
         boolean excepcio = false;
-        try {
-          processat = l.descomprimir(b);
-                            
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
-        }
+        processat = l.descomprimir(b);
+        
         ArxiuTXT comprimit = (ArxiuTXT) processat;
         assertEquals("/etc/a(2).txt", comprimit.getPath());
         assertEquals("", comprimit.getContingut());
@@ -142,12 +129,8 @@ public class LZWTest {
         ArxiuTXT b = new ArxiuTXT("/etc/a.txt","");
         LZW l = new LZW();
         boolean excepcio = false;
-        try {
-          ArxiuTXT processat = l.descomprimir(b);
-                            
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
-        }
+        ArxiuTXT processat = l.descomprimir(b);
+        
         assertEquals(excepcio, true);
     }
     
@@ -162,12 +145,8 @@ public class LZWTest {
         LZW l = new LZW();
         boolean excepcio=false;
         ArxiuTXT processat = new ArxiuTXT();
-        try {
-          processat = l.descomprimir(b);
-                            
-        } catch (ExtensionIncorrecta ex) {
-           excepcio=true;
-        }
+        processat = l.descomprimir(b);
+        
         assertEquals("/etc/a(2).txt", processat.getPath());
         assertEquals("hola hola hola hola hola hola hola hola", processat.getContingut());
     }

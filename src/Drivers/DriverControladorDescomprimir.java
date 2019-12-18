@@ -8,7 +8,6 @@ package Drivers;
 import CapaDomini.Controladors.ControladorDescomprimir;
 import CapaPersistencia.IOArxius;
 import Excepcions.DatosIncorrectos;
-import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,12 +23,12 @@ public class DriverControladorDescomprimir {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
 
         int opcion;
         IOArxius cd = new IOArxius();
         boolean salir=false;
-
+/*
         while(!salir){
             System.out.println("Selecciona una opció: ");
             System.out.println("\n\t1. Descomprimir Arxiu."
@@ -60,9 +59,6 @@ public class DriverControladorDescomprimir {
                     catch (VersionPPMIncorrecta e) {
                         System.out.println("Versió de PPM incorrecta.");
                     }
-                    catch (ExtensionIncorrecta e) {
-                        System.out.println("Extensió de la imatge incorrecte");
-                    }
                     catch (DatosIncorrectos e) {
                         System.out.println("Les dades del fitxer son incorrectes");
                     }
@@ -78,7 +74,7 @@ public class DriverControladorDescomprimir {
             }
 
         }
-
+*/
     }
 
     static public int seleccionarAlgoritme(String path) {

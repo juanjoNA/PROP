@@ -5,7 +5,6 @@ import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.LZSS;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,11 +16,11 @@ import java.util.logging.Logger;
  * @author juanjo.Navarro
  */
 public class DriverLZSS {
-    
+
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException{
-               
+
         IOArxius ioa = new IOArxius();
         int opcion;
         boolean salir=false;
@@ -35,7 +34,7 @@ public class DriverLZSS {
                          + "\n\t2. Descomprimir arxiu."
                          + "\n\t3. Mostrar resultat del proces complet."
                          + "\n\t4. Salir.");
-            
+
             try{
                 opcion = Integer.parseInt(intro.readLine());
             }catch(NumberFormatException ne){
@@ -43,7 +42,7 @@ public class DriverLZSS {
             }
 
             switch(opcion) {
-                case 1: 
+                case 1:
                     System.out.println("Intodueix el path del fitxer a COMPRIMIR:");
                     in = intro.readLine();
                     String contingut = ioa.llegeixArxiuTxt(in);
@@ -56,25 +55,23 @@ public class DriverLZSS {
                     }
                     System.out.println("Arxiu comprimit correctament: ");
                     System.out.println(comprimit.getContingut());
-                    ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut());
+                    ioa.guardaArxiuBinari(comprimit.getPath(), comprimit.getContingut(),false);
                     break;
-                
-                case 2: 
+
+                case 2:
                     System.out.println("Intodueix el path del fitxer a DESCOMPRIMIR:");
                     in = intro.readLine();
                     byte[] contB;
-                try {
+
                     contB = ioa.llegeixArxiuBinari(in,".lzss");
                     comprimit = new ArxiuBytes(in, contB);
                     descomprimit = lzss.descomprimir(comprimit);
                     System.out.println("Arxiu descomprimit: ");
-                    ioa.guardaArxiuTXT(descomprimit.getPath(), descomprimit.getContingut());
-                } catch (ExtensionIncorrecta ex) {
-                    Logger.getLogger(DriverLZSS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    ioa.guardaArxiuTXT(descomprimit.getPath(), descomprimit.getContingut(),false);
+
                     break;
-                
-                case 3: 
+
+                case 3:
                     System.out.println("Intodueix el path del fitxer a COMPRIMIR i DESCOMPRIMIR:");
                     in = intro.readLine();
                     String cont = ioa.llegeixArxiuTxt(in);
@@ -94,21 +91,21 @@ public class DriverLZSS {
                     System.out.print("\nSON IGUALS? : ");
                     if(descomprimit.getContingut().equals(normal.getContingut())) System.out.print("SI\n");
                     else System.out.print("NO\n");
-                            
+
                     break;
-                    
-                case 4: 
+
+                case 4:
                     salir = true;
                     break;
-                    
-                default: 
+
+                default:
                     System.out.println("Introdueix una opció correcta");
                     break;
             }
-            
+
             System.out.println();
-            
+
         }
     }
-    
+
 }

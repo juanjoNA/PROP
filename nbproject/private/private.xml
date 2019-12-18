@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/home/ivgasa99/Escritorio/PROP/src/CapaDomini/ModelDomini/LZW.java</file>
             <file>file:/home/ivgasa99/Escritorio/PROP/src/CapaDomini/Controladors/ArxCarpetaComp.java</file>
             <file>file:/home/ivgasa99/Escritorio/PROP/src/CapaDomini/Controladors/ControladorDescomprimirCarpeta.java</file>
@@ -10,6 +11,15 @@
             <file>file:/home/ivgasa99/Escritorio/PROP/src/CapaPersistencia/IOArxius.java</file>
             <file>file:/home/ivgasa99/Escritorio/PROP/src/Drivers/DriverControladorDescomprimirCarpetas.java</file>
             <file>file:/home/ivgasa99/Escritorio/PROP/src/CapaDomini/Controladors/ControladorDescomprimir.java</file>
+=======
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Comparar.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/ComprimirCarpeta.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaDomini/Controladors/ControladorComprimirCarpeta.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Comprimir.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/MainFrame.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/Inici.java</file>
+            <file>file:/C:/Users/Juanjo/Documents/Proyecto%20PROP/PROP/src/CapaPresentacio/ComparacioFitxers.java</file>
+>>>>>>> master
         </group>
     </open-files>
 </project-private>

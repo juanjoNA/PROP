@@ -3,17 +3,17 @@ package Drivers;
 
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Arxiu;
+<<<<<<< HEAD
 import CapaDomini.ModelDomini.ArxiuBytes;
 import CapaDomini.ModelDomini.Estadistiques;
+=======
+>>>>>>> master
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
-import Excepcions.ExtensionIncorrecta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -52,22 +52,17 @@ public class DriverLZW {
                     path = intro.readLine();
                     System.out.println("Vols guardar? S/N: ");
                     guardar = intro.readLine();
-                    try {
-                        contingut = llegeix_arxiu(path,".lzw");
-                        b = new ArxiuTXT(path,contingut);
-                        ArxiuTXT processat = descomprimeix(b);
-                        System.out.println("Descomprimit amb exit!");
-                        if(guardar.equals("S")) {
-                            IOArxius i = new IOArxius();
-                            i.guardaArxiuTXT(processat.getPath(), processat.getContingut());
-                        }
-                        break;
-                    } catch (ExtensionIncorrecta ex) {
-                        System.out.println("L'arxiu no es .lzw!");
+
+                    contingut = llegeix_arxiu(path,".lzw");
+                    b = new ArxiuTXT(path,contingut);
+                    ArxiuTXT processat = descomprimeix(b);
+                    System.out.println("Descomprimit amb exit!");
+                    if(guardar.equals("S")) {
+                        IOArxius i = new IOArxius();
+                        i.guardaArxiuTXT(processat.getPath(), processat.getContingut(),false);
                     }
-                    finally {
-                        break;
-                    }
+                    break;
+
 
                 }
 
@@ -88,8 +83,6 @@ public class DriverLZW {
                             break;
                         } catch (CaracterNoASCII ex) {
                             System.out.println("L'arxiu conté caracters no ASCII!");
-                        } catch (ExtensionIncorrecta ex) {
-                            System.out.println("L'arxiu no es .txt!");
                         }
                         finally {
                             break;
@@ -108,7 +101,7 @@ public class DriverLZW {
         }
     }
 
-    static String llegeix_arxiu (String path,String extensio) throws ExtensionIncorrecta {
+    static String llegeix_arxiu (String path,String extensio){
         IOArxius c;
         c = new IOArxius();
         byte[] con = c.llegeixArxiuBinari(path,extensio);
@@ -116,7 +109,7 @@ public class DriverLZW {
         return s;
     }
 
-    static ArxiuTXT comprimeix(ArxiuTXT a) throws CaracterNoASCII, ExtensionIncorrecta {
+    static ArxiuTXT comprimeix(ArxiuTXT a) throws CaracterNoASCII{
 
         LZW c = new LZW();
         try {
@@ -124,12 +117,10 @@ public class DriverLZW {
             return comprimit;
         } catch (CaracterNoASCII ex) {
             throw new CaracterNoASCII();
-        } catch (ExtensionIncorrecta ex) {
-            throw new ExtensionIncorrecta();
         }
     }
 
-    static ArxiuTXT descomprimeix(ArxiuTXT a) throws ExtensionIncorrecta {
+    static ArxiuTXT descomprimeix(ArxiuTXT a) {
 
         LZW c = new LZW();
         ArxiuTXT descomprimit = c.descomprimir(a);
@@ -140,7 +131,7 @@ public class DriverLZW {
         IOArxius c = new IOArxius();
         String newpath = comprimit.getPath();
         String newcontingut = comprimit.getContingut();
-        c.guardaArxiuTXT(newpath,newcontingut);
+        c.guardaArxiuTXT(newpath,newcontingut,false);
     }
 
 }
