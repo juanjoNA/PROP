@@ -7,9 +7,11 @@ package CapaPresentacio;
 
 import CapaDomini.Controladors.ControladorAlgoritmes;
 import CapaDomini.Controladors.ControladorComprimir;
+import CapaDomini.Controladors.ControladorComprimirCarpeta;
 import CapaDomini.Controladors.ControladorEstadisticas;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
+import Excepcions.ExtensionIncorrecta;
 import Excepcions.VersionPPMIncorrecta;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -19,10 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,8 +36,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Comprimir extends javax.swing.JPanel {
 
     ControladorComprimir ctrComprimir;
+    ControladorComprimirCarpeta ctrComprimirCarpetes;
     ControladorAlgoritmes ctrAlgoritmes;
+    ControladorEstadisticas ctrEstadistiques;
     MainFrame mainForm;
+    ButtonGroup bgRadiosTXT;
+    ButtonGroup bgRadiosPPM;
+                
+    boolean compCarpeta = false;
     /**
      * Creates new form Comprimir
      */
@@ -100,10 +105,21 @@ public class Comprimir extends javax.swing.JPanel {
         tfPath.setPreferredSize(new java.awt.Dimension(50, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         add(tfPath, gridBagConstraints);
 
-        panelRadioButtons.setLayout(new java.awt.GridBagLayout());
+        javax.swing.GroupLayout panelRadioButtonsLayout = new javax.swing.GroupLayout(panelRadioButtons);
+        panelRadioButtons.setLayout(panelRadioButtonsLayout);
+        panelRadioButtonsLayout.setHorizontalGroup(
+            panelRadioButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelRadioButtonsLayout.setVerticalGroup(
+            panelRadioButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -328,52 +344,26 @@ public class Comprimir extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bComprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bComprimirActionPerformed
-        String alg;
-        double[] resultat; 
-        if(bgAlgoritmos.getSelection()==null){
-            JOptionPane.showMessageDialog(this, "Selecciona un botó");
-            return;
-        } else if(tfPath.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
-            return;
-        }  
-            
-        alg = bgAlgoritmos.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
-        int resposta = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
-        boolean guardar = (resposta==JOptionPane.YES_OPTION);
         
-        if(alg.equals("JPEG")){
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
-        }else if(alg.equals("Automatic")){
-            ControladorEstadisticas ctrEstadisticas = new ControladorEstadisticas(true);
-            //alg = ctrEstadisticas.executar();
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        double[] resultat;
+        
+        mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+        if(compCarpeta){
+            resultat = comprimirCarpeta();
         }else{
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
+            resultat = comprimirFitxer();
         }
+        mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
         
-        try {
-            ctrComprimir.executar();
-            resultat = ctrComprimir.getResult();
-            JOptionPane.showMessageDialog(this, "Fitxer comprimit");
-            tfPath.setText("");
-            panelRadioButtons.removeAll();
-            bComprimir.setVisible(false);
-            panelEstadistiques.setVisible(true);
-            labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
-            labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
-            labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
-        } catch (VersionPPMIncorrecta ex) {
-            JOptionPane.showMessageDialog(this, mainForm.returnException(4), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (DatosIncorrectos ex) {
-            JOptionPane.showMessageDialog(this, mainForm.returnException(3), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, mainForm.returnException(5), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (CaracterNoASCII ex) {
-            JOptionPane.showMessageDialog(this, mainForm.returnException(1), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        if(resultat==null) return;
+        
+        tfPath.setText("");
+        panelRadioButtons.removeAll();
+        bComprimir.setVisible(false);
+        labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
+        labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
+        labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
+        panelEstadistiques.setVisible(true);
     }//GEN-LAST:event_bComprimirActionPerformed
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
@@ -385,20 +375,24 @@ public class Comprimir extends javax.swing.JPanel {
         
         int returnVal = chooser.showOpenDialog(this);
         
+        panelRadioButtons.removeAll();
+        panelRadioButtons.revalidate();
+        panelRadioButtons.repaint();
+        
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             tfPath.setText(chooser.getSelectedFile().getPath());
             panelRadioButtons.removeAll();
             
             if(chooser.getSelectedFile().isFile()){
+                compCarpeta = false;
                 crearBotonesFichero();
             }else{
+                compCarpeta = true;
                 crearBotonesCarpeta();
             }
             bComprimir.setVisible(true);
             panelEstadistiques.setVisible(false);
             panelRadioButtons.setVisible(true);
-            panelRadioButtons.invalidate();
-            panelRadioButtons.validate();
         }
     }//GEN-LAST:event_bBrowserActionPerformed
 
@@ -439,6 +433,8 @@ public class Comprimir extends javax.swing.JPanel {
         ArrayList<String> botons;
         panelRadioButtons.removeAll();
         bgAlgoritmos.clearSelection();
+        panelRadioButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 60, 10));
+        
         if(tfPath.getText().endsWith(".txt")){
             ctrAlgoritmes = new ControladorAlgoritmes("txt");
         }else{
@@ -462,8 +458,6 @@ public class Comprimir extends javax.swing.JPanel {
             };
             b.addActionListener(al);
         }
-        panelRadioButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 60, 10));
-        panelRadioButtons.setSize(tfPath.getSize());
         panelRadioButtons.invalidate();
         panelRadioButtons.validate();
         
@@ -475,7 +469,7 @@ public class Comprimir extends javax.swing.JPanel {
         ArrayList<String> algs;
         ctrAlgoritmes = new ControladorAlgoritmes("txt");
         algs = ctrAlgoritmes.getAlgoritmes();
-        
+        panelRadioButtons.setLayout(new GridBagLayout());
         /* 
          * Creamos el panel de los radio buttons
          * Le ponemos un gridBagLayout para dividir en 2 partes
@@ -514,8 +508,8 @@ public class Comprimir extends javax.swing.JPanel {
         gbCons.gridy = 1;
         panelRadioButtons.add(panelButtonsPPM, gbCons);
         
-        ButtonGroup bgRadiosTXT = new ButtonGroup();
-        ButtonGroup bgRadiosPPM = new ButtonGroup();
+        bgRadiosTXT = new ButtonGroup();
+        bgRadiosPPM = new ButtonGroup();
         
         if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
 
@@ -538,7 +532,7 @@ public class Comprimir extends javax.swing.JPanel {
             b.setText(nom);
             b.setActionCommand(nom);
             b.setName(nom);
-            b.setMargin(new Insets(0,0,0,5));
+            b.setMargin(new Insets(0,0,0,10));
             bgRadiosPPM.add(b);
             panelButtonsPPM.add(b);
             ActionListener al = new ActionListener() {
@@ -550,6 +544,97 @@ public class Comprimir extends javax.swing.JPanel {
             };
             b.addActionListener(al);
         }
+        
+        panelRadioButtons.invalidate();
+        panelRadioButtons.validate();
+    }
+
+    private double[] comprimirCarpeta() {
+         String algTXT, algPPM;
+        if(bgRadiosTXT.getSelection()==null){
+            JOptionPane.showMessageDialog(this, "Selecciona un algoritme per comprimir els arxius de text");
+            return null;
+        } else if(bgRadiosPPM.getSelection()==null){
+            JOptionPane.showMessageDialog(this, "Selecciona un algoritme per comprimir els arxius PPM");
+            return null;
+        }
+
+        algTXT = bgRadiosTXT.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
+        algPPM = bgRadiosPPM.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
+        
+        if(algTXT.equals("Automatic")) algTXT = ctrEstadistiques.getAutomatic();
+        
+        int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
+
+        if(!algPPM.equals("JPEG")){
+            ctrComprimirCarpetes = new ControladorComprimirCarpeta(tfPath.getText(), algTXT, guardar==JOptionPane.YES_OPTION);
+        }else{
+            if(bgSubsampling.getSelection()==null){
+                JOptionPane.showMessageDialog(this, "Selecciona un algoritme per comprimir els arxius de text");
+                return null;
+            }else{
+                ctrComprimirCarpetes = new ControladorComprimirCarpeta(tfPath.getText(), algTXT, guardar==JOptionPane.YES_OPTION, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+            }
+        }
+        
+        try {
+            
+            ctrComprimirCarpetes.executar();
+            
+        } catch (VersionPPMIncorrecta ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DatosIncorrectos ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CaracterNoASCII ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return ctrComprimirCarpetes.getResult();
+    }
+
+    private double[] comprimirFitxer() {
+        String alg;
+        if(bgAlgoritmos.getSelection()==null){
+            JOptionPane.showMessageDialog(this, "Selecciona un botó");
+            return null;
+        } else if(tfPath.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
+            return null;
+        }  
+            
+        alg = bgAlgoritmos.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
+        int resposta = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
+        boolean guardar = (resposta==JOptionPane.YES_OPTION);
+        
+        if(alg.equals("JPEG")){
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else if(alg.equals("Automatic")){
+            ControladorEstadisticas ctrEstadisticas = new ControladorEstadisticas(true);
+            //alg = ctrEstadisticas.executar();
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else{
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
+        }
+        
+        try {
+            ctrComprimir.executar();
+        } catch (VersionPPMIncorrecta ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DatosIncorrectos ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CaracterNoASCII ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return ctrComprimir.getResult();
     }
 
 

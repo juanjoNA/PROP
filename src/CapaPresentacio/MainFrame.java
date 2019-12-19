@@ -13,9 +13,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private HashMap<Integer, String> excepciones = new HashMap<Integer, String>(){
         {
-            put(1, "Caracter no ASCII en el fichero seleccionado");
-            put(2, "Extension de fichero dentro de carpeta incorrecta");
-            put(3, "Datos imagen incorrectos");
+            put(1, "Caracter no ASCII al fitxer seleccionat");
+            put(2, "Extensió de fitxer incorrecte");
+            put(3, "Dades imatge incorrectes");
             put(4, "Version PPM incorrecta. Deberia ser P...");
             put(5, "Error al leer el fichero");
             put(6, "Error al acceder al fichero estadisticas");
