@@ -125,6 +125,11 @@ public class ControladorDescomprimir {
         result[2] = e.getVelocitat_compressio();
         e.guardaEst(result, algoritmo, false);
     }
+    /**
+     * Funcion para seleccionar el algoritmo de descompresion en funcion de la extension del arxivo
+     * @param text
+     * @return extensio(String)
+     */
     private String seleccionaAlg(String text) {
         String extensio;
         

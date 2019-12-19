@@ -163,21 +163,35 @@ public class Estadistiques {
         res[8] = String.format("%.0f", ealg[7]);
         return res;
     }
-
+     /**
+     * Funcion para ajustar unidades de velocidad segun su magnitud
+     * @param d
+     * @return unidad(String)
+     */
     private String uvel(double d) {
+        String unidad= new String();
         if(d > 1000) {
             d = d/1000;
-            return "MB/s";
+            unidad = "MB/s";
+            return unidad;
         }
-        return "KB/s";
+        unidad = "KB/s";
+        return unidad;
     }
-
+     /**
+     * Funcion para ajustar unidades de tiempo segun su magnitud
+     * @param d
+     * @return unidad(String)
+     */
     private String utiempo(double d) {
+        String unidad= new String();
         if(d > 1000) {
             d = d/1000;
-            return "s";
+            unidad = "s";
+            return unidad;
         }
-        return "ms";
+        unidad = "ms";
+        return unidad;
     }
 
 }

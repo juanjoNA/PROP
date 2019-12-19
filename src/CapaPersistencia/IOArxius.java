@@ -32,7 +32,14 @@ public class IOArxius {
 
     public IOArxius() {
     }
-
+     /**
+     * Funcion para obtener todos los ficheros comprimidos de la carpeta comprimida 
+     * @param carpcomp
+     * @return result(ArrayList<ArxCarpetaComp>)
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<ArxCarpetaComp> llegeixCarpComp(String carpcomp) throws FileNotFoundException, IOException, ClassNotFoundException {
         File f = new File(carpcomp);
         ArrayList<ArxCarpetaComp> result = new ArrayList<>();
@@ -90,14 +97,13 @@ public class IOArxius {
         }
         return result;
     }
-    public ByteBuffer llegeixArxiuTXTCarpetaComprimida(File f) throws FileNotFoundException, IOException {
-        ByteBuffer ret = ByteBuffer.allocate((int)f.length());
-        FileInputStream fis = new FileInputStream(f);
-        FileChannel fc = fis.getChannel();
-        fc.read(ret);
-        return ret;
-    }
-
+     /**
+     * Funcion para guardar el path de un arxivo dentro de la carpeta a comprimir en el fichero .carp 
+     * @param path_cc
+     * @param path_intern_comp
+     * @param inici
+     * @throws IOException
+     */
     public void guardaPathRelatiuArxCarp(String path_cc,String path_intern_comp, boolean inici) throws IOException {
         File f = new File(path_cc);
         FileOutputStream o = new FileOutputStream(path_cc,true);
@@ -117,7 +123,12 @@ public class IOArxius {
         }
 
     }
-
+     /**
+     * Funcion para guardar el contenido comprimido en bytes en un fichero .carp
+     * @param path_cc
+     * @param cont
+     * @throws IOException
+     */
     public void guardaContBytesCarp(String path_cc,byte[] cont) throws IOException {
         File f = new File(path_cc);
         FileOutputStream o = new FileOutputStream(path_cc,true);
@@ -128,7 +139,12 @@ public class IOArxius {
         o.close();
     }
 
-
+     /**
+     * Funcion para guardar el contenido comprimido en chars en un fichero .carp
+     * @param path_cc
+     * @param cont
+     * @throws IOException
+     */
     public void guardaContCharsCarp(String path_cc,String cont) throws IOException {
         File f = new File(path_cc);
         FileOutputStream o = new FileOutputStream(path_cc,true);
@@ -140,7 +156,14 @@ public class IOArxius {
         dos.close();
         o.close();
     }
-
+     /**
+     * Funcion para guardar una imagen comprimida en un fichero .carp
+     * @param path_cc
+     * @param resultMap
+     * @param header
+     * @param content
+     * @throws IOException
+     */
     public void guardaContImatgeCarp(String path_cc,HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
@@ -160,7 +183,12 @@ public class IOArxius {
          }
     }
 
-
+     /**
+     * Funcion para guardar el tamaño de un fichero comprimido en un archivo .carp
+     * @param path_cc
+     * @param tam_bytes
+     * @throws IOException
+     */
     public void guardaTamanyArxiuTXTCarpeta(String path_cc,int tamany_bytes) throws IOException {
         File f = new File(path_cc);
         FileOutputStream o = new FileOutputStream(path_cc,true);
@@ -169,7 +197,12 @@ public class IOArxius {
         dos.close();
         o.close();
     }
-
+     /**
+     * Funcion para leer los bytes de un archivo del disco
+     * @param path
+     * @return content (byte[])
+     * @throws IOException
+     */
     public byte[] llegeixArxiuBinari(String path) {
         try {
              InputStream is = null;
@@ -188,7 +221,12 @@ public class IOArxius {
          return null;
 
     }
-
+     /**
+     * Funcion para guardar un contenido en bytes en un archivo de disco
+     * @param path
+     * @param contingut
+     * @param append
+     */
     public void guardaArxiuBinari(String path, byte[] contingut, boolean append) {
 
             OutputStream o = null;
@@ -213,14 +251,25 @@ public class IOArxius {
 
       }
 
-
+     /**
+     * Funcion para guardar una imagen en disco
+     * @param path
+     * @param header
+     * @param content
+     */
     public void guardaImatge(String path, String header, byte[] content) throws IOException {
         OutputStream os = new FileOutputStream(path);
         os.write(header.getBytes());
         os.write(content);
         os.close();
     }
-
+     /**
+     * Funcion para guardar una imagen comprimida en disco
+     * @param path
+     * @param resultMap
+     * @param header
+     * @param content
+     */
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
@@ -239,7 +288,11 @@ public class IOArxius {
              Logger.getLogger(IOArxius.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
-
+     /**
+     * Funcion para leer una imagen comprimida de disco
+     * @param path
+     * @return resultDTO(DTOImatge)
+     */
     public DTOImatge llegeixImatgeComprimida(String path) {
         byte[] result = null;
         DTOImatge resultDTO = null;
@@ -263,7 +316,11 @@ public class IOArxius {
         }
         return resultDTO;
     }
-
+     /**
+     * Funcion para leer los caracteres de un arxivo de texto del disco
+     * @param path
+     * @return ret(String)
+     */
     public String llegeixArxiuTxt(String path) {
         FileReader fr=null;
         String s="";
@@ -283,10 +340,16 @@ public class IOArxius {
          } catch (Exception e) {
              e.printStackTrace();
          }
-
-         return sb.toString();
+         String ret = sb.toString();
+         return ret;
     }
-
+     /**
+     * Funcion para guardar caracteres a un arxivo de disco
+     * @param path
+     * @param contingut
+     * @param append
+     * @return ret(String)
+     */
     public void guardaArxiuTXT(String path, String contingut, boolean append) {
 
             BufferedWriter bw;
@@ -299,9 +362,4 @@ public class IOArxius {
             }
 
     }
-
-
-
-
-
 }

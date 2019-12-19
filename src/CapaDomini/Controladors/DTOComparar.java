@@ -53,15 +53,24 @@ public class DTOComparar {
     public double[] getEstadistiques() {
         return estadistiques;
     }
-
+    /**
+     * Funcion para asignar el contenido inicial
+     * @param contingutInicial
+     */
     void setContingutInicial(byte[] contingutInicial) {
         this.contingutInicial = contingutInicial;
     }
-
+    /**
+     * Funcion para asignar el contenido final
+     * @param contingutFinal
+     */
     void setContingutFinal(byte[] contingutFinal) {
         this.contingutFinal = contingutFinal;
     }
-
+    /**
+     * Funcion para asignar las estadisticas 
+     * @param res
+     */
     void setEstadisticas(double[] res) {
         this.estadistiques = res;
     }

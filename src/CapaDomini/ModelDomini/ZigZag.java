@@ -1,5 +1,10 @@
 package CapaDomini.ModelDomini;
 
+
+/**
+ *
+ * @author Pau
+ */
 public class ZigZag {
     private int x;
     private int y;

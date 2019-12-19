@@ -80,23 +80,8 @@ public class ControladorDescomprimirCarpeta {
                     JPEG compressor = new JPEG();
                         Imatge desprocessat = compressor.descomprimir(imatgeLlegida);
                         if (guardar) {
-                            File f_act = new File(path_file);
-                                ArrayList<String> subdirectorios = new ArrayList<>();
-                                while (!f_act.exists()) {
-                                    int tamany_path_intern = path_file.length()-1;
-                                    while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
-                                    String path_padre = path_file.substring(0, tamany_path_intern);
-                                    String actual = path_file.substring(tamany_path_intern,path_file.length());
-                                    subdirectorios.add(actual);
-                                    f_act = new File(path_padre);
-                                    path_file = path_padre;
-                                }
-                                for (int j = subdirectorios.size()-1; j >= 0; --j) {
-                                    f = new File(path_file+subdirectorios.get(j));
-                                    if (j != 0) f.mkdir();
-                                    path_file += subdirectorios.get(j);
-                                }
-                               path_file = path_file.replace(".jimg", ".ppm");
+                            crearDirectoriosPadres(path_file,false);
+                            path_file = path_file.replace(".jimg", ".ppm");
                             io.guardaImatge(path_file, desprocessat.getHeader(), desprocessat.getContingut());
                         }
                     resultat = desprocessat;
@@ -107,23 +92,7 @@ public class ControladorDescomprimirCarpeta {
                     LZW des = new LZW();
                     ArxiuTXT d = des.descomprimir(b);
                     if (guardar) {
-                        File f_act = new File(path_file);
-                        ArrayList<String> subdirectorios = new ArrayList<>();
-                        while (!f_act.exists()) {
-                            int tamany_path_intern = path_file.length()-1;
-                            while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
-                            String path_padre = path_file.substring(0, tamany_path_intern);
-                            String actual = path_file.substring(tamany_path_intern,path_file.length());
-                            subdirectorios.add(actual);
-                            f_act = new File(path_padre);
-                            path_file = path_padre;
-                        }
-                        for (int j = subdirectorios.size()-1; j >= 0; --j) {
-                            f = new File(path_file+subdirectorios.get(j));
-                            if (j != 0) f.mkdir();
-                            path_file += subdirectorios.get(j);
-                        }
-
+                        crearDirectoriosPadres(path_file,false);
                         path_file = path_file.replace(".lzw", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
@@ -135,22 +104,7 @@ public class ControladorDescomprimirCarpeta {
                     LZSS des = new LZSS();
                     ArxiuTXT d = des.descomprimir(b);
                     if (guardar) {
-                        File f_act = new File(path_file);
-                        ArrayList<String> subdirectorios = new ArrayList<>();
-                        while (!f_act.exists()) {
-                            int tamany_path_intern = path_file.length()-1;
-                            while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
-                            String path_padre = path_file.substring(0, tamany_path_intern);
-                            String actual = path_file.substring(tamany_path_intern,path_file.length());
-                            subdirectorios.add(actual);
-                            f_act = new File(path_padre);
-                            path_file = path_padre;
-                        }
-                        for (int j = subdirectorios.size()-1; j >= 0; --j) {
-                            f = new File(path_file+subdirectorios.get(j));
-                            if (j != 0) f.mkdir();
-                            path_file += subdirectorios.get(j);
-                        }
+                        crearDirectoresPadres(path_file,false);
                         path_file = path_file.replace(".lzss", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
@@ -163,22 +117,7 @@ public class ControladorDescomprimirCarpeta {
                     LZ78 des = new LZ78();
                     ArxiuTXT d = des.descomprimir(b);
                     if (guardar) {
-                        File f_act = new File(path_file);
-                        ArrayList<String> subdirectorios = new ArrayList<>();
-                        while (!f_act.exists()) {
-                            int tamany_path_intern = path_file.length()-1;
-                            while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
-                            String path_padre = path_file.substring(0, tamany_path_intern);
-                            String actual = path_file.substring(tamany_path_intern,path_file.length());
-                            subdirectorios.add(actual);
-                            f_act = new File(path_padre);
-                            path_file = path_padre;
-                        }
-                        for (int j = subdirectorios.size()-1; j >= 0; --j) {
-                            f = new File(path_file+subdirectorios.get(j));
-                            if (j != 0) f.mkdir();
-                            path_file += subdirectorios.get(j);
-                        }
+                        crearDirectoriosPadres(path_file,false);
                         path_file = path_file.replace(".lz78", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
@@ -187,27 +126,40 @@ public class ControladorDescomprimirCarpeta {
 
                 }
                 else {
-                    File f_act = new File(path_file);
-                        ArrayList<String> subdirectorios = new ArrayList<>();
-                        while (!f_act.exists()) {
-                            int tamany_path_intern = path_file.length()-1;
-                            while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
-                            String path_padre = path_file.substring(0, tamany_path_intern);
-                            String actual = path_file.substring(tamany_path_intern,path_file.length());
-                            subdirectorios.add(actual);
-                            f_act = new File(path_padre);
-                            path_file = path_padre;
-                        }
-                        for (int j = subdirectorios.size()-1; j >= 0; --j) {
-                            f = new File(path_file+subdirectorios.get(j));
-                            f.mkdir();
-                            path_file += subdirectorios.get(j);
-                        }
+                    crearDirectoresPadres(path_file,true);
                 }                
             }
         }
     }
-
+    /**
+     * Funcion para crear en la carpeta descomprimida, los directores padres de cada fichero
+     * @param path_file
+     * @param carpeta
+     */
+    private void crearDirectoresPadres(String path_file, boolean carpeta) {
+        File f_act = new File(path_file);
+        ArrayList<String> subdirectorios = new ArrayList<>();
+        while (!f_act.exists()) {
+            int tamany_path_intern = path_file.length()-1;
+            while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;
+            String path_padre = path_file.substring(0, tamany_path_intern);
+            String actual = path_file.substring(tamany_path_intern,path_file.length());
+            subdirectorios.add(actual);
+            f_act = new File(path_padre);
+            path_file = path_padre;
+        }
+        for (int j = subdirectorios.size()-1; j >= 0; --j) {
+            f = new File(path_file+subdirectorios.get(j));
+            if (!carpeta & j != 0) f.mkdir();
+            path_file += subdirectorios.get(j);
+        }
+    }
+        /**
+     * Funcion para guardar las estadisticas de cada compresion de archivos en disco 
+     * @param alg
+     * @param d
+     * @throws Excepcion
+     */
     private void guardaEstadisticas(String alg, Arxiu d) throws Exception {  
         Estadistiques e = d.getEstadistiques();
         result[0] = e.getTemps_compressio();

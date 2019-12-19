@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author bubu0
+ * @author Juanjo
  */
 public class Pair <T1, T2> {
     

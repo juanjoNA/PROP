@@ -14,10 +14,18 @@ import java.io.ObjectOutputStream;
  * @author ivgasa99
  */
 public class MyObjectOutputStream extends ObjectOutputStream{
+     /**
+     * Constructora con un FileOutputStream 
+     * @param fos
+     * @throws IOExcepcion
+     */
     public MyObjectOutputStream(FileOutputStream fos) throws IOException {
         super(fos);
     }
-    
+     /**
+     * Funcion reescribida para que no inserte cabecera cada vez que insertamos contenido en un fichero
+     * @throws IOExcepcion
+     */
     @Override
     protected void writeStreamHeader() throws IOException {
         
