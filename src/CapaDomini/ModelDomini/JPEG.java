@@ -472,7 +472,7 @@ public class JPEG {
 
         float[][][] unDCTed = new float[3][ssVSize][ssHSize];
         float[][][] unQuantized = new float[3][ssVSize][ssHSize];
-        unQuantized = dequantize(decoded,imatgeComprimida.getRatioCompressio());
+        unQuantized = dequantize(decoded,imatgeComprimida.getRatioCompression());
         for (int i = 0; i < ssVSize; i += 8) {
             for (int j = 0; j < ssHSize; j += 8) {
                 unDCTed = undoDCT(unQuantized,unDCTed,i,j);

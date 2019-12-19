@@ -45,6 +45,9 @@ class CodeNode {
     HashMap <String,Pair<Byte,Short>> decodificationTable;
     ArrayList <CodeNode> codes;
 
+     /**
+     * Constructora por defecto
+     */
     public Huffman() {
 
     }
@@ -63,6 +66,11 @@ class CodeNode {
         }
     }
 
+     /**
+     * Funcion para recorrerte un arbol de huffmanNode y sacar los codigos huffman del arbol
+     * @param root
+     * @param code
+     */
     private ArrayList<CodeNode>buildCodes(HuffmanNode root,String code) {
         if (root.left == null && root.right == null) {
             ArrayList<CodeNode> newCodeArray = new ArrayList<CodeNode>();
@@ -77,6 +85,10 @@ class CodeNode {
         }
     }
 
+    /**
+     * Funcion que dado un arrayList de pairs (Byte,Short) genera un arbol huffman y calcula los nodos.
+     * @param list
+     */
     private void buildTree(ArrayList<Pair<Byte,Short>> list) {
         HashMap<Pair<Byte,Short>, Integer> frequencies = new HashMap<Pair<Byte,Short>, Integer>();
         for (Pair<Byte,Short> p : list) {
@@ -100,6 +112,9 @@ class CodeNode {
         codes = buildCodes(root, "");
     }
 
+    /**
+     * Funcion para construir el hashMap de decodificacion a partir del array de codigos
+     */
     private void buildDecodeHashMap() {
         decodificationTable = new  HashMap <String,Pair<Byte,Short>>();
         for (CodeNode codeNode :  codes) {
@@ -108,7 +123,7 @@ class CodeNode {
     }
 
     /**
-     * Funcion para codificar en Huffman
+     * Funcion para codificar un ArrayList de pair(byte,short) usando codigos huffman
      * @param contentToEncode
      * @return contenido codificado(byte[])
      */
@@ -156,7 +171,7 @@ class CodeNode {
     }
 
     /**
-     * Funcion
+     * Funcion para dados un array de bytes con contenido codificado en huffman, el numero de datos y un arraylist vacio decodifica con el decodingHashMap los datos del byte[]
      * @param data
      * @param numPairs
      * @param decodedData
@@ -186,7 +201,10 @@ class CodeNode {
         return decodedData;
     }
     
-
+    /**
+     * Funcion que devuelve el hashMap para decodificar el contenido
+     * @return HashMap(String,Integer)
+     */
     public HashMap <String, Integer> getDecodingHashMap() {
         HashMap<String ,Integer> decoding = new HashMap<String,Integer>();
         for(Map.Entry<String,Pair<Byte,Short>> e : decodificationTable.entrySet()) {
@@ -197,7 +215,7 @@ class CodeNode {
     }
     
     /**
-     * Funcion para guardar un DecodeHashMap
+     * Funcion para poner el hashMap de decodificacion
      * @param decodeHashMap
      */
     public void setDecodingHashMap(HashMap <String, Integer> decodeHashMap) {

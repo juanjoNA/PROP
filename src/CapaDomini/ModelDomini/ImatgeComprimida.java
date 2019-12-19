@@ -20,9 +20,26 @@ public class ImatgeComprimida extends Imatge{
     private int numPairs;
     int ratioCompression;
     String subsampling;
-
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, String subsampling) throws VersionPPMIncorrecta {
-        super(path,content,v,sv,sh,maxValue);
+    
+    
+     /**
+     * Constructora con todos los parametros de creacion de una imagen comprimida
+     * @param path
+     * @param content
+     * @param version
+     * @param sizev
+     * @param sizeh
+     * @param maxValue
+     * @param modSizeV
+     * @param modSizeH
+     * @param dec
+     * @param numberPairs
+     * @param ratioCompression
+     * @param subsampling
+     * @throws VersionPPMIncorrecta
+     */
+    public ImatgeComprimida (String path, byte[] content, String version, int sizev, int sizeh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, String subsampling) throws VersionPPMIncorrecta {
+        super(path,content,version,sizev,sizeh,maxValue);
          this.modifiedSizeV = modSizeV;
          this.modifiedSizeH = modSizeH;
          this.decoder = dec;
@@ -31,9 +48,16 @@ public class ImatgeComprimida extends Imatge{
          this.subsampling = subsampling;
      }
 
-   public  ImatgeComprimida(String path, byte[] content, HashMap<String,Integer> dec) throws VersionPPMIncorrecta {
+    /**
+     * Constructora con un path, un contenido de imagen comprimida en byte[] y el hashmap de descompresion
+     * @param path
+     * @param content
+     * @param decodingHashMap
+     * @throws decodingHashMap
+     */
+   public  ImatgeComprimida(String path, byte[] content, HashMap<String,Integer> decodingHashMap) throws VersionPPMIncorrecta {
         super(path,content);
-        decoder = dec;
+        decoder = decodingHashMap;
         byte[] contingutActual = super.getContingut();
         StringBuilder modifiedSizes = new StringBuilder();
         int newPos = super.readLine(modifiedSizes,0,contingutActual);
@@ -57,42 +81,72 @@ public class ImatgeComprimida extends Imatge{
         }
         super.setContingut(finalContent);
     }
-
+   
+    /**
+     * Getter del tamano horizontal modificado
+     * @return int modifiedSizeH
+     */
     public int getModifiedSizeH() {
         return modifiedSizeH;
     }
-
+    
+    /**
+     * Getter del tamano vertical modificado
+     * @return int modifiedSizeV
+     */
     public int getModifiedSizeV() {
         return modifiedSizeV;
     }
 
+    /**
+     * Getter del hashmap decodificador
+     * @return HashMap (String,Integer) decoder
+     */
     public HashMap <String,Integer> getDecoder() {
         return decoder;
     }
+    
+    /**
+     * Getter del numero total de pairs de la imagen del Run Length Encoding
+     * @return int numPairs
+     */
     public int getNumPairs() {
        return numPairs;
     }
 
-    public int getRatioCompressio() {
-        return this.ratioCompression;
-    }
-
-
+    
+    /**
+     * Getter del header de la imagen comprimida
+     * @return String header
+     */
     @Override
     public String getHeader() {
        String header = super.getVersion() + "\n" + Integer.toString(super.getSizeH()) + " " + Integer.toString(super.getSizeV()) + "\n" + Integer.toString(super.getMaxVal()) + "\n" +Integer.toString(modifiedSizeV) + " " + Integer.toString(modifiedSizeH) + "\n" + Integer.toString(numPairs) + "\n" + Integer.toString(this.ratioCompression) + "\n" + this.subsampling + "\n";
        return header;
     }
 
+    /**
+     * Getter del tamano del fichero
+     * @return int tamanoFichero
+     */
     @Override
     public int getMida() {
         int mida = getHeader().length() + decoder.toString().length() + super.getContingut().length;
         return mida;
     }
     
+    /**
+     * Getter del ratio de compresion
+     * @return int ratioCompressio
+     */
     public int getRatioCompression() {
         return ratioCompression;
     }
+    
+    /**
+     * Getter de los parametros de subsampling
+     * @return String subsamppling
+     */
 
     public String getSubsampling() {
         return subsampling;
