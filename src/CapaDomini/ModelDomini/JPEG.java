@@ -25,10 +25,18 @@ public class JPEG {
     private int ssVSize;
     private int ssHSize;
 
+    /**
+     * Constructora por defecto
+     */
     public JPEG () {
 
     }
-
+    
+    /**
+     * Funcion para pasar un array de bytes de tripletas de bytes r,g,b a una matriz de floats en YCbCr
+     * @param content
+     * @return float[][][] YCbCrContent
+     */
     private float[][][] RGBToYCbCr(byte[] content) {
         float[][][] YCbCr = new float[3][vsize][hsize];
         for (int i = 0; i < origVsize; ++i) {
@@ -45,6 +53,11 @@ public class JPEG {
         return YCbCr;
     }
 
+    /**
+     * Funcion para pasar una matriz de floats en YCbCr a una matriz de bytes de RGB
+     * @param YCbCr
+     * @return byte[][][] RGBContent
+     */
     private byte[][][] YCbCrToRGB (float[][][] YCbCr) {
         byte[][][] newRGB = new byte[3][vsize][hsize];
         for (int i = 0; i < vsize; ++i) {
@@ -74,6 +87,12 @@ public class JPEG {
         return newRGB;
     }
 
+    /**
+     * Funcion para hacer subsample a una matriz
+     * @param mat
+     * @param subsampling
+     * @return float[][][] subsampledMatrix
+     */
     float[][][] subsample(float[][][] mat,int[] subsampling) {
         float[][][] result = new float[3][ssVSize][ssHSize];
         result[0] = mat[0].clone();
@@ -109,6 +128,12 @@ public class JPEG {
         return result;
     }
 
+    /**
+     * Funcion para deshacer subsample a una matriz
+     * @param mat
+     * @param subsampling
+     * @return float[][][] unSubsampledMatrix
+     */
     float[][][] unSubsample(float[][][] mat, int[] subsampling) {
         float[][][] result = new float[3][vsize][hsize];
         result[0] = mat[0].clone();
@@ -139,6 +164,11 @@ public class JPEG {
         return result;
     }
 
+    /**
+     * Funcion para restar 128 a una matriz
+     * @param mat
+     * @return float[][][] subtractedMatrix
+     */
     private float[][][] subtract128(float[][][] mat) {
         int tamx = mat.length;
         int tamy = mat[0].length;
@@ -154,6 +184,11 @@ public class JPEG {
         return temp;
     }
 
+    /**
+     * Funcion para sumar 128 a una matriz
+     * @param mat
+     * @return float[][][] addedMatrix
+     */
     private float[][][] add128(float[][][] matrix) {
         int tamx = matrix.length;
         int tamy = matrix[0].length;
@@ -168,9 +203,18 @@ public class JPEG {
         }
         return temp;
     }
-
+    
+    
     static double[] normalizingScale = new double[] {1.0/Math.sqrt(2.0),1.0,1.0,1.0,1.0,1.0,1.0,1.0};
 
+    /**
+     * Funcion para hacer DCT a un cuadrado de 8x8 de una matriz (indicado en initialX e initialY)
+     * @param YCbCr
+     * @param actual
+     * @param initialX
+     * @param initialY
+     * @return float[][][] partiallyDCTedMatrix
+     */
     private float [][][] doDCT(float[][][] YCbCr,float[][][] actual,int initialX, int initialY) {
         for (int i = 1; i < 3; ++i) {
             for (int u = 0; u < 8; ++u) {
@@ -191,6 +235,14 @@ public class JPEG {
         return actual;
     }
 
+    /**
+     * Funcion para deshacer DCT a un cuadrado de 8x8 de una matriz (indicado en initialX e initialY)
+     * @param quantized
+     * @param actual
+     * @param initialX
+     * @param initialY
+     * @return float[][][] partiallyUnDCTedMatrix
+     */
     private float [][][] undoDCT(float[][][] quantized, float[][][] actual,int a,int b) {
         for (int i = a; i < a+8; ++i) {
             for (int j = b; j < b+8; ++j) {
@@ -217,7 +269,16 @@ public class JPEG {
         }
         return actual;
     }
-
+    
+    /**
+     * Funcion para cuantizar un cuadrado de 8x8 de una matriz con un ratio de compresion
+     * @param matrix
+     * @param actual
+     * @param initialX
+     * @param initialY
+     * @param ratioCompression
+     * @return int[][][] partiallyQuantizedMatrix
+     */
     private int[][][] quantize(float[][][] matrix, int[][][] actual, int a, int b, int ratioCompression) {
         double percentage = ratioCompression/100.0;
         for(int i = a; i < a+8; ++i) {
@@ -231,6 +292,12 @@ public class JPEG {
         return actual;
     }
 
+    /**
+     * Funcion para dequantizar una matriz con un ratio de compresion
+     * @param matrix
+     * @param ratioCompression
+     * @return int[][][] unQuantizedMatrix
+     */
     private float[][][] dequantize(int[][][] matrix, int ratioCompression) {
         double percentage = ratioCompression/100.0;
         float[][][] actual = new float[3][vsize][hsize];
@@ -250,6 +317,14 @@ public class JPEG {
         return actual;
     }
 
+    /**
+     * Funcion hacer run length encode a un cuadrado de 8x8 de una matriz
+     * @param mat
+     * @param row
+     * @param col
+     * @param result
+     * @return ArrayList(Pair(byte,short)) partiallyRunLengthEncoded
+     */
     private ArrayList<Pair<Byte,Short>> runLengthEncode(int[][][] mat, int row, int col, ArrayList<Pair<Byte,Short>> result) {
 
         ZigZag rlCb = new ZigZag(mat[1], row, col);
@@ -289,7 +364,14 @@ public class JPEG {
         result.add(temp2);
         return result;
     }
-
+    
+    /**
+     * Funcion deshacer run length encode de una matriz dada una matriz de luminancia
+     * @param encoded
+     * @param decoded
+     * @param luminance
+     * @return int[][][] runLengthDecoded
+     */
     private int[][][] runLengthDecode(ArrayList<Pair<Byte,Short>> encoded, int[][][] decoded,int[][] luminance) {
         int matNum = 0;
         int index = 0;
@@ -325,6 +407,13 @@ public class JPEG {
         return decoded.clone();
     }
 
+    /**
+     * Funcion comprimir una imagen ppm en jpg dado un ratio de compresion y un subsampling 
+     * @param imatgeDescomprimida
+     * @param ratioCompression
+     * @param subsamplingString
+     * @return ImatgeComprimida imatgeComprimida
+     */
     public ImatgeComprimida comprimir(Imatge imatgeDescomprimida, int ratioCompression, String subsamplingString) throws IOException, VersionPPMIncorrecta, DatosIncorrectos {
 
         String[] subsamplingParsed = subsamplingString.split(":");
@@ -407,6 +496,11 @@ public class JPEG {
         return imatgeComprimida;
     }
 
+    /**
+     * Funcion descomprimir una imagen en jpg a ppm
+     * @param imatgeComprimida
+     * @return Imatge imatgeDescomprimida
+     */
     public Imatge descomprimir(ImatgeComprimida imatgeComprimida) throws VersionPPMIncorrecta, DatosIncorrectos {
         long start = System.currentTimeMillis();
         vsize = imatgeComprimida.getModifiedSizeV();

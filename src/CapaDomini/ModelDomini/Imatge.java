@@ -25,6 +25,7 @@ public class Imatge extends ArxiuBytes {
      * @param sizev
      * @param sizeh
      * @param maxValue
+     * @throws VersionPPMIncorrecta
      */
     public Imatge (String path, byte[] contingut, String version, int sizev, int sizeh, int maxValue) throws VersionPPMIncorrecta {
         super(path,contingut);
@@ -42,6 +43,7 @@ public class Imatge extends ArxiuBytes {
      * Constructora con un path y todo el contenido de una imagen
      * @param path
      * @param content
+     * @throws VersionPPMIncorrecta
      */
     public Imatge (String path, byte [] content) throws VersionPPMIncorrecta {
         super(path,content);
