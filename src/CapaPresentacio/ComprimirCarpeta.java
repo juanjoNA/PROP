@@ -31,9 +31,11 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
 
     ControladorComprimirCarpeta ctrComprimirCarpetes;
     ControladorAlgoritmes ctrAlgoritmos;
+    MainFrame mainForm;
     
-    public ComprimirCarpeta() {
+    public ComprimirCarpeta(MainFrame mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
 
     /**
@@ -96,6 +98,7 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
         panelRadioButtons.setLayout(new java.awt.GridBagLayout());
         panelRadioButtons.setVisible(false);
 
+        labelTXT.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         labelTXT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTXT.setText("Fitxers TXT");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -116,7 +119,7 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panelRadioButtons.add(panelButtonsTXT, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -401,17 +404,17 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
             panelEstadistiques.setVisible(true);
             
-        } catch (IOException ex) {
-            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CaracterNoASCII ex) {
-            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4));
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5));
+        } catch (CaracterNoASCII ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1));
         } catch (ExtensionIncorrecta ex) {
-            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(this, mainForm.returnException(2));
+        } 
         
     }//GEN-LAST:event_bComprimirActionPerformed
 
@@ -460,7 +463,12 @@ public void crearBotones(){
     ArrayList<String> algs;
     ctrAlgoritmos = new ControladorAlgoritmes("txt");
     algs = ctrAlgoritmos.getAlgoritmes();
-    
+    panelButtonsPPM.removeAll();
+    panelButtonsTXT.removeAll();
+    bgRadiosTXT.clearSelection();
+    bgRadiosPPM.clearSelection();
+    if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
+        
     for(String nom : algs){
         JRadioButton b = new JRadioButton();
         b.setText(nom);

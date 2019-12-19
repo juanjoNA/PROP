@@ -22,9 +22,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Descomprimir extends javax.swing.JPanel {
 
     ControladorDescomprimir ctrDescomprimir;
+    MainFrame mainForm;
     
-    public Descomprimir() {
+    public Descomprimir(MainFrame mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
     
     @SuppressWarnings("unchecked")
@@ -91,9 +93,9 @@ public class Descomprimir extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 30);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 30);
         add(bDescomprimir, gridBagConstraints);
 
         panelEstadistiques.setLayout(new java.awt.GridBagLayout());
@@ -161,7 +163,7 @@ public class Descomprimir extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -177,14 +179,13 @@ public class Descomprimir extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
             return;
         }  
-            
-        alg = seleccionaAlg(tfPath.getText());
+        
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
         if (guardar==JOptionPane.YES_OPTION){
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
+            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), true);
         }else {
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
+            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), true);
         }
         
         try {
@@ -198,13 +199,13 @@ public class Descomprimir extends javax.swing.JPanel {
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4));
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3));
         } catch (IOException ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1));
         } catch (Exception ex) {
-            Logger.getLogger(Descomprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
         
     }//GEN-LAST:event_bDescomprimirActionPerformed
@@ -238,14 +239,4 @@ public class Descomprimir extends javax.swing.JPanel {
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
 
-    private String seleccionaAlg(String text) {
-        String extensio;
-        
-        if(tfPath.getText().endsWith(".lzss")) extensio="LZSS";
-        else if(tfPath.getText().endsWith(".lz78")) extensio="LZ78";
-        else if(tfPath.getText().endsWith(".lzw")) extensio="LZW";
-        else extensio="JPEG";
-        
-        return extensio;
-    }
 }

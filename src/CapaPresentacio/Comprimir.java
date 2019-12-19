@@ -7,17 +7,26 @@ package CapaPresentacio;
 
 import CapaDomini.Controladors.ControladorAlgoritmes;
 import CapaDomini.Controladors.ControladorComprimir;
+import CapaDomini.Controladors.ControladorEstadisticas;
 import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -29,11 +38,13 @@ public class Comprimir extends javax.swing.JPanel {
 
     ControladorComprimir ctrComprimir;
     ControladorAlgoritmes ctrAlgoritmes;
+    MainFrame mainForm;
     /**
      * Creates new form Comprimir
      */
-    public Comprimir() {
+    public Comprimir(MainFrame mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
 
     /**
@@ -92,13 +103,13 @@ public class Comprimir extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         add(tfPath, gridBagConstraints);
 
-        panelRadioButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 60, 5));
+        panelRadioButtons.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
         add(panelRadioButtons, gridBagConstraints);
 
         bBrowser.setText("Browser");
@@ -129,7 +140,7 @@ public class Comprimir extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 30, 10, 30);
+        gridBagConstraints.insets = new java.awt.Insets(20, 30, 20, 30);
         add(bComprimir, gridBagConstraints);
 
         panelEstadistiques.setLayout(new java.awt.GridBagLayout());
@@ -333,6 +344,10 @@ public class Comprimir extends javax.swing.JPanel {
         
         if(alg.equals("JPEG")){
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else if(alg.equals("Automatic")){
+            ControladorEstadisticas ctrEstadisticas = new ControladorEstadisticas(true);
+            //alg = ctrEstadisticas.executar();
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
         }else{
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
         }
@@ -349,70 +364,47 @@ public class Comprimir extends javax.swing.JPanel {
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (CaracterNoASCII ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bComprimirActionPerformed
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "txt & ppm", "txt", "ppm");
-        chooser.setFileFilter(filter);
+        chooser.setFileFilter(new FileNameExtensionFilter("TXT, PPM & Carpetes", "txt", "ppm"));
+        
         chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        
         int returnVal = chooser.showOpenDialog(this);
+        
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             tfPath.setText(chooser.getSelectedFile().getPath());
-            crearBotones();
+            panelRadioButtons.removeAll();
+            
+            if(chooser.getSelectedFile().isFile()){
+                crearBotonesFichero();
+            }else{
+                crearBotonesCarpeta();
+            }
             bComprimir.setVisible(true);
             panelEstadistiques.setVisible(false);
+            panelRadioButtons.setVisible(true);
+            panelRadioButtons.invalidate();
+            panelRadioButtons.validate();
         }
     }//GEN-LAST:event_bBrowserActionPerformed
 
     private void sliderJPEGStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderJPEGStateChanged
         labelValorGrauCompresio.setText(String.valueOf(sliderJPEG.getValue()));
     }//GEN-LAST:event_sliderJPEGStateChanged
-
-    public void crearBotones(){
-        ArrayList<String> botons;
-        panelRadioButtons.removeAll();
-        bgAlgoritmos.clearSelection();
-        if(tfPath.getText().endsWith(".txt")){
-           ctrAlgoritmes = new ControladorAlgoritmes("txt");
-        }else{
-           ctrAlgoritmes = new ControladorAlgoritmes("imatge");
-        }
-        botons = ctrAlgoritmes.getAlgoritmes();
-        for(String nom : botons){
-            JRadioButton b = new JRadioButton();
-            b.setText(nom);
-            b.setActionCommand(nom);
-            b.setName(nom);
-            bgAlgoritmos.add(b);
-            panelRadioButtons.add(b);
-            ActionListener al = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(nom.equals("JPEG")) panelDadesJPEG.setVisible(true);
-                    else panelDadesJPEG.setVisible(false);
-                }
-            };
-            b.addActionListener(al);
-        }
-        panelRadioButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 60, 5));
-        panelRadioButtons.setSize(tfPath.getSize());
-        panelRadioButtons.invalidate();
-        panelRadioButtons.validate();
-        
-        if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBrowser;
@@ -442,6 +434,128 @@ public class Comprimir extends javax.swing.JPanel {
     private javax.swing.JSlider sliderJPEG;
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
+
+    private void crearBotonesFichero(){
+        ArrayList<String> botons;
+        panelRadioButtons.removeAll();
+        bgAlgoritmos.clearSelection();
+        if(tfPath.getText().endsWith(".txt")){
+            ctrAlgoritmes = new ControladorAlgoritmes("txt");
+        }else{
+            ctrAlgoritmes = new ControladorAlgoritmes("ppm");
+        }
+        
+        botons = ctrAlgoritmes.getAlgoritmes();
+        for(String nom : botons){
+            JRadioButton b = new JRadioButton();
+            b.setText(nom);
+            b.setActionCommand(nom);
+            b.setName(nom);
+            bgAlgoritmos.add(b);
+            panelRadioButtons.add(b);
+            ActionListener al = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(nom.equals("JPEG")) panelDadesJPEG.setVisible(true);
+                    else panelDadesJPEG.setVisible(false);
+                }
+            };
+            b.addActionListener(al);
+        }
+        panelRadioButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 60, 10));
+        panelRadioButtons.setSize(tfPath.getSize());
+        panelRadioButtons.invalidate();
+        panelRadioButtons.validate();
+        
+        if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
+    }
+    
+    private void crearBotonesCarpeta(){
+
+        ArrayList<String> algs;
+        ctrAlgoritmes = new ControladorAlgoritmes("txt");
+        algs = ctrAlgoritmes.getAlgoritmes();
+        
+        /* 
+         * Creamos el panel de los radio buttons
+         * Le ponemos un gridBagLayout para dividir en 2 partes
+        */
+        GridBagConstraints gbCons = new GridBagConstraints();
+        
+        // Definimos los labels de titol sobre els radioButons
+        gbCons.weightx = 1.0;
+        gbCons.fill = GridBagConstraints.HORIZONTAL;
+        
+
+        JLabel labelTXT = new JLabel("Algoritmes fitxers txt", javax.swing.SwingConstants.CENTER);
+        labelTXT.setFont(new java.awt.Font("Tahoma", 1, 14));
+        gbCons.gridx = 0;
+        gbCons.gridy = 0;
+        panelRadioButtons.add(labelTXT, gbCons);
+        
+        JLabel labelPPM = new JLabel("Algoritmes fitxers ppm", javax.swing.SwingConstants.CENTER);
+        labelPPM.setFont(new java.awt.Font("Tahoma", 1, 14));
+        gbCons.gridx = 1;
+        gbCons.gridy = 0;
+        panelRadioButtons.add(labelPPM, gbCons);
+        
+        /*
+        * Creamos dos paneles cada uno con un grupo de radio buttons diferentes
+        * A cada panel le damos un FlowLayout donde meteremos los botones
+        */
+        gbCons.insets = new Insets(10,0,0,0);
+        JPanel panelButtonsTXT = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        gbCons.gridx = 0;
+        gbCons.gridy = 1;
+        panelRadioButtons.add(panelButtonsTXT, gbCons);
+        
+        JPanel panelButtonsPPM = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        gbCons.gridx = 1;
+        gbCons.gridy = 1;
+        panelRadioButtons.add(panelButtonsPPM, gbCons);
+        
+        ButtonGroup bgRadiosTXT = new ButtonGroup();
+        ButtonGroup bgRadiosPPM = new ButtonGroup();
+        
+        if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
+
+        for(String nom : algs){
+            JRadioButton b = new JRadioButton();
+            b.setText(nom);
+            b.setActionCommand(nom);
+            b.setName(nom);
+            b.setMargin(new Insets(0,0,0,10));
+            bgRadiosTXT.add(b);
+            panelButtonsTXT.add(b);
+
+        }
+
+        ctrAlgoritmes = new ControladorAlgoritmes("ppm");
+        algs = ctrAlgoritmes.getAlgoritmes();
+
+        for(String nom : algs){
+            JRadioButton b = new JRadioButton();
+            b.setText(nom);
+            b.setActionCommand(nom);
+            b.setName(nom);
+            b.setMargin(new Insets(0,0,0,5));
+            bgRadiosPPM.add(b);
+            panelButtonsPPM.add(b);
+            ActionListener al = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(nom.equals("JPEG")) panelDadesJPEG.setVisible(true);
+                    else panelDadesJPEG.setVisible(false);
+                }
+            };
+            b.addActionListener(al);
+        }
+    }
+
+
+
+
+
 }
 
 

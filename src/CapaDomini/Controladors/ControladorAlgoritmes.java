@@ -17,7 +17,7 @@ public class ControladorAlgoritmes {
         }else{
             algoritmes.add("JPEG");
         }
-        algoritmes.add("Automàtic");
+        algoritmes.add("Automatic");
     }
     
     public ArrayList<String> getAlgoritmes(){
