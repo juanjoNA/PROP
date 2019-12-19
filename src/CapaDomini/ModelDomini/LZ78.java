@@ -22,7 +22,13 @@ public class LZ78 extends LZ{
         private int unsignedToBytes(byte b) {
             return b & 0xFF;
         }
-        public int byteToUnsignedInt(byte b) {
+
+    /**
+     *
+     * @param b
+     * @return
+     */
+    private int byteToUnsignedInt(byte b) {
         return b & 0xFF;
     }
         
@@ -37,8 +43,14 @@ public class LZ78 extends LZ{
             return (bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF);        
         }
         
-    
-        public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII {
+    /**
+     * Funcion para comprimir un archivo de texto a un archivo en bytes
+     * @param f
+     * @return arxiu comprimit(ArxiuBytes)
+     * @throws IOException
+     * @throws CaracterNoASCII
+     */
+    public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII {
             long start = System.currentTimeMillis();
             int pos = 0;
             int j = 1;
@@ -142,7 +154,14 @@ public class LZ78 extends LZ{
             return comp;
         }
         
-        public ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
+    /**
+     * Funcion para descomprimir un arxivo en bytes a un arxivo de texto
+     * @param f
+     * @return arxiu descomprimit(ArxiuTXT)
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
             long start = System.currentTimeMillis();
             int pos = 1;
             int j = 1;

@@ -321,7 +321,8 @@ public class Comparar extends javax.swing.JPanel {
 
         try {
             mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
-            result = ctrComparar.executar();
+            ctrComparar.executar();
+            result = ctrComparar.getResult();
             mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
             textIni = result.getContingutInicial();
             textFin = result.getContingutFinal();

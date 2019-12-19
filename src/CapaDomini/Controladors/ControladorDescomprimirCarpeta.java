@@ -42,12 +42,26 @@ public class ControladorDescomprimirCarpeta {
     private boolean guardar;
     private double[] result;
 
+    /**
+     * Constructora con un path y un bool para guardar
+     * @param path
+     * @param guardar
+     */
     public ControladorDescomprimirCarpeta (String path, boolean guardar) {
         this.path=path;
         this.guardar=guardar;
         this.result=new double[3];
     }
 
+    /**
+     * Funcion principal del controlador, descomprime una carpeta y deja las estadisticas del proceso en la variable result
+     * @throws ExtensionIncorrecta
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws Exception
+     */
     public void executar() throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos, Exception {
         if (!path.contains(".carp")) throw new ExtensionIncorrecta();
         IOArxius io = new IOArxius();

@@ -17,47 +17,90 @@ public class Estadistiques {
     private double temps_compressio;
     private double percentatge_compressio;
 
+    /**
+     *
+     */
     public Estadistiques() {
 
     }
 
+    /**
+     * Contructora con el tiempo de start, el final, el tamaño inicial y el tamaño final del arxivo
+     * @param start
+     * @param end
+     * @param tamIni
+     * @param tamFi
+     */
     public Estadistiques(long start, long end, int tamIni, int tamFi){
         this.percentatge_compressio = Math.abs(((float)(tamFi-tamIni)/(float)tamIni)) * 100;
         this.temps_compressio = (end-start);
         this.velocitat_compressio = ((float)tamIni/(float)(end-start))/1000;
     }
 
+    /**
+     * Constructora con la velocidad, el tiempo y el porcentage de compression
+     * @param vel
+     * @param temps
+     * @param perc
+     */
     public Estadistiques(double vel, double temps, double perc){
         this.velocitat_compressio = vel;
         this.temps_compressio = temps;
         this.percentatge_compressio = perc;
     }
 
+    /**
+     * Funcion para obtener la velocidad de compression
+     * @return velocitat_compressio(double)
+     */
     public double getVelocitat_compressio() {
         return velocitat_compressio;
     }
 
+    /**
+     * Funcion para guardar una velocidad de compression
+     * @param velocitat_compressio
+     */
     public void setVelocitat_compressio(double velocitat_compressio) {
         this.velocitat_compressio = velocitat_compressio;
     }
 
-
+    /**
+     * Funcion para obtener la tiempo de compression
+     * @return tiempo_compressio(double)
+     */
     public double getTemps_compressio() {
         return temps_compressio;
     }
 
+    /**
+     * Funciomn para guardar el tiempo de compression
+     * @param temps_compressio
+     */
     public void setTemps_compressio(double temps_compressio) {
         this.temps_compressio = temps_compressio;
     }
 
+    /**
+     * Funcion para obtener el porcentage de compression
+     * @return percentatge_compressio(double)
+     */
     public double getPercentatge_compressio() {
         return percentatge_compressio;
     }
 
+    /**
+     * Funcion para guardar un porcentage de compression
+     * @param percentatge_compressio
+     */
     public void setPercentatge_compressio(double percentatge_compressio) {
         this.percentatge_compressio = percentatge_compressio;
     }
 
+    /**
+     * Funciom para obtener las estadisticas
+     * @return est(double[])
+     */
     public double[] getEstadistiques() {
         double[] est = new double[3];
         est[0] = velocitat_compressio;
@@ -66,17 +109,35 @@ public class Estadistiques {
         return est;
     }
     
+    /**
+     * Funcion para obtener el algoritmo con mejor ratio de porcentage de compression
+     * @return algorithm(String)
+     * @throws Exception
+     */
     public String getAuto() throws Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
         return estd.getBestAlgorithm();
     }
 
+    /**
+     * Funcion para guardar estadisticas en disco
+     * @param result
+     * @param algorithm
+     * @param comp
+     * @throws ParseException
+     * @throws Exception
+     */
     public void guardaEst(double[] result, String algorithm, boolean comp) throws ParseException, Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
         if(comp) estd.writeEstCompressio(result[0], result[1], result[2], algorithm);
         else estd.writeEstDescompressio(result[0], result[1], result[2], algorithm);
     }
 
+    /**
+     * Funcion para obtener las estadisticas guardadas en disco
+     * @return
+     * @throws Exception
+     */
     public String[][] getEstadisticasMitjana() throws Exception {
         EstadisticasDisc estd = new EstadisticasDisc();
         String[] alg = estd.getalgoritmos();

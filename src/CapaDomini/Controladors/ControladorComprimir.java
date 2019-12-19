@@ -32,10 +32,20 @@ public class ControladorComprimir {
     private int ratioCompression;
     private String subsampling;
 
+    /**
+     * Funcion para obtener el resultado
+     * @return result(double[])
+     */
     public double[] getResult() {
         return result;
     }
 
+    /**
+     * Constructora con un path, un algoritmo i un bool que indica si se ha de guardar el fichero
+     * @param path
+     * @param algoritmo
+     * @param guardar
+     */
     public ControladorComprimir (String path, String algoritmo, boolean guardar) {
         this.path = path;
         this.algoritmo = algoritmo;
@@ -45,6 +55,14 @@ public class ControladorComprimir {
         this.subsampling = ".invalid.";
     }
     
+    /**
+     * Constructora con un path, un algoritmo, un bool que indica si se ha de guardar el fichero, un ratio de compression y un subsampling
+     * @param path
+     * @param algoritmo
+     * @param guardar
+     * @param ratioCompression
+     * @param subsampling
+     */
     public ControladorComprimir (String path, String algoritmo, boolean guardar, int ratioCompression, String subsampling) {
         this.path = path;
         this.algoritmo = algoritmo;
@@ -54,6 +72,14 @@ public class ControladorComprimir {
         this.subsampling = subsampling;
     }
 
+    /**
+     * Funcion principal del controlador, comprime un archivo y deja las estadisticas del proceso en la variable result
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws IOException
+     * @throws CaracterNoASCII
+     * @throws Exception
+     */
     public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII, Exception {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();

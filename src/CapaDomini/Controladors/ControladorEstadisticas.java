@@ -17,15 +17,25 @@ public class ControladorEstadisticas {
     private Estadistiques est;
     private String[][] result;
     
-    
+    /**
+     * Constructora por defecto
+     */
     public ControladorEstadisticas() {
         est = new Estadistiques();
     }
     
+    /**
+     * Funcion principal, devuelve estadisticas generales de todo el programa en la variable result
+     * @throws Exception
+     */
     public void executar() throws Exception {
         result = getEstGeneral();
     }
 
+    /**
+     * Funcion para obtener la variable result
+     * @return restult(String[][])
+     */
     public String[][] getResult() {
         return result;
     }
@@ -34,7 +44,12 @@ public class ControladorEstadisticas {
         return est.getEstadisticasMitjana();
     }
 
-    private String getAutomatic() throws Exception {
+    /**
+     * Funcion que devuelve el mejor algoritmo en cuanto a ratio de compression 
+     * @return auto((String)
+     * @throws Exception
+     */
+    public String getAutomatic() throws Exception {
         return est.getAuto();   
     }
 

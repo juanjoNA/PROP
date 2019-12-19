@@ -49,6 +49,10 @@ class CodeNode {
 
     }
 
+    /**
+     * Constructora con un decodeHashMap
+     * @param decodeHashMap
+     */
     public Huffman(HashMap <String,Integer> decodeHashMap) {
         decodificationTable = new HashMap<String, Pair<Byte,Short>>();
         for (Map.Entry<String,Integer> e: decodeHashMap.entrySet()) {
@@ -103,6 +107,11 @@ class CodeNode {
         }
     }
 
+    /**
+     * Funcion para codificar en Huffman
+     * @param contentToEncode
+     * @return contenido codificado(byte[])
+     */
     public byte[] huffmanEncode(ArrayList<Pair<Byte,Short>> contentToEncode) {                
         buildTree(contentToEncode);
         ArrayList<Byte> encodedContent = new ArrayList<Byte>();
@@ -146,6 +155,13 @@ class CodeNode {
         return result;
     }
 
+    /**
+     * Funcion
+     * @param data
+     * @param numPairs
+     * @param decodedData
+     * @return
+     */
     public ArrayList<Pair<Byte,Short>>huffmanDecode(byte[] data,int numPairs, ArrayList<Pair<Byte,Short>> decodedData) {
         int flag = 0x0080;
         StringBuilder builder = new StringBuilder();
@@ -180,6 +196,10 @@ class CodeNode {
          return decoding;
     }
     
+    /**
+     * Funcion para guardar un DecodeHashMap
+     * @param decodeHashMap
+     */
     public void setDecodingHashMap(HashMap <String, Integer> decodeHashMap) {
         decodificationTable = new HashMap<String, Pair<Byte,Short>>();
         for (Map.Entry<String,Integer> e: decodeHashMap.entrySet()) {

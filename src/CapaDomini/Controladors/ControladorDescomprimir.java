@@ -30,16 +30,32 @@ public class ControladorDescomprimir {
     private boolean guardar;
     private double[] result;
 
+    /**
+     * Funcion para obtener la variable result con todas las estadistocas de descompression
+     * @return result(double[])
+     */
     public double[] getResult() {
         return result;
     }
 
+    /**
+     * Constructora con un path i un bool para saber si hay que guardar en disco el fichero
+     * @param path
+     * @param guardar
+     */
     public ControladorDescomprimir (String path, boolean guardar) {
         this.path = path;
         this.guardar = guardar;
         this.result = new double[3];
     }
 
+    /**
+     * Funcion principal del controlador, descomprime un arxivo en bytes y deja el resultado de las estadisticas en la variable result
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws IOException
+     * @throws Exception
+     */
     public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException, Exception {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;

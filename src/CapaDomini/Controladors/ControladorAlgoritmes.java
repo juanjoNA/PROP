@@ -9,6 +9,11 @@ import java.util.ArrayList;
 public class ControladorAlgoritmes {
     
     private ArrayList<String> algoritmes = new ArrayList<>();
+
+    /**
+     * Construtora que se le pasa por parametro una extension de un archivo
+     * @param extensio
+     */
     public ControladorAlgoritmes(String extensio){
         if(extensio.equals("txt")){
             algoritmes.add("LZW");
@@ -20,6 +25,10 @@ public class ControladorAlgoritmes {
         algoritmes.add("Automatic");
     }
     
+    /**
+     * Funcion para obtener una lista de algoritmos
+     * @return algoritmes(ArrayList<String>)
+     */
     public ArrayList<String> getAlgoritmes(){
         return algoritmes;
     }

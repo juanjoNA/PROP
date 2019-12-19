@@ -15,6 +15,12 @@ public class DTOComparar {
     private byte[] contingutFinal;
     private double[] estadistiques;
     
+    /**
+     * Constructora con un contenido inicial, un contenido final y unas estadisticas
+     * @param contingutInicial
+     * @param contingutFinal
+     * @param estadistiques
+     */
     public DTOComparar(byte[] contingutInicial, byte[] contingutFinal, double[] estadistiques) {
         this.contingutInicial = contingutInicial;
         this.contingutFinal = contingutFinal;
@@ -24,14 +30,26 @@ public class DTOComparar {
     DTOComparar() {
     }
     
+    /**
+     * Funcion para obtener el contingut inicial
+     * @return contingutInicial(byte[])
+     */
     public byte[] getContingutInicial() {
         return contingutInicial;
     }
 
+    /**
+     * Funcion para obtener el contenido final
+     * @return contingutFinal(byte[])
+     */
     public byte[] getContingutFinal() {
         return contingutFinal;
     }
 
+    /**
+     * Funcion para obtener las estadisticas
+     * @return estadistiques(double[])
+     */ 
     public double[] getEstadistiques() {
         return estadistiques;
     }

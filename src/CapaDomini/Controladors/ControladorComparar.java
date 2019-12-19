@@ -33,7 +33,11 @@ public class ControladorComparar {
     private final int ratioCompression;
     private final String subsampling;
     
-    
+    /**
+     * Constructora con un path de lectura y un algoritmo
+     * @param pathLlegir
+     * @param algoritmo
+     */
     public ControladorComparar(String pathLlegir, String algoritmo) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
@@ -44,6 +48,12 @@ public class ControladorComparar {
         
     }
     
+    /**
+     * Constructora con un path de lectura, un path para guardar y un algoritmo
+     * @param pathLlegir
+     * @param pathGuardar
+     * @param algoritmo
+     */
     public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
@@ -53,6 +63,13 @@ public class ControladorComparar {
         this.subsampling = "";
     }
     
+    /**
+     * Constructora con un path de lectura, un algoritmo, ratio de compression y subsampling
+     * @param pathLlegir
+     * @param algoritmo
+     * @param ratioCompression
+     * @param subsampling
+     */
     public ControladorComparar(String pathLlegir, String algoritmo, int ratioCompression, String subsampling) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
@@ -62,6 +79,14 @@ public class ControladorComparar {
         this.subsampling = subsampling;
     }
     
+    /**
+     * Constructora con un path de lectura, un path para guardar, un algoritmo, un ratio de compression y un subsampling
+     * @param pathLlegir
+     * @param pathGuardar
+     * @param algoritmo
+     * @param ratioCompression
+     * @param subsampling
+     */
     public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo, int ratioCompression, String subsampling) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
@@ -71,6 +96,13 @@ public class ControladorComparar {
         this.subsampling = subsampling;
     }
     
+    /**
+     * Funcion principal del Controlador, comprime y descomprime un fichero dejando el resultado en result.
+     * @throws CaracterNoASCII
+     * @throws IOException
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     */
     public void executar() throws CaracterNoASCII, IOException, VersionPPMIncorrecta, DatosIncorrectos {
         IOArxius io = new IOArxius();
         Arxiu processat = null;
@@ -156,6 +188,10 @@ public class ControladorComparar {
         result.setEstadisticas(res);
     }
 
+    /**
+     * Funcion para obtener el resultado de la funcion executar
+     * @return result(DTOComparar)
+     */
     public DTOComparar getResult() {
         return result;
     }

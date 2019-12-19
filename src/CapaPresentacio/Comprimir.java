@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -345,13 +347,21 @@ public class Comprimir extends javax.swing.JPanel {
 
     private void bComprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bComprimirActionPerformed
         
-        double[] resultat;
+        double[] resultat = null;
         
         mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
         if(compCarpeta){
-            resultat = comprimirCarpeta();
+            try {
+                resultat = comprimirCarpeta();
+            } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }else{
-            resultat = comprimirFitxer();
+            try {
+                resultat = comprimirFitxer();
+            } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
         
@@ -549,7 +559,7 @@ public class Comprimir extends javax.swing.JPanel {
         panelRadioButtons.validate();
     }
 
-    private double[] comprimirCarpeta() {
+    private double[] comprimirCarpeta() throws Exception {
          String algTXT, algPPM;
         if(bgRadiosTXT.getSelection()==null){
             JOptionPane.showMessageDialog(this, "Selecciona un algoritme per comprimir els arxius de text");
@@ -596,7 +606,7 @@ public class Comprimir extends javax.swing.JPanel {
         return ctrComprimirCarpetes.getResult();
     }
 
-    private double[] comprimirFitxer() {
+    private double[] comprimirFitxer() throws Exception {
         String alg;
         if(bgAlgoritmos.getSelection()==null){
             JOptionPane.showMessageDialog(this, "Selecciona un botó");
@@ -613,8 +623,7 @@ public class Comprimir extends javax.swing.JPanel {
         if(alg.equals("JPEG")){
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
         }else if(alg.equals("Automatic")){
-            ControladorEstadisticas ctrEstadisticas = new ControladorEstadisticas(true);
-            //alg = ctrEstadisticas.executar();
+            alg = ctrEstadistiques.getAutomatic();
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
         }else{
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);

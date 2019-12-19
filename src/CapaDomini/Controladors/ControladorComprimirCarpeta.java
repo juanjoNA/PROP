@@ -36,6 +36,14 @@ public class ControladorComprimirCarpeta {
     private int ratioCompression;
     String subsampling;
 
+    /**
+     * Constructora con un path, un algoritmo valido para ficheros txt, un bool para guardar o no el fichero, un ratio de compression y un subsampling
+     * @param path
+     * @param alg_txt
+     * @param guardar
+     * @param ratioCompression
+     * @param subsampling
+     */
     public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar, int ratioCompression, String subsampling) {
         this.path = path;
         this.alg_txt = alg_txt;
@@ -45,7 +53,13 @@ public class ControladorComprimirCarpeta {
         this.subsampling = subsampling;
     }
     
-     public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar) {
+    /**
+     * Constructora con un path, un algoritmo valido para ficheros txt, un bool para guardar o no el fichero
+     * @param path
+     * @param alg_txt
+     * @param guardar
+     */
+    public ControladorComprimirCarpeta(String path, String alg_txt, boolean guardar) {
         this.path = path;
         this.alg_txt = alg_txt;
         this.guardar = guardar;
@@ -54,6 +68,10 @@ public class ControladorComprimirCarpeta {
         this.subsampling = "4:4:4";
     }
 
+    /**
+     * Funcion para obtener la variable result con las estadisticas resultantes
+     * @return result(double[])
+     */
     public double[] getResult() {
         return result;
     }
@@ -73,6 +91,15 @@ public class ControladorComprimirCarpeta {
         return paths;
     }
 
+    /**
+     * Funcion principal del controlador, comprime todos los archivos de una carpeta del path i deja el resultado en result.
+     * @throws IOException
+     * @throws CaracterNoASCII
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws ExtensionIncorrecta
+     * @throws Exception
+     */
     public void executar() throws IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos, ExtensionIncorrecta, Exception {
         File carpeta = new File(path);
         ArrayList<String> paths = Obte_paths(path);
