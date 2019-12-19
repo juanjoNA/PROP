@@ -81,7 +81,7 @@ public class ControladorComprimirCarpeta {
         return paths;
     }
 
-    public void executar() throws IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos, ExtensionIncorrecta {
+    public void executar() throws IOException, CaracterNoASCII, VersionPPMIncorrecta, DatosIncorrectos, ExtensionIncorrecta, Exception {
         File carpeta = new File(path);
         ArrayList<String> paths = Obte_paths(path);
         IOArxius io = new IOArxius();
@@ -104,9 +104,9 @@ public class ControladorComprimirCarpeta {
             }
             else {
                 if (path_intern.contains(".txt")) {
-                    switch(Integer.parseInt(alg_txt)) {
+                    switch(alg_txt) {
                         //LZW
-                        case 1: {
+                        case "LZW": {
                             byte[] con = io.llegeixArxiuBinari(path_intern);
                             String contingut = new String(con);
                             ArxiuTXT b = new ArxiuTXT(path_intern,contingut);
@@ -119,11 +119,12 @@ public class ControladorComprimirCarpeta {
                                 io.guardaTamanyArxiuTXTCarpeta(path_cc, (int) tamany);
                                 io.guardaContCharsCarp(path_cc, comprimit_lzw.getContingut());
                             }
+                            guardaEstadisticas(alg_txt, resultat);
                             break;
                         }
 
                             //LZSS
-                        case 2: {
+                        case "LZSS": {
                             byte[] cont = io.llegeixArxiuBinari(path_intern);
                             String contingut = new String(cont);
                             ArxiuTXT normal = new ArxiuTXT(path_intern, contingut);
@@ -135,11 +136,12 @@ public class ControladorComprimirCarpeta {
                                 preparaCapcaleraArxiu(path_cc,comprimit,io,i);
                                 io.guardaTamanyArxiuTXTCarpeta(path_cc, (int) tamany);
                                 io.guardaContBytesCarp(path_cc, comprimit.getContingut());
-                            }
+                            }                            
+                            guardaEstadisticas(alg_txt, resultat);
                             break;
                         }
 
-                        case 3: {
+                        case "LZ78": {
                             String cont = io.llegeixArxiuTxt(path_intern);
                             ArxiuTXT normal = new ArxiuTXT(path_intern,cont);
                             LZ78 c = new LZ78();
@@ -150,7 +152,8 @@ public class ControladorComprimirCarpeta {
                                 preparaCapcaleraArxiu(path_cc,comprimit,io,i);
                                 io.guardaTamanyArxiuTXTCarpeta(path_cc,(int) tamany);
                                 io.guardaContBytesCarp(path_cc, comprimit.getContingut());
-                            }
+                            }                            
+                            guardaEstadisticas(alg_txt, resultat);
                             break;
                         }
                     }
@@ -166,6 +169,7 @@ public class ControladorComprimirCarpeta {
                         preparaCapcaleraArxiu(path_cc,comprimit,io,i);
                         io.guardaContImatgeCarp(path_cc,comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
                     }
+                    guardaEstadisticas("JPEG", resultat);
                 }
 
                 else throw new ExtensionIncorrecta();
@@ -174,6 +178,9 @@ public class ControladorComprimirCarpeta {
                 result[0] = result[0] + e.getTemps_compressio();
                 result[1] = result[1] + e.getPercentatge_compressio();
                 result[2] = result[2] + e.getVelocitat_compressio();
+                
+                
+                
                 }
             }
             result[0] /= paths.size();
@@ -181,6 +188,16 @@ public class ControladorComprimirCarpeta {
             result[2] /= paths.size();
         }
     }
+    
+    
+    private void guardaEstadisticas(String alg, Arxiu d) throws Exception {  
+        Estadistiques e = d.getEstadistiques();
+        result[0] = e.getTemps_compressio();
+        result[1] = e.getPercentatge_compressio();
+        result[2] = e.getVelocitat_compressio();
+        e.guardaEst(result, alg, true);
+    }
+    
     private void preparaCapcaleraArxiu(String path_cc, Arxiu comprimit, IOArxius io, int i) throws IOException {
         String path_intern_comp = comprimit.getPath();
         path_intern_comp = path_intern_comp.replaceAll(path, "");

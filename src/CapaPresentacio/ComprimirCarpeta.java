@@ -405,6 +405,8 @@ public class ComprimirCarpeta extends javax.swing.JPanel {
             Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExtensionIncorrecta ex) {
             Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ComprimirCarpeta.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_bComprimirActionPerformed

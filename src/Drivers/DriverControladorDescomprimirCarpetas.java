@@ -20,7 +20,7 @@ public class DriverControladorDescomprimirCarpetas {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos {
+    public static void main(String[] args) throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos, Exception {
     ControladorDescomprimirCarpeta cdc = new ControladorDescomprimirCarpeta("/home/ivgasa99/Escritorio/testlzw.carp",true);
     cdc.executar();
     }

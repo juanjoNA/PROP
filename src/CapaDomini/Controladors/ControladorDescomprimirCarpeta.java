@@ -48,9 +48,10 @@ public class ControladorDescomprimirCarpeta {
         this.result=new double[3];
     }
 
-    public void executar() throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos {
+    public void executar() throws ExtensionIncorrecta, IOException, ClassNotFoundException, VersionPPMIncorrecta, DatosIncorrectos, Exception {
         if (!path.contains(".carp")) throw new ExtensionIncorrecta();
         IOArxius io = new IOArxius();
+        Arxiu resultat = new Arxiu();
         File fi = new File(path);
         String carpdescomp = path.replace(".carp", "");
         File f = new File(carpdescomp);
@@ -84,6 +85,8 @@ public class ControladorDescomprimirCarpeta {
                                path_file = path_file.replace(".jimg", ".ppm");
                             io.guardaImatge(path_file, desprocessat.getHeader(), desprocessat.getContingut());
                         }
+                    resultat = desprocessat;
+                    guardaEstadisticas("JPEG",desprocessat);
                 }
                 else if (path_file.contains(".lzw")) {
                     ArxiuTXT b = new ArxiuTXT(path_file,acc.getContingutChars());
@@ -110,7 +113,8 @@ public class ControladorDescomprimirCarpeta {
                         path_file = path_file.replace(".lzw", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
-
+                    resultat = d;
+                    guardaEstadisticas("LZW",d);
                 }
                 else if (path_file.contains(".lzss")) {
                     ArxiuBytes b = new ArxiuBytes(path_file,acc.getContingutBytes());
@@ -136,6 +140,8 @@ public class ControladorDescomprimirCarpeta {
                         path_file = path_file.replace(".lzss", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
+                    resultat = d;
+                    guardaEstadisticas("LZSS",d);
 
                 }
                 else if (path_file.contains(".lz78")) {
@@ -162,6 +168,8 @@ public class ControladorDescomprimirCarpeta {
                         path_file = path_file.replace(".lz78", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
+                    resultat = d;
+                    guardaEstadisticas("LZ78",d);
 
                 }
                 else {
@@ -181,8 +189,17 @@ public class ControladorDescomprimirCarpeta {
                             f.mkdir();
                             path_file += subdirectorios.get(j);
                         }
-                }
+                }                
             }
         }
     }
+
+    private void guardaEstadisticas(String alg, Arxiu d) throws Exception {  
+        Estadistiques e = d.getEstadistiques();
+        result[0] = e.getTemps_compressio();
+        result[1] = e.getPercentatge_compressio();
+        result[2] = e.getVelocitat_compressio();
+        e.guardaEst(result, alg, false);
+    }
+
 }
