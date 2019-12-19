@@ -178,13 +178,12 @@ public class Descomprimir extends javax.swing.JPanel {
             return;
         }  
             
-        alg = seleccionaAlg(tfPath.getText());
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
         if (guardar==JOptionPane.YES_OPTION){
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
+            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), true);
         }else {
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
+            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), false);
         }
         
         try {
@@ -238,14 +237,4 @@ public class Descomprimir extends javax.swing.JPanel {
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
 
-    private String seleccionaAlg(String text) {
-        String extensio;
-        
-        if(tfPath.getText().endsWith(".lzss")) extensio="LZSS";
-        else if(tfPath.getText().endsWith(".lz78")) extensio="LZ78";
-        else if(tfPath.getText().endsWith(".lzw")) extensio="LZW";
-        else extensio="JPEG";
-        
-        return extensio;
-    }
 }

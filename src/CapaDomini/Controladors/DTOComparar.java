@@ -20,6 +20,9 @@ public class DTOComparar {
         this.contingutFinal = contingutFinal;
         this.estadistiques = estadistiques;
     }
+
+    DTOComparar() {
+    }
     
     public byte[] getContingutInicial() {
         return contingutInicial;
@@ -31,5 +34,17 @@ public class DTOComparar {
 
     public double[] getEstadistiques() {
         return estadistiques;
+    }
+
+    void setContingutInicial(byte[] contingutInicial) {
+        this.contingutInicial = contingutInicial;
+    }
+
+    void setContingutFinal(byte[] contingutFinal) {
+        this.contingutFinal = contingutFinal;
+    }
+
+    void setEstadisticas(double[] res) {
+        this.estadistiques = res;
     }
 }

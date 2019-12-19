@@ -98,8 +98,8 @@ public class Estadistiques {
         res[4] = String.format("%.2f", ealg[3])+ uvel(ealg[3]);
         res[5] = String.format("%.2f", ealg[4]) + "%";
         res[6] = String.format("%.2f", ealg[5])+ utiempo(ealg[5]);
-        res[7] = String.format("%.2f", ealg[6]);
-        res[8] = String.format("%.2f", ealg[7]);
+        res[7] = String.format("%.0f", ealg[6]);
+        res[8] = String.format("%.0f", ealg[7]);
         return res;
     }
 

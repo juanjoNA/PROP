@@ -313,7 +313,8 @@ public class Comparar extends javax.swing.JPanel {
         
         try {
             
-            result = ctrComparar.executar();
+            ctrComparar.executar();
+            result = ctrComparar.getResult();
             textIni = result.getContingutInicial();
             textFin = result.getContingutFinal();
             

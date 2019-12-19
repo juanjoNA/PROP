@@ -29,7 +29,7 @@ public class ControladorComparar {
     private final String pathLlegir;
     private final String pathGuardar;
     private final String algoritmo;
-    private final double[] result;
+    private final DTOComparar result;
     private final int ratioCompression;
     private final String subsampling;
     
@@ -38,7 +38,7 @@ public class ControladorComparar {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = ".notvalid.";
-        this.result = new double[3];
+        this.result = new DTOComparar();
         this.ratioCompression = -1;
         this.subsampling = "";
         
@@ -48,7 +48,7 @@ public class ControladorComparar {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = pathGuardar;
-        this.result = new double[3];
+        this.result = new DTOComparar();
         this.ratioCompression = -1;
         this.subsampling = "";
     }
@@ -57,7 +57,7 @@ public class ControladorComparar {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = ".notvalid.";
-        this.result = new double[3];
+        this.result = new DTOComparar();
         this.ratioCompression = ratioCompression;
         this.subsampling = subsampling;
     }
@@ -66,12 +66,12 @@ public class ControladorComparar {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
         this.pathGuardar = pathGuardar;
-        result = new double[3];
+        this.result = new DTOComparar();
         this.ratioCompression = ratioCompression;
         this.subsampling = subsampling;
     }
     
-    public DTOComparar executar() throws CaracterNoASCII, IOException, VersionPPMIncorrecta, DatosIncorrectos {
+    public void executar() throws CaracterNoASCII, IOException, VersionPPMIncorrecta, DatosIncorrectos {
         IOArxius io = new IOArxius();
         Arxiu processat = null;
         Arxiu resultat = null;
@@ -146,10 +146,16 @@ public class ControladorComparar {
                 
             }
         }
-        result[0] = processat.getEstadistiques().getTemps_compressio() + resultat.getEstadistiques().getTemps_compressio();
-        result[1] = processat.getEstadistiques().getPercentatge_compressio();
-        result[2] = (processat.getEstadistiques().getVelocitat_compressio() +resultat.getEstadistiques().getVelocitat_compressio()) / 2.0 ;
-        DTOComparar resultatComparacio = new DTOComparar(contingutInicial,contingutFinal,result);
-        return resultatComparacio;
+        double res[] = new double[3];
+        res[0] = processat.getEstadistiques().getTemps_compressio() + resultat.getEstadistiques().getTemps_compressio();
+        res[1] = processat.getEstadistiques().getPercentatge_compressio();
+        res[2] = (processat.getEstadistiques().getVelocitat_compressio() +resultat.getEstadistiques().getVelocitat_compressio()) / 2.0 ;
+        result.setContingutInicial(contingutInicial);
+        result.setContingutFinal(contingutFinal);
+        result.setEstadisticas(res);
+    }
+
+    public DTOComparar getResult() {
+        return result;
     }
 }

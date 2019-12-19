@@ -45,7 +45,7 @@ public class LZ78 extends LZ{
             char a = 0;
             String ini = "";
             String act = "";
-            byte posb = 0;
+            int posb = 0;
             byte x = 0;
             int flag = 0;
             int cb = 0;
@@ -59,6 +59,7 @@ public class LZ78 extends LZ{
             List<String> index = new ArrayList<String>(); //LISTA QUE CONTIENE RELACIÓN ENTRE POSICÓN I LA CLAVE DEL MAP
             HashMap<String, Integer> map = new HashMap<> ();
             String path = f.getPath();
+            boolean pendent = false;
             for(int i = 0; i < data.length();i++) {
                 
                 if(data.charAt(i)<0 || data.charAt(i)>255) throw new CaracterNoASCII();
@@ -66,11 +67,12 @@ public class LZ78 extends LZ{
                 //x = (byte)unsignedToBytes(data[i]);
                 //a = (char)unsignedToBytes(x); //LEEMOS CARACTER A CARACTER
                 a = data.charAt(i);
-                posb = (byte)pos;
+                posb = pos;
                 act = ini + a;
                 if(map.containsKey(act)) {
                     ini = act;
                     pos = map.get(act);
+                    pendent = true;
                 } else {
                     if(index.size() > j && index.get(j-1) != null) { //METODO PARA BORRAR ELEMENTOS DEL MAP EN CASO DE QUE SE LLENE
                         map.remove(index.get(j-1));
@@ -101,16 +103,18 @@ public class LZ78 extends LZ{
                     }
                     ini = "";
                     pos = 0;
+                    pendent = false;
                 }
                 if(j == 0xFFFF) j = 1; //SI MAP LLEGA A SU LIMITE SE SOBREESCRIBE
             }
-            /*if(act != "") {
+            if(pendent) {
                 fpos[cb] = posb;
                 flag = (flag << 1);
-                if(pos > 255) flag = flag | 0x01;
+                if(posb > 255) flag = flag | 0x01;
                 fx[cb] = (byte)a;
                 cb++;
-            }*/
+                System.out.println(cb);
+            }
             if(cb != 0) {
                 flag = flag << (8-cb);
                 res.write((byte)flag);
@@ -124,7 +128,7 @@ public class LZ78 extends LZ{
                 }
                 //res.write(posb);
                 //res.write(x);
-            } //AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
+            }//AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
             String npath = f.getPath();
             npath = npath.replace(".txt",".lz78"); 
             byte[] result = res.toByteArray();

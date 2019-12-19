@@ -15,33 +15,27 @@ import org.json.simple.parser.ParseException;
  */
 public class ControladorEstadisticas {
     private Estadistiques est;
-    private boolean auto;
-    private long[] e;
+    private String[][] result;
+    
     
     public ControladorEstadisticas() {
         est = new Estadistiques();
-        this.auto = false;
     }
     
-    public ControladorEstadisticas(boolean auto) {
-        est = new Estadistiques();
-        this.auto = auto;
+    public void executar() throws Exception {
+        result = getEstGeneral();
     }
 
-
-    public String[][] executar() throws Exception {
-        if(!auto) return getEstGeneral();
-        else return getAutomatic();
+    public String[][] getResult() {
+        return result;
     }
 
     private String[][] getEstGeneral() throws Exception {
         return est.getEstadisticasMitjana();
     }
 
-    private String[][] getAutomatic() throws Exception {
-        String auto[][] = new String[1][1];
-        auto[0][0] = est.getAuto();
-        return auto;   
+    private String getAutomatic() throws Exception {
+        return est.getAuto();   
     }
 
 }

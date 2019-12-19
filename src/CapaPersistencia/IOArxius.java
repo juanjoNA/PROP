@@ -273,9 +273,13 @@ public class IOArxius {
          try {
              fr = new FileReader(path);
              BufferedReader br = new BufferedReader(fr);
+             boolean primer = true;
              while ((s =br.readLine()) != null){
+                 
+                 if(!primer) sb.append("\n");
                  sb.append(s);
-                 sb.append("\n");
+                 primer = false;
+                 //sb.append("\n");
              }
              fr.close();
          } catch (FileNotFoundException ex) {

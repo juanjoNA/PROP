@@ -28,7 +28,8 @@ public class Estadistiques extends javax.swing.JPanel {
         int sizeX, sizeY;
         
         ctrEstadistiques = new ControladorEstadisticas();
-        resultat = ctrEstadistiques.executar();
+        ctrEstadistiques.executar();
+        resultat = ctrEstadistiques.getResult();
         sizeX = resultat.length;
         sizeY = resultat[0].length;
         DefaultTableModel model = (DefaultTableModel) tablaEstadisticas.getModel();

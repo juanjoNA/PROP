@@ -27,7 +27,7 @@ public class EstadisticasDisc {
     private String[] est;
     
 public EstadisticasDisc() throws Exception {
-    path = System.getProperty("user.home") + "/DB.json";
+    path = System.getProperty("user.home") + "/DBCompresorProp.json";
     inicializaralg(alg);
     inicializarest(est);
     File f = new File(this.path);

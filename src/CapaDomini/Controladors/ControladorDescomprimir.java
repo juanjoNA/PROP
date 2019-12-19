@@ -27,7 +27,6 @@ import java.util.HashMap;
  */
 public class ControladorDescomprimir {
     private String path;
-    private String algoritmo;
     private boolean guardar;
     private double[] result;
 
@@ -35,9 +34,8 @@ public class ControladorDescomprimir {
         return result;
     }
 
-    public ControladorDescomprimir (String path, String algoritmo, boolean guardar) {
+    public ControladorDescomprimir (String path, boolean guardar) {
         this.path = path;
-        this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
     }
@@ -45,6 +43,7 @@ public class ControladorDescomprimir {
     public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException, Exception {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;
+        String algoritmo = seleccionaAlg(path);
         switch(algoritmo) {
             //JPEG
             case "JPEG":{
@@ -109,5 +108,15 @@ public class ControladorDescomprimir {
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
         e.guardaEst(result, algoritmo, false);
+    }
+    private String seleccionaAlg(String text) {
+        String extensio;
+        
+        if(text.endsWith(".lzss")) extensio="LZSS";
+        else if(text.endsWith(".lz78")) extensio="LZ78";
+        else if(text.endsWith(".lzw")) extensio="LZW";
+        else extensio="JPEG";
+        
+        return extensio;
     }
 }

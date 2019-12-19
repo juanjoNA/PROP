@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
  *
  * @author lucas
  */
-public class DriverControladorEstadisticas {
+public class DriverControladorEstadisticas {/*
 
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
     
@@ -96,7 +96,7 @@ public class DriverControladorEstadisticas {
                     break;
                 case 4:
                     ControladorEstadisticas cerr = new ControladorEstadisticas();
-                    String[][] a = cerr.executar();
+                    cerr.executar();
                     for(int i = 0; i < a.length;i++){
                         for(int j = 0; j < a[0].length; j++) {
                             System.out.println(a[i][j]);
@@ -111,5 +111,5 @@ public class DriverControladorEstadisticas {
             }            
             
         } 
-    }
+    }*/
 }
