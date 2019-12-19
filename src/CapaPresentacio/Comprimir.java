@@ -186,7 +186,7 @@ public class Comprimir extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 200, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 150, 20, 0);
         panelEstadistiques.add(jLabel1, gridBagConstraints);
 
         labelTempsCompr.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

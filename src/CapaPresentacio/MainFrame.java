@@ -143,7 +143,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCompFitxerActionPerformed
 
     private void bCompCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompCarpetaActionPerformed
-        cambiarPanel(new ComprimirCarpeta(this));
+        
     }//GEN-LAST:event_bCompCarpetaActionPerformed
 
     private void bDescFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescFitxerActionPerformed

@@ -79,7 +79,6 @@ public class JPEG {
         result[0] = mat[0].clone();
         int subX = subsampling[0]/subsampling[1];
         int subY = 1;
-        int npixels = subX*subY;
         if (subsampling[2] == 0)  subY = 2;
         int maxV = 0;
          if (subsampling[2] == 0) {
@@ -91,6 +90,7 @@ public class JPEG {
         double div1 = subsampling[0]/subsampling[1];
         int maxH =  (int) (hsize / (div1));
 
+        int npixels = subX*subY;
         for (int i = 0; i < maxV; ++i) {
             for (int j = 0; j < maxH; ++j) {
                 double sumCb = 0;
