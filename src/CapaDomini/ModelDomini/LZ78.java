@@ -134,7 +134,10 @@ public class LZ78 extends LZ{
             byte[] result = res.toByteArray();
             ArxiuBytes comp = new ArxiuBytes(npath,result);
             long end = System.currentTimeMillis();
-            Estadistiques e = new Estadistiques(start,end,f.getContingut().length(), result.length);
+            if(end <= start) end++;
+            int tamFi = result.length;
+            if(tamFi > data.getBytes().length) tamFi = data.getBytes().length;
+            Estadistiques e = new Estadistiques(start,end,data.getBytes().length, tamFi);
             comp.setEstadistiques(e);
             return comp;
         }
@@ -153,8 +156,7 @@ public class LZ78 extends LZ{
             String result = "";
             StringBuilder sb = new StringBuilder();
             HashMap<Integer, String> map = new HashMap<Integer, String> ();
-            ArxiuBytes  b = (ArxiuBytes) f;
-            byte[] data = b.getContingut();
+            byte[] data = f.getContingut();
             for(int i = 0; i < data.length-1;i+=2) {
                 if(cb == 0) {
                     flag = unsignedToBytes(data[i]); //SE LEE EL BYTE DE FLAG QUE INDICA EL NUMERO DE BYTES QUE OCUPA LA POSICIÓN DE LOS PROXIMOS 8 PAREJAS
@@ -186,10 +188,11 @@ public class LZ78 extends LZ{
                 if(j == 0xFFFF) j = 1; //SI MAP SE PASA DE TAMAÑO SE VUELVE POS A 1 PARA SOBRESCRIBIRLO
             }
             long end = System.currentTimeMillis();
+            if(end <= start) end++;
             String npath = f.getPath();
             npath = npath.replace(".lz78","(2).txt"); //SE CANVIA EXTENSION DEL ARXIVO
             ArxiuTXT desc = new ArxiuTXT(npath,sb.toString());
-            Estadistiques e = new Estadistiques(start,end,f.getContingut().length,sb.toString().getBytes().length);
+            Estadistiques e = new Estadistiques(start,end,data.length,sb.toString().getBytes().length);
             desc.setEstadistiques(e);
             return desc;
         }
