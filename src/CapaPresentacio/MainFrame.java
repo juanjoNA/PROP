@@ -1,5 +1,6 @@
 package CapaPresentacio;
 
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -10,6 +11,17 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private HashMap<Integer, String> excepciones = new HashMap<Integer, String>(){
+        {
+            put(1, "Caracter no ASCII al fitxer seleccionat");
+            put(2, "Extensió de fitxer incorrecte");
+            put(3, "Dades imatge incorrectes");
+            put(4, "Version PPM incorrecta. Deberia ser P...");
+            put(5, "Error al leer el fichero");
+            put(6, "Error al acceder al fichero estadisticas");
+        }
+    };
+    
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -127,19 +139,19 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCompFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompFitxerActionPerformed
-        cambiarPanel(new Comprimir());
+        cambiarPanel(new Comprimir(this));
     }//GEN-LAST:event_bCompFitxerActionPerformed
 
     private void bCompCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompCarpetaActionPerformed
-        cambiarPanel(new ComprimirCarpeta());
+        
     }//GEN-LAST:event_bCompCarpetaActionPerformed
 
     private void bDescFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescFitxerActionPerformed
-        cambiarPanel(new Descomprimir());
+        cambiarPanel(new Descomprimir(this));
     }//GEN-LAST:event_bDescFitxerActionPerformed
 
     private void bDescCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescCarpetaActionPerformed
-        cambiarPanel(new Descomprimir());
+        cambiarPanel(new Descomprimir(this));
     }//GEN-LAST:event_bDescCarpetaActionPerformed
 
     private void menuIniciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciMouseClicked
@@ -214,6 +226,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.validate();
         
         
+    }
+    
+    public String returnException(int key){
+        return excepciones.get(key);
     }
 
 

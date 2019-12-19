@@ -80,6 +80,8 @@ public class Estadistiques extends javax.swing.JPanel {
 
             }
         ));
+        tablaEstadisticas.setEnabled(false);
+        tablaEstadisticas.setFocusable(false);
         tablaEstadisticas.setMaximumSize(new java.awt.Dimension(1000, 600));
         tablaEstadisticas.setMinimumSize(new java.awt.Dimension(600, 0));
         tablaEstadisticas.setRowHeight(50);

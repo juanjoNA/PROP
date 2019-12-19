@@ -22,11 +22,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Descomprimir extends javax.swing.JPanel {
 
     ControladorDescomprimir ctrDescomprimir;
-    
-    public Descomprimir() {
+    MainFrame mainForm;
+
+    public Descomprimir(MainFrame mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -91,9 +93,9 @@ public class Descomprimir extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 30);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 30);
         add(bDescomprimir, gridBagConstraints);
 
         panelEstadistiques.setLayout(new java.awt.GridBagLayout());
@@ -161,7 +163,7 @@ public class Descomprimir extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -170,14 +172,14 @@ public class Descomprimir extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bDescomprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescomprimirActionPerformed
-        
+
         String alg;
         double resultat[];
         if(tfPath.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
             return;
-        }  
-            
+        }
+
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
         if (guardar==JOptionPane.YES_OPTION){
@@ -185,7 +187,7 @@ public class Descomprimir extends javax.swing.JPanel {
         }else {
             ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), false);
         }
-        
+
         try {
             ctrDescomprimir.executar();
             resultat= ctrDescomprimir.getResult();
@@ -197,15 +199,15 @@ public class Descomprimir extends javax.swing.JPanel {
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4));
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3));
         } catch (IOException ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1));
         } catch (Exception ex) {
-            Logger.getLogger(Descomprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
-        
+
     }//GEN-LAST:event_bDescomprimirActionPerformed
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
@@ -219,7 +221,7 @@ public class Descomprimir extends javax.swing.JPanel {
             tfPath.setText(chooser.getSelectedFile().getPath());
             bDescomprimir.setVisible(true);
             panelEstadistiques.setVisible(false);
-        }        
+        }
     }//GEN-LAST:event_bBrowserActionPerformed
 
 

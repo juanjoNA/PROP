@@ -94,6 +94,7 @@ public class ControladorComparar {
                 if (pathGuardar != ".notvalid.") {
                     io.guardaImatge(pathGuardar, desprocessat.getHeader(), desprocessat.getContingut());
                 }
+                break;
             }
             case "LZW": {
                 byte[] con = io.llegeixArxiuBinari(pathLlegir);

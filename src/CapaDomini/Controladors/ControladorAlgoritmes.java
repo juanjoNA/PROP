@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class ControladorAlgoritmes {
     
-    ArrayList<String> algoritmes = new ArrayList<>();
+    private ArrayList<String> algoritmes = new ArrayList<>();
     public ControladorAlgoritmes(String extensio){
         if(extensio.equals("txt")){
             algoritmes.add("LZW");
@@ -17,7 +17,7 @@ public class ControladorAlgoritmes {
         }else{
             algoritmes.add("JPEG");
         }
-        algoritmes.add("Automàtic");
+        algoritmes.add("Automatic");
     }
     
     public ArrayList<String> getAlgoritmes(){

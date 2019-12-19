@@ -5,7 +5,6 @@ import CapaDomini.Controladors.ArxCarpetaComp;
 import CapaDomini.Controladors.DTOImatge;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -229,7 +228,6 @@ public class IOArxius {
              ObjectOutputStream  oos = new ObjectOutputStream (o);
              oos.writeObject(resultMap);
              long totalLength = header.getBytes().length + content.length;
-             System.out.println(totalLength);
              oos.writeLong(totalLength);
              oos.write(header.getBytes());
              oos.write(content);

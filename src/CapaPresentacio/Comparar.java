@@ -12,13 +12,12 @@ import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -34,11 +33,11 @@ public class Comparar extends javax.swing.JPanel {
     ControladorComparar ctrComparar;
     ControladorAlgoritmes ctrAlgoritmes;
     byte[] textIni, textFin;
-    JFrame pare;
-    
-    public Comparar(JFrame pare) {
+    MainFrame mainForm;
+
+    public Comparar(MainFrame mainForm) {
         initComponents();
-        this.pare = pare;
+        this.mainForm = mainForm;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -145,6 +144,7 @@ public class Comparar extends javax.swing.JPanel {
 
         bgSubsampling.add(radio444);
         radio444.setText("4 : 4 : 4");
+        radio444.setActionCommand("4:4:4");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -153,6 +153,7 @@ public class Comparar extends javax.swing.JPanel {
 
         bgSubsampling.add(radio440);
         radio440.setText("4 : 4 : 0");
+        radio440.setActionCommand("4:4:0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -161,6 +162,7 @@ public class Comparar extends javax.swing.JPanel {
 
         bgSubsampling.add(radio411);
         radio411.setText("4 : 1 : 1");
+        radio411.setActionCommand("4:1:1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -169,6 +171,7 @@ public class Comparar extends javax.swing.JPanel {
 
         bgSubsampling.add(radio422);
         radio422.setText("4 : 2 : 2");
+        radio422.setActionCommand("4:2:2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -177,6 +180,7 @@ public class Comparar extends javax.swing.JPanel {
 
         bgSubsampling.add(radio420);
         radio420.setText("4 : 2 : 0");
+        radio420.setActionCommand("4:2:0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -304,46 +308,52 @@ public class Comparar extends javax.swing.JPanel {
     private void bCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompararActionPerformed
         String algoritmo;
         DTOComparar result;
-        
+
         algoritmo = comprobarSeleccioAlgoritme();
-        
-        if(algoritmo.equals("")) return;
-        
-        ctrComparar = new ControladorComparar(tfPath.getText(), algoritmo);
-        
+
+        if(algoritmo.equals("")){
+            return;
+        }else if(algoritmo.equals("JPEG")){
+            ctrComparar = new ControladorComparar(tfPath.getText(), algoritmo, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+        }else{
+            ctrComparar = new ControladorComparar(tfPath.getText(), algoritmo);
+        }
+
         try {
-            
-            ctrComparar.executar();
-            result = ctrComparar.getResult();
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            result = ctrComparar.executar();
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
             textIni = result.getContingutInicial();
             textFin = result.getContingutFinal();
-            
+
             if(Arrays.equals(textIni, textFin)){
                 labelTextComparacio.setText("Els fitxers són IGUALS");
-                labelTextComparacio.setForeground(Color.GREEN);
+                labelTextComparacio.setForeground(Color.green);
             } else {
                 labelTextComparacio.setText("Els fitxers són DIFERENTS");
                 labelTextComparacio.setForeground(Color.RED);
-            }           
-            
+            }
+
             bVeureFitxers.setVisible(true);
-            
-        } catch (CaracterNoASCII ex) {
-            Logger.getLogger(Comparar.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Comparar.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(Comparar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4));
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(Comparar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5));
+        } catch (CaracterNoASCII ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(1)+"\n"+ex.toString());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
     }//GEN-LAST:event_bCompararActionPerformed
 
     private void bVeureFitxersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVeureFitxersActionPerformed
-        pare.setContentPane(new ComparacioFitxers(this, pare, textIni, textFin));
-        pare.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        pare.invalidate();
-        pare.validate();
+        mainForm.setContentPane(new ComparacioFitxers(this, mainForm, textIni, textFin));
+        mainForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainForm.invalidate();
+        mainForm.validate();
     }//GEN-LAST:event_bVeureFitxersActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -398,31 +408,31 @@ public class Comparar extends javax.swing.JPanel {
                 }
             };
             b.addActionListener(al);
-            
+
         }
         panelRadioButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 60, 5));
         panelRadioButtons.setSize(tfPath.getSize());
         panelRadioButtons.invalidate();
         panelRadioButtons.validate();
-        
+
         if(panelDadesJPEG.isVisible()) panelDadesJPEG.setVisible(false);
     }
 
     private String comprobarSeleccioAlgoritme(){
-        
+
         String alg = "";
         if(bgAlgoritmos.getSelection()==null){
             JOptionPane.showMessageDialog(this, "Selecciona un botó");
             return alg;
         }
-        
+
         if(bgAlgoritmos.getSelection().getActionCommand().equals("JPEG")){
             if(bgSubsampling.getSelection()==null){
                 JOptionPane.showMessageDialog(this, "Selecciona un mode de subsampling");
                 return alg;
             }
         }
-        
+
         alg = bgAlgoritmos.getSelection().getActionCommand();
         return alg;
     }
