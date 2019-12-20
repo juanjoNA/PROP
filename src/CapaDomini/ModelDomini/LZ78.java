@@ -23,11 +23,6 @@ public class LZ78 extends LZ{
             return b & 0xFF;
         }
 
-    /**
-     *
-     * @param b
-     * @return
-     */
     private int byteToUnsignedInt(byte b) {
         return b & 0xFF;
     }
@@ -76,8 +71,6 @@ public class LZ78 extends LZ{
                 
                 if(data.charAt(i)<0 || data.charAt(i)>255) throw new CaracterNoASCII();
 
-                //x = (byte)unsignedToBytes(data[i]);
-                //a = (char)unsignedToBytes(x); //LEEMOS CARACTER A CARACTER
                 a = data.charAt(i);
                 posb = pos;
                 act = ini + a;
@@ -97,7 +90,6 @@ public class LZ78 extends LZ{
                     fpos[cb] = pos; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
                     flag = (flag << 1);
                     if(pos > 255) flag = flag | 0x01; //CALCULO DEL BYTE DE FLAG
-                    //flag = (flag << 1);
                     fx[cb] = (byte)a; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
                     cb++;
                     if(cb > 7) { //CUANDO EL BYTE FLAG ESTA LLENO SE ESCRIBE EL CONTENIDO DE LOS VECTORES
@@ -138,18 +130,13 @@ public class LZ78 extends LZ{
                     }else res.write((byte)fpos[k]);
                     res.write(fx[k]);
                 }
-                //res.write(posb);
-                //res.write(x);
             }//AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
             String npath = f.getPath();
             npath = npath.replace(".txt",".lz78"); 
             byte[] result = res.toByteArray();
             ArxiuBytes comp = new ArxiuBytes(npath,result);
             long end = System.currentTimeMillis();
-            if(end <= start) end++;
-            int tamFi = result.length;
-            if(tamFi > data.getBytes().length) tamFi = data.getBytes().length;
-            Estadistiques e = new Estadistiques(start,end,data.getBytes().length, tamFi);
+            Estadistiques e = new Estadistiques(start,end,data.getBytes().length, result.length);
             comp.setEstadistiques(e);
             return comp;
         }
@@ -207,7 +194,6 @@ public class LZ78 extends LZ{
                 if(j == 0xFFFF) j = 1; //SI MAP SE PASA DE TAMAÑO SE VUELVE POS A 1 PARA SOBRESCRIBIRLO
             }
             long end = System.currentTimeMillis();
-            if(end <= start) end++;
             String npath = f.getPath();
             npath = npath.replace(".lz78","(2).txt"); //SE CANVIA EXTENSION DEL ARXIVO
             ArxiuTXT desc = new ArxiuTXT(npath,sb.toString());

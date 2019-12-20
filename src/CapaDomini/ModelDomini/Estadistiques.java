@@ -32,9 +32,11 @@ public class Estadistiques {
      * @param tamFi
      */
     public Estadistiques(long start, long end, int tamIni, int tamFi){
-        this.percentatge_compressio = Math.abs(((float)(tamFi-tamIni)/(float)tamIni)) * 100;
+        if(tamFi >= tamIni) this.percentatge_compressio = 0;
+        else this.percentatge_compressio = Math.abs(((float)(tamFi-tamIni)/(float)tamIni)) * 100;
         this.temps_compressio = (end-start);
-        this.velocitat_compressio = ((float)tamIni/(float)(end-start))/1000;
+        if(end - start == 0) this.velocitat_compressio = tamIni;
+        else this.velocitat_compressio = ((float)tamIni/(float)(end-start))/1000;
     }
 
     /**
