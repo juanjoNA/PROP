@@ -267,6 +267,13 @@ public class IOArxius {
         os.close();
         }
 
+        /**
+     * Funcion para guardar una imagen comprimida en disco
+     * @param path
+     * @param resultMap
+     * @param header
+     * @param content
+     */
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
          try {
@@ -286,7 +293,12 @@ public class IOArxius {
              Logger.getLogger(IOArxius.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
-
+    
+    /**
+     * Funcion para leer una imagen comprimida de disco
+     * @param path
+     * @return resultDTO(DTOImatge)
+     */
     public DTOImatge llegeixImatgeComprimida(String path) throws ExtensionIncorrecta {
         if (!path.contains(".jimg")) {
             throw new ExtensionIncorrecta();

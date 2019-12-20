@@ -18,6 +18,16 @@ public class Imatge extends ArxiuBytes {
     private final int sizeV;
     private final int maxVal;
 
+    /**
+     * Constructora con todos los parametros de una imagen
+     * @param path
+     * @param contingut
+     * @param version
+     * @param sizev
+     * @param sizeh
+     * @param maxValue
+     * @throws VersionPPMIncorrecta
+     */
     public Imatge (String path, byte[] contingut, String v, int sv, int sh, int maxValue) throws VersionPPMIncorrecta, ExtensionIncorrecta {
         super(path,contingut);
         if (!v.equals("P6")) {
@@ -30,6 +40,12 @@ public class Imatge extends ArxiuBytes {
 
     }
 
+    /**
+     * Constructora con un path y todo el contenido de una imagen
+     * @param path
+     * @param content
+     * @throws VersionPPMIncorrecta
+     */
     public Imatge (String path, byte [] content) throws VersionPPMIncorrecta {
         super(path,content);
         //Aquesta constructora no fa throw de si la imatge es ppm perque nomes es crida des de imatgeComprimida
@@ -58,6 +74,12 @@ public class Imatge extends ArxiuBytes {
         super.setContingut(contingutFinal);
     }
 
+    /**
+     * Funcion para leer una linea de texto en un byte[]
+     * @param line
+     * @param pos
+     * @param content
+     */
     protected int readLine(StringBuilder line, int pos, byte[] content) {
         while ((char)content[pos] != '\n') {
             line.append((char)content[pos]);
@@ -67,27 +89,45 @@ public class Imatge extends ArxiuBytes {
         return pos;
     }
 
+    /**
+     * Getter de la version de la imagen
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Getter del tamano vertical de la imagen
+     */
     public int getSizeH() {
         return sizeH;
     }
 
+    /**
+     * Getter del tamano horizontal de la imagen
+     */
     public int getSizeV() {
         return sizeV;
     }
 
+    /**
+     * Getter del valor maximo de la imagen
+     */
     public int getMaxVal() {
         return maxVal;
     }
 
+    /**
+     * Getter del header de la imagen
+     */
     public  String getHeader() {
         String header = version + "\n" + String.valueOf(sizeH) + " " + String.valueOf(sizeV) + "\n" + String.valueOf(maxVal) + "\n";
         return header;
     }
 
+    /**
+     * Getter del tamano de la imagen
+     */
     public int getMida() {
         int mida = getHeader().length() + super.getContingut().length;
         return mida;
