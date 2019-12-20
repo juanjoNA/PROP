@@ -27,7 +27,7 @@ public class DTOImatge {
 
     /**
      * Funcion para obtener el map
-     * @return map(HashMap<String, Integer>)
+     * @return map(HashMap(String, Integer))
      */ 
     public HashMap<String, Integer> getMap() {
         return map;

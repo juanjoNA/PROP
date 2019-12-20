@@ -27,15 +27,16 @@ public class Imatge extends ArxiuBytes {
      * @param sizeh
      * @param maxValue
      * @throws VersionPPMIncorrecta
+     * @throws Excepcions.ExtensionIncorrecta
      */
-    public Imatge (String path, byte[] contingut, String v, int sv, int sh, int maxValue) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+    public Imatge (String path, byte[] contingut, String version, int sizev, int sizeh, int maxValue) throws VersionPPMIncorrecta, ExtensionIncorrecta {
         super(path,contingut);
-        if (!v.equals("P6")) {
+        if (!version.equals("P6")) {
             throw new VersionPPMIncorrecta();
         }
-        version = v;
-        sizeH = sh;
-        sizeV = sv;
+        this.version = version;
+        sizeH = sizeh;
+        sizeV = sizev;
         maxVal = maxValue;
 
     }

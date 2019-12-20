@@ -38,7 +38,7 @@ public class IOArxius {
      /**
      * Funcion para obtener todos los ficheros comprimidos de la carpeta comprimida 
      * @param carpcomp
-     * @return result(ArrayList<ArxCarpetaComp>)
+     * @return result(ArrayList(ArxCarpetaComp))
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ClassNotFoundException
@@ -165,7 +165,6 @@ public class IOArxius {
      * @param resultMap
      * @param header
      * @param content
-     * @throws IOException
      */
     public void guardaContImatgeCarp(String path_cc,HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
@@ -189,7 +188,7 @@ public class IOArxius {
      /**
      * Funcion para guardar el tamaño de un fichero comprimido en un archivo .carp
      * @param path_cc
-     * @param tam_bytes
+     * @param tamany_bytes
      * @throws IOException
      */
     public void guardaTamanyArxiuTXTCarpeta(String path_cc,int tamany_bytes) throws IOException {
@@ -204,7 +203,6 @@ public class IOArxius {
      * Funcion para leer los bytes de un archivo del disco
      * @param path
      * @return content (byte[])
-     * @throws IOException
      */
     public byte[] llegeixArxiuBinari(String path) {
         try {
@@ -357,7 +355,6 @@ public class IOArxius {
      * @param path
      * @param contingut
      * @param append
-     * @return ret(String)
      */
     public void guardaArxiuTXT(String path, String contingut, boolean append) {
 

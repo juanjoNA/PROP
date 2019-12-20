@@ -27,7 +27,7 @@ public class ControladorAlgoritmes {
     
     /**
      * Funcion para obtener una lista de algoritmos
-     * @return algoritmes(ArrayList<String>)
+     * @return algoritmes(ArrayList(String))
      */
     public ArrayList<String> getAlgoritmes(){
         return algoritmes;

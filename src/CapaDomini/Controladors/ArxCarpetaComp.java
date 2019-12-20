@@ -20,7 +20,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para obtener el path
-     * 
      * @return path(String)
      */
     public String getPath() {
@@ -29,7 +28,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para guardar un path
-     * 
      * @param path
      */
     public void setPath(String path) {
@@ -38,7 +36,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para obtener un array de bytes con el contenido.
-     * 
      * @return contingutBytes(byte[])
      */
     public byte[] getContingutBytes() {
@@ -47,7 +44,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para guardar el contenido de bytes.
-     * 
      * @param contingutBytes
      */
     public void setContingutBytes(byte[] contingutBytes) {
@@ -56,7 +52,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para obtener el contenido en chars
-     * 
      * @return contingutChars(String)
      */
     public String getContingutChars() {
@@ -65,7 +60,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para guardar el contenido en chars
-     * 
      * @param contingutChars
      */
     public void setContingutChars(String contingutChars) {
@@ -74,8 +68,7 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para leer el HashMap
-     * 
-     * @return readedHashMao(HashMap<String, Integer>)
+     * @return readedHashMao(HashMap(String, Integer))
      */
     public HashMap<String, Integer> getReadedHashMap() {
         return readedHashMap;
@@ -83,7 +76,6 @@ public class ArxCarpetaComp {
 
     /**
      * Funcion para guardar el Hashmap de lectura
-     * 
      * @param readedHashMap
      */
     public void setReadedHashMap(HashMap<String, Integer> readedHashMap) {
@@ -92,7 +84,6 @@ public class ArxCarpetaComp {
     
     /**
      * Constructora con un path, el contenido y un readerHashmap
-     *  
      * @param path
      * @param contingut
      * @param readedHashMap
@@ -105,7 +96,6 @@ public class ArxCarpetaComp {
     
     /**
      * Constructora con path y contenido en bytes
-     * 
      * @param path
      * @param contingut
      */
@@ -116,7 +106,6 @@ public class ArxCarpetaComp {
     
     /**
      * Constructora con path y contenido en String
-     * 
      * @param path
      * @param contingut
      */

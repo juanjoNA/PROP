@@ -37,8 +37,8 @@ public class ImatgeComprimida extends Imatge{
      * @param subsampling
      * @throws VersionPPMIncorrecta
      */
-    public ImatgeComprimida (String path, byte[] content, String v, int sv, int sh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, String subsampling) throws VersionPPMIncorrecta, ExtensionIncorrecta {
-        super(path,content,v,sv,sh,maxValue);
+    public ImatgeComprimida (String path, byte[] content, String version, int sizev, int sizeh, int maxValue, int modSizeV, int modSizeH, HashMap <String,Integer>dec , int numberPairs, int ratioCompression, String subsampling) throws VersionPPMIncorrecta, ExtensionIncorrecta {
+        super(path,content,version,sizev,sizeh,maxValue);
          this.modifiedSizeV = modSizeV;
          this.modifiedSizeH = modSizeH;
          this.decoder = dec;
@@ -52,11 +52,11 @@ public class ImatgeComprimida extends Imatge{
      * @param path
      * @param content
      * @param decodingHashMap
-     * @throws decodingHashMap
+     * @throws VersionPPMIncorrecta
      */
-   public  ImatgeComprimida(String path, byte[] content, HashMap<String,Integer> dec) throws VersionPPMIncorrecta {
+   public  ImatgeComprimida(String path, byte[] content, HashMap<String,Integer> decodingHashMap) throws VersionPPMIncorrecta {
         super(path,content);
-        decoder = dec;
+        decoder = decodingHashMap;
         byte[] contingutActual = super.getContingut();
         StringBuilder modifiedSizes = new StringBuilder();
         int newPos = super.readLine(modifiedSizes,0,contingutActual);

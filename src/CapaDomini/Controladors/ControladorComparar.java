@@ -69,6 +69,7 @@ public class ControladorComparar {
      * @throws IOException
      * @throws VersionPPMIncorrecta
      * @throws DatosIncorrectos
+     * @throws ExtensionIncorrecta
      */
     public void executar() throws CaracterNoASCII, IOException, VersionPPMIncorrecta, DatosIncorrectos, ExtensionIncorrecta {
         IOArxius io = new IOArxius();

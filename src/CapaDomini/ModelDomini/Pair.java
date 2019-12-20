@@ -61,7 +61,7 @@ public class Pair <T1, T2> {
 
     /**
      * Funcion que devuelve el primer valor del pair
-     * @return T1 first
+     * @return first
      */
     public T1 getFirst() {
         return first;
@@ -69,7 +69,7 @@ public class Pair <T1, T2> {
 
     /**
      * Funcion que cambia el primer valor del pair
-     * @param T1 first
+     * @param first
      */
     public void setFirst(T1 first) {
         this.first = first;
@@ -77,7 +77,7 @@ public class Pair <T1, T2> {
     
     /**
      * Funcion que devuelve el segundo valor del pair
-     * @return T2 second
+     * @return second
      */
     public T2 getSecond() {
         return second;
@@ -85,7 +85,7 @@ public class Pair <T1, T2> {
 
     /**
      * Funcion que cambia el segundo valor del pair
-     * @param T2 second
+     * @param second
      */
     public void setSecond(T2 second) {
         this.second = second;
