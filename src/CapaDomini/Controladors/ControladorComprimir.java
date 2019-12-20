@@ -29,28 +29,67 @@ public class ControladorComprimir {
     private String algoritmo;
     private boolean guardar;
     private double[] result;
+    private int ratioCompression;
+    private String subsampling;
 
+    /**
+     * Funcion para obtener el resultado
+     * @return result(double[])
+     */
     public double[] getResult() {
         return result;
     }
 
+    /**
+     * Constructora con un path, un algoritmo i un bool que indica si se ha de guardar el fichero
+     * @param path
+     * @param algoritmo
+     * @param guardar
+     */
     public ControladorComprimir (String path, String algoritmo, boolean guardar) {
         this.path = path;
         this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
+        this.ratioCompression = 80;
+        this.subsampling = "4:4:4";
+    }
+    
+    /**
+     * Constructora con un path, un algoritmo, un bool que indica si se ha de guardar el fichero, un ratio de compression y un subsampling
+     * @param path
+     * @param algoritmo
+     * @param guardar
+     * @param ratioCompression
+     * @param subsampling
+     */
+    public ControladorComprimir (String path, String algoritmo, boolean guardar, int ratioCompression, String subsampling) {
+        this.path = path;
+        this.algoritmo = algoritmo;
+        this.guardar = guardar;
+        this.result = new double[3];
+        this.ratioCompression = ratioCompression;
+        this.subsampling = subsampling;
     }
 
+    /**
+     * Funcion principal del controlador, comprime un archivo y deja las estadisticas del proceso en la variable result
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws IOException
+     * @throws CaracterNoASCII
+     * @throws Exception
+     */
     public void executar() throws VersionPPMIncorrecta,DatosIncorrectos, IOException, CaracterNoASCII, Exception {
         Arxiu resultat = null;
         IOArxius i = new IOArxius();
         switch(algoritmo) {
             //JPEG
             case "JPEG":{
-                byte[] contingut = i.llegeixArxiuBinari(path,".ppm");
+                byte[] contingut = i.llegeixArxiuBinari(path);
                 Imatge imatgeLlegida = new Imatge(path,contingut);
                 JPEG compressor = new JPEG();
-                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida);
+                ImatgeComprimida comprimit = compressor.comprimir(imatgeLlegida,ratioCompression,subsampling);
                 resultat = comprimit;
                 if (guardar) {
                     i.guardarImatgeComprimida(comprimit.getPath(),comprimit.getDecoder(),comprimit.getHeader(),comprimit.getContingut());
@@ -59,12 +98,11 @@ public class ControladorComprimir {
             }
             //LZW
             case "LZW": {
-                byte[] con = i.llegeixArxiuBinari(path,".txt");
+                byte[] con = i.llegeixArxiuBinari(path);
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
                 LZW c = new LZW();
-                ArxiuTXT comprimit = new ArxiuTXT();
-                comprimit = c.comprimir(b);
+                ArxiuTXT comprimit = c.comprimir(b);
                 resultat=comprimit;
                 if (guardar) {
                     i.guardaArxiuTXT(comprimit.getPath(),comprimit.getContingut(),false);
@@ -107,9 +145,6 @@ public class ControladorComprimir {
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
         e.guardaEst(result,algoritmo,true);
-
-        ControladorEstadisticas cest = new ControladorEstadisticas(result,true,algoritmo);
-        cest.executar();
 
     }
 

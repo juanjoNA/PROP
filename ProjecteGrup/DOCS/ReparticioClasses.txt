@@ -1,12 +1,20 @@
+Controladors:
 ControladorComprimir 			- Ivan Garcia
 ControladorDescomprimir 		- Ivan Garcia
+ArxCarpetaComp                          - Ivan Garcia
+ControladorAlgoritmes                   - Juan Jose Navarro
+ControladorComprimirCarpeta             - Ivan Garcia
+ControladorDescomprimirCarpeta          - Ivan Garcia
+ControladorEstadisticas                 - Lucas Pinilla
+DTOComparar                             - Pau Murciano
 DTOImatge				- Pau Murciano
+
+ModelDomini:
 Arxiu					- Juan Jose Navarro
 ArxiuBytes				- Juan Jose Navarro
 ArxiuTXT				- Juan Jose Navarro
 Compressor				- Lucas Pinilla
 Estadistiques				- Lucas Pinilla
-EstadistiquesAlg			- Lucas Pinilla
 Huffman					- Pau Murciano
 Imatge					- Lucas Pinilla
 ImatgeComprimida			- Pau Murciano
@@ -17,4 +25,20 @@ LZSS					- Juan Jose Navarro
 LZW					- Ivan Garcia
 Pair					- Juan Jose Navarro
 ZigZag					- Pau Murciano
-IOArxius				- Juan Jose Navarro
+
+CapaPersistencia:
+IOArxius				- Tot el grup
+EstadisticasDisc                        - Lucas Pinilla
+MyObjectOutputStream                    - Ivan Garcia
+
+CapaPresentacio:
+ComparacioFitxers                       - Juan Jose Navarro
+Comparar                                - Juan Jose Navarro
+Comprimir                               - Juan Jose Navarro
+ComprimirCarpeta                        - Juan Jose Navarro
+Descomprimir                            - Juan Jose Navarro
+Estadistiques                           - Juan Jose Navarro
+Inici                                   - Juan Jose Navarro
+MainFrame                               - Juan Jose Navarro
+
+

@@ -10,26 +10,34 @@ import java.util.HashMap;
  *
  * @author Juanjo.Navarro
  */
-public class LZSS extends LZ{
+public class LZSS extends Compresor{
     
 // ----------------------------- VARIABLES ---------------------------------------
     
     //Variables Globals
-    public static int WINDOW_SIZE = 4096;
-    public static int MIN_COINCIDENCIA = 3;
-    public static int MAX_LENGHT = 16;
-    public static EstadistiquesAlg E_ALG;
+    private static final int WINDOW_SIZE = 4096;
+    private static final int MIN_COINCIDENCIA = 3;
+    private static final int MAX_LENGHT = 16;
     
     //key = char, values = array de next positions
     private HashMap<Character,ArrayList<Integer>> diccionario;                      //Diccionario donde guardaremos el caracter y las posiciones de los siguientes caracteres donde aparece.
     private char sinCodificar[] = new char[MAX_LENGHT];                             //Array que contendra los caracteres para codificar
     private char slidingWindow[] = new char[WINDOW_SIZE];                           //Ventana deslizante donde guardaremos los caracteres codificados
     
-    // --------------------------- CONSTRUCTORS -------------------------------
+   // --------------------------- CONSTRUCTORS -------------------------------
+    
     public LZSS(){
-        E_ALG = new EstadistiquesAlg();
     }
-    // ----------------------------- METODES ----------------------------------
+    
+// ----------------------------- METODES ----------------------------------
+    
+     /**
+     * Funcion para comprimir un archivo txt en un archivo en bytes
+     * @param a
+     * @throws IOException
+     * @throws CaracterNoASCII
+     * @return archivo comprimido(ArxiuBytes)
+     */
     public ArxiuBytes comprimir(ArxiuTXT a) throws IOException, CaracterNoASCII{
         
         long start = System.currentTimeMillis();
@@ -128,10 +136,14 @@ public class LZSS extends LZ{
         //Calculamos las estadisticas y las actualizamos
         long end = System.currentTimeMillis();
         Estadistiques e = new Estadistiques(start,end,a.getContingut().getBytes().length, salida.toByteArray().length);
-        modificarMitjanaEstadistiques(e);
         return new ArxiuBytes(cambiarPath(a.getPath(), ".lzss"), salida.toByteArray(), e);
     }
     
+     /**
+     * Funcion para descomprimir un archivo txt en un archivo en bytes
+     * @param a
+     * @return archivo descomprimido(ArxiuTXT)
+     */
     public ArxiuTXT descomprimir(ArxiuBytes a){
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder("");   //Creador de l'String del contenido de salida
@@ -145,7 +157,6 @@ public class LZSS extends LZ{
         byte[] contenido = a.getContingut();
         
         inicializarEstructuras();
-        E_ALG.aumentaDescompressions();
         
         if(contenido.length<=0) {
             long end = System.currentTimeMillis();
@@ -194,7 +205,8 @@ public class LZSS extends LZ{
         return new ArxiuTXT(cambiarPath(a.getPath(), "_desc.txt"), result,e);
     }
     
-    public Pair<Integer,Integer> buscarCoincidencia(int posC){
+
+    private Pair<Integer,Integer> buscarCoincidencia(int posC){
         
         int len=0;
         int posSliding=-1;
@@ -305,24 +317,6 @@ public class LZSS extends LZ{
     
     private int byteToUnsignedInt(byte b){
         return b & 0xFF;
-    }
-    
-    private void modificarMitjanaEstadistiques(Estadistiques e){
-        int n = E_ALG.getNum_compressions()+1;
-        
-        double velM = E_ALG.getVelocitat_compressio();
-        double tempsM = E_ALG.getTemps_compressio();
-        double percM = E_ALG.getPercentatge_compressio();
-        
-        velM = (velM+e.getVelocitat_compressio())/n;
-        tempsM = (tempsM+e.getTemps_compressio())/n;
-        percM = (percM+e.getPercentatge_compressio())/n;
-        
-        //Actualitzem les estadistiques mitjanes
-        E_ALG.setNum_compressions(n);
-        E_ALG.setPercentatge_compressio(percM);
-        E_ALG.setTemps_compressio(tempsM);
-        E_ALG.setVelocitat_compressio(velM);
     }
     
     private String cambiarPath(String path, String ext){

@@ -1,7 +1,11 @@
 package CapaPresentacio;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -10,6 +14,17 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private HashMap<Integer, String> excepciones = new HashMap<Integer, String>(){
+        {
+            put(1, "Caracter no ASCII al fitxer seleccionat");
+            put(2, "Extensió de fitxer incorrecte");
+            put(3, "Dades imatge incorrectes");
+            put(4, "Version PPM incorrecta. Deberia ser P6");
+            put(5, "Error al leer el fichero");
+            put(6, "Error al acceder al fichero ");
+        }
+    };
+    
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -24,13 +39,10 @@ public class MainFrame extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuInici = new javax.swing.JMenu();
         menuComprimir = new javax.swing.JMenu();
-        bCompFitxer = new javax.swing.JMenuItem();
-        bCompCarpeta = new javax.swing.JMenuItem();
-        bDescomprimir = new javax.swing.JMenu();
-        bDescFitxer = new javax.swing.JMenuItem();
-        bDescCarpeta = new javax.swing.JMenuItem();
+        menuDescomprimir = new javax.swing.JMenu();
         menuComparar = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        menuEstadisticas = new javax.swing.JMenu();
+        menuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 600));
@@ -54,6 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(pMostrar, java.awt.BorderLayout.NORTH);
 
         menuInici.setText("Inici");
+        menuInici.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         menuInici.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIniciMouseClicked(evt);
@@ -62,50 +75,25 @@ public class MainFrame extends javax.swing.JFrame {
         menu.add(menuInici);
 
         menuComprimir.setText("Comprimir");
-
-        bCompFitxer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/FileIcon.png"))); // NOI18N
-        bCompFitxer.setText("Comprimir fitxer");
-        bCompFitxer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCompFitxerActionPerformed(evt);
+        menuComprimir.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        menuComprimir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuComprimirMouseClicked(evt);
             }
         });
-        menuComprimir.add(bCompFitxer);
-
-        bCompCarpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/folderIcon.png"))); // NOI18N
-        bCompCarpeta.setText("Comprimir carpeta");
-        bCompCarpeta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCompCarpetaActionPerformed(evt);
-            }
-        });
-        menuComprimir.add(bCompCarpeta);
-
         menu.add(menuComprimir);
 
-        bDescomprimir.setText("Descomprimir");
-
-        bDescFitxer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/FileIcon.png"))); // NOI18N
-        bDescFitxer.setText("Descomprimir Fitxer");
-        bDescFitxer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDescFitxerActionPerformed(evt);
+        menuDescomprimir.setText("Descomprimir");
+        menuDescomprimir.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        menuDescomprimir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuDescomprimirMouseClicked(evt);
             }
         });
-        bDescomprimir.add(bDescFitxer);
-
-        bDescCarpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/folderIcon.png"))); // NOI18N
-        bDescCarpeta.setText("Descomprimir Carpeta");
-        bDescCarpeta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDescCarpetaActionPerformed(evt);
-            }
-        });
-        bDescomprimir.add(bDescCarpeta);
-
-        menu.add(bDescomprimir);
+        menu.add(menuDescomprimir);
 
         menuComparar.setText("Comparar");
+        menuComparar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         menuComparar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuCompararMouseClicked(evt);
@@ -113,50 +101,62 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menu.add(menuComparar);
 
-        jMenu1.setText("Estadistiques");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuEstadisticas.setText("Estadistiques");
+        menuEstadisticas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        menuEstadisticas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
+                menuEstadisticasMouseClicked(evt);
             }
         });
-        menu.add(jMenu1);
+        menu.add(menuEstadisticas);
+
+        menuHelp.setText("Help");
+        menuHelp.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        menuHelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuHelpMouseClicked(evt);
+            }
+        });
+        menu.add(menuHelp);
 
         setJMenuBar(menu);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bCompFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompFitxerActionPerformed
-        cambiarPanel(new Comprimir());
-    }//GEN-LAST:event_bCompFitxerActionPerformed
-
-    private void bCompCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompCarpetaActionPerformed
-        cambiarPanel(new ComprimirCarpeta());
-    }//GEN-LAST:event_bCompCarpetaActionPerformed
-
-    private void bDescFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescFitxerActionPerformed
-        cambiarPanel(new Descomprimir());
-    }//GEN-LAST:event_bDescFitxerActionPerformed
-
-    private void bDescCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescCarpetaActionPerformed
-        cambiarPanel(new Descomprimir());
-    }//GEN-LAST:event_bDescCarpetaActionPerformed
-
     private void menuIniciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciMouseClicked
         cambiarPanel(new Inici(this));
     }//GEN-LAST:event_menuIniciMouseClicked
 
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+    private void menuEstadisticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEstadisticasMouseClicked
         try {
             cambiarPanel(new Estadistiques());
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jMenu1MouseClicked
+    }//GEN-LAST:event_menuEstadisticasMouseClicked
 
     private void menuCompararMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompararMouseClicked
         cambiarPanel(new Comparar(this));
     }//GEN-LAST:event_menuCompararMouseClicked
+
+    private void menuComprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuComprimirMouseClicked
+        cambiarPanel(new Comprimir(this));
+    }//GEN-LAST:event_menuComprimirMouseClicked
+
+    private void menuDescomprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuDescomprimirMouseClicked
+        cambiarPanel(new Descomprimir(this));
+    }//GEN-LAST:event_menuDescomprimirMouseClicked
+
+    private void menuHelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuHelpMouseClicked
+        try {
+            File f = new File("ProjecteGrup/DOCS/Documentacion.pdf");
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(f.getCanonicalFile());
+        } catch (Exception ex) {
+           JOptionPane.showMessageDialog(this, returnException(6) + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_menuHelpMouseClicked
 
     /**
      * @param args the command line arguments
@@ -191,15 +191,12 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem bCompCarpeta;
-    private javax.swing.JMenuItem bCompFitxer;
-    private javax.swing.JMenuItem bDescCarpeta;
-    private javax.swing.JMenuItem bDescFitxer;
-    private javax.swing.JMenu bDescomprimir;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuComparar;
     private javax.swing.JMenu menuComprimir;
+    private javax.swing.JMenu menuDescomprimir;
+    private javax.swing.JMenu menuEstadisticas;
+    private javax.swing.JMenu menuHelp;
     private javax.swing.JMenu menuInici;
     private javax.swing.JPanel pMostrar;
     // End of variables declaration//GEN-END:variables
@@ -214,6 +211,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.validate();
         
         
+    }
+    
+    public String returnException(int key){
+        return excepciones.get(key);
     }
 
 

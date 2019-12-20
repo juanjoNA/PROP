@@ -26,13 +26,19 @@ public class EstadisticasDisc {
     private String[] alg;
     private String[] est;
     
-public EstadisticasDisc() throws Exception {
-    path = System.getProperty("user.home") + "/DB.json";
-    inicializaralg(alg);
-    inicializarest(est);
-    File f = new File(this.path);
-    if(!f.exists()) resetEstDisc();
-}
+    /**
+     * Constructora por defecto de la classe
+     * @throws Exception
+     */
+    public EstadisticasDisc() throws Exception {
+        path = "./DBCompresorProp.json";
+        inicializaralg(alg);
+        inicializarest(est);
+        File f = new File(this.path);
+        if(!f.exists()){
+            resetEstDisc();
+        }
+    }
 
 private void inicializaralg(String[] s) {
     alg = new String[4];
@@ -64,15 +70,6 @@ private void resetEstDisc() throws Exception {
         for(int j = 1; j < this.est.length; j++) {
             algoritmo.put(this.est[j],new Double(0));
         }
-        /*algoritmo.put("velocitat_compressio", new Double(0));
-        algoritmo.put("percentatge_compressio", new Double(0));
-        algoritmo.put("temps_compressio", new Double(0));
-        algoritmo.put("num_compressions",new Double(0));
-        algoritmo.put("num_descompressions", new Double(0));
-        algoritmo.put("velocitat_descompressio", new Double(0));
-        algoritmo.put("percentatge_descompressio", new Double(0));
-        algoritmo.put("temps_descompressio", new Double(0));*/
-        
         est.add(algoritmo);
         }
     sb.append(est.toJSONString());
@@ -81,7 +78,12 @@ private void resetEstDisc() throws Exception {
     //Files.write(Paths.get(path), sb.toString().getBytes());
 }
     
-public double[] readEstDisc(String algorithm) {
+    /**
+     * Funcion para leer todas las estadisticas de un algoritmo indicado
+     * @param algorithm
+     * @return estadisticas(double[])
+     */
+    public double[] readEstDisc(String algorithm) {
 
 JSONParser jsonParser = new JSONParser();
 try {
@@ -99,14 +101,6 @@ try {
             for(int j = 1; j < this.est.length; j++) {
                 est[j-1] = (double) obj.get(this.est[j]);
             }    
-            /*est[0] = (double) obj.get("velocitat_compressio");
-            est[1] = (double) obj.get("temps_compressio");
-            est[2] = (double) obj.get("percentatge_compressio");
-            est[3] = (double) obj.get("velocitat_descompressio");
-            est[4] = (double) obj.get("temps_descompressio");
-            est[5] = (double) obj.get("temps_descompressio");
-            est[6] = (double) obj.get("num_compressions");
-            est[7] = (double) obj.get("num_descompressions");*/
         }
     }
     return est;
@@ -116,8 +110,17 @@ try {
 return null;
 } 
     
-
-public void writeEstCompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
+    /**
+     * Fujncion para escribir estadisticas de compression en la base de datos
+     * @param temps
+     * @param perct
+     * @param vel
+     * @param algorithm
+     * @throws IOException
+     * @throws ParseException
+     * @throws Exception
+     */
+    public void writeEstCompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
     JSONParser jsonParser = new JSONParser();
         File f = new File(path);
 
@@ -146,8 +149,17 @@ public void writeEstCompressio(double temps, double perct, double vel, String al
 
 }
 
-
-public void writeEstDescompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
+    /** 
+     * Funcion para escribir estadisticas de descompression en la base de datos
+     * @param temps
+     * @param perct
+     * @param vel
+     * @param algorithm
+     * @throws IOException
+     * @throws ParseException
+     * @throws Exception
+     */
+    public void writeEstDescompressio(double temps, double perct, double vel, String algorithm) throws IOException, ParseException, Exception {
     JSONParser jsonParser = new JSONParser();
         File f = new File(path);
 
@@ -169,14 +181,19 @@ public void writeEstDescompressio(double temps, double perct, double vel, String
             obj.put("temps_descompressio", new Double(tempsdescomp*ndes+temps)/(ndes+1));
             obj.put("velocitat_descompressio", new Double(velodes*ndes+vel)/(ndes+1));
             obj.put("percentatge_descompressio", new Double(perdes*ndes+perct)/(ndes+1));
-            obj.put("num_descompressions",new Double(ndes)+1);
+            obj.put("num_descompressions",new Double(ndes+1));
         }
     }
         Files.write(Paths.get(path), jsonArray.toString().getBytes());
 
 }
 
-public String getBestAlgorithm() throws Exception{
+    /**
+     * Funcion para obtener el algoritmo mas eficiente en funcion del porcentage de compression
+     * @return algoritmo(String)
+     * @throws Exception
+     */
+    public String getBestAlgorithm() throws Exception{
     File f = new File(path);
     if(!f.exists()) resetEstDisc();
     double[] lzss = readEstDisc("LZSS");
@@ -201,10 +218,18 @@ public String getBestAlgorithm() throws Exception{
         return false;
     }
 
+    /**
+     * Funcion para obtener todos los algoritmos que existen en la base dedatos
+     * @return algoritmos(String[])
+     */
     public String[] getalgoritmos() {
         return this.alg;
     }
     
+    /**
+     * Funcion para obtener todas las estadisticas que se guardan en la base de datos
+     * @return estadisticas(String[])
+     */
     public String[] getnomEst() {
         return this.est;
     }

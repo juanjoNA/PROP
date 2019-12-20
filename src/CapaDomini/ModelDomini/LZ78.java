@@ -17,12 +17,13 @@ import java.util.List;
  *
  * @author Lucas.Pinilla
  */
-public class LZ78 extends LZ{
+public class LZ78 extends Compresor{
     
         private int unsignedToBytes(byte b) {
             return b & 0xFF;
         }
-        public int byteToUnsignedInt(byte b) {
+
+    private int byteToUnsignedInt(byte b) {
         return b & 0xFF;
     }
         
@@ -37,15 +38,21 @@ public class LZ78 extends LZ{
             return (bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF);        
         }
         
-    
-        public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII {
+    /**
+     * Funcion para comprimir un archivo de texto a un archivo en bytes
+     * @param f
+     * @return arxiu comprimit(ArxiuBytes)
+     * @throws IOException
+     * @throws CaracterNoASCII
+     */
+    public ArxiuBytes comprimir(ArxiuTXT f) throws IOException, CaracterNoASCII {
             long start = System.currentTimeMillis();
             int pos = 0;
             int j = 1;
             char a = 0;
             String ini = "";
             String act = "";
-            byte posb = 0;
+            int posb = 0;
             byte x = 0;
             int flag = 0;
             int cb = 0;
@@ -59,18 +66,18 @@ public class LZ78 extends LZ{
             List<String> index = new ArrayList<String>(); //LISTA QUE CONTIENE RELACIÓN ENTRE POSICÓN I LA CLAVE DEL MAP
             HashMap<String, Integer> map = new HashMap<> ();
             String path = f.getPath();
+            boolean pendent = false;
             for(int i = 0; i < data.length();i++) {
                 
                 if(data.charAt(i)<0 || data.charAt(i)>255) throw new CaracterNoASCII();
 
-                //x = (byte)unsignedToBytes(data[i]);
-                //a = (char)unsignedToBytes(x); //LEEMOS CARACTER A CARACTER
                 a = data.charAt(i);
-                posb = (byte)pos;
+                posb = pos;
                 act = ini + a;
                 if(map.containsKey(act)) {
                     ini = act;
                     pos = map.get(act);
+                    pendent = true;
                 } else {
                     if(index.size() > j && index.get(j-1) != null) { //METODO PARA BORRAR ELEMENTOS DEL MAP EN CASO DE QUE SE LLENE
                         map.remove(index.get(j-1));
@@ -83,7 +90,6 @@ public class LZ78 extends LZ{
                     fpos[cb] = pos; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
                     flag = (flag << 1);
                     if(pos > 255) flag = flag | 0x01; //CALCULO DEL BYTE DE FLAG
-                    //flag = (flag << 1);
                     fx[cb] = (byte)a; //VECTOR QUE ALMACENA LOS VALORES DE LOS CARACTERES
                     cb++;
                     if(cb > 7) { //CUANDO EL BYTE FLAG ESTA LLENO SE ESCRIBE EL CONTENIDO DE LOS VECTORES
@@ -101,16 +107,18 @@ public class LZ78 extends LZ{
                     }
                     ini = "";
                     pos = 0;
+                    pendent = false;
                 }
                 if(j == 0xFFFF) j = 1; //SI MAP LLEGA A SU LIMITE SE SOBREESCRIBE
             }
-            /*if(act != "") {
+            if(pendent) {
                 fpos[cb] = posb;
                 flag = (flag << 1);
-                if(pos > 255) flag = flag | 0x01;
+                if(posb > 255) flag = flag | 0x01;
                 fx[cb] = (byte)a;
                 cb++;
-            }*/
+                System.out.println(cb);
+            }
             if(cb != 0) {
                 flag = flag << (8-cb);
                 res.write((byte)flag);
@@ -122,20 +130,25 @@ public class LZ78 extends LZ{
                     }else res.write((byte)fpos[k]);
                     res.write(fx[k]);
                 }
-                //res.write(posb);
-                //res.write(x);
-            } //AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
+            }//AL ACABAR ITERWACIÓN SE ESCRIBE EL RESULTADO PENDIENTE
             String npath = f.getPath();
             npath = npath.replace(".txt",".lz78"); 
             byte[] result = res.toByteArray();
             ArxiuBytes comp = new ArxiuBytes(npath,result);
             long end = System.currentTimeMillis();
-            Estadistiques e = new Estadistiques(start,end,f.getContingut().length(), result.length);
+            Estadistiques e = new Estadistiques(start,end,data.getBytes().length, result.length);
             comp.setEstadistiques(e);
             return comp;
         }
         
-        public ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
+    /**
+     * Funcion para descomprimir un arxivo en bytes a un arxivo de texto
+     * @param f
+     * @return arxiu descomprimit(ArxiuTXT)
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public ArxiuTXT descomprimir(ArxiuBytes f) throws FileNotFoundException, IOException { //falla a descomprimir un numero
             long start = System.currentTimeMillis();
             int pos = 1;
             int j = 1;
@@ -149,8 +162,7 @@ public class LZ78 extends LZ{
             String result = "";
             StringBuilder sb = new StringBuilder();
             HashMap<Integer, String> map = new HashMap<Integer, String> ();
-            ArxiuBytes  b = (ArxiuBytes) f;
-            byte[] data = b.getContingut();
+            byte[] data = f.getContingut();
             for(int i = 0; i < data.length-1;i+=2) {
                 if(cb == 0) {
                     flag = unsignedToBytes(data[i]); //SE LEE EL BYTE DE FLAG QUE INDICA EL NUMERO DE BYTES QUE OCUPA LA POSICIÓN DE LOS PROXIMOS 8 PAREJAS
@@ -185,7 +197,7 @@ public class LZ78 extends LZ{
             String npath = f.getPath();
             npath = npath.replace(".lz78","(2).txt"); //SE CANVIA EXTENSION DEL ARXIVO
             ArxiuTXT desc = new ArxiuTXT(npath,sb.toString());
-            Estadistiques e = new Estadistiques(start,end,f.getContingut().length,sb.toString().getBytes().length);
+            Estadistiques e = new Estadistiques(start,end,data.length,sb.toString().getBytes().length);
             desc.setEstadistiques(e);
             return desc;
         }

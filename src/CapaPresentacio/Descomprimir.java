@@ -6,11 +6,10 @@
 package CapaPresentacio;
 
 import CapaDomini.Controladors.ControladorDescomprimir;
+import CapaDomini.Controladors.ControladorDescomprimirCarpeta;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -22,11 +21,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Descomprimir extends javax.swing.JPanel {
 
     ControladorDescomprimir ctrDescomprimir;
-    
-    public Descomprimir() {
+    ControladorDescomprimirCarpeta ctrDescomprimirCarpeta;
+    MainFrame mainForm;
+
+    public Descomprimir(MainFrame mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -91,9 +93,9 @@ public class Descomprimir extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 30);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 30);
         add(bDescomprimir, gridBagConstraints);
 
         panelEstadistiques.setLayout(new java.awt.GridBagLayout());
@@ -109,7 +111,6 @@ public class Descomprimir extends javax.swing.JPanel {
         panelEstadistiques.add(jVelocitat, gridBagConstraints);
 
         labelVelCompr.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        labelVelCompr.setText("vel");
         labelVelCompr.setMaximumSize(new java.awt.Dimension(150, 20));
         labelVelCompr.setMinimumSize(new java.awt.Dimension(150, 20));
         labelVelCompr.setPreferredSize(new java.awt.Dimension(150, 22));
@@ -129,7 +130,6 @@ public class Descomprimir extends javax.swing.JPanel {
         panelEstadistiques.add(jLabel4, gridBagConstraints);
 
         labelPercCompr.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        labelPercCompr.setText("perc");
         labelPercCompr.setMaximumSize(new java.awt.Dimension(200, 20));
         labelPercCompr.setMinimumSize(new java.awt.Dimension(150, 20));
         labelPercCompr.setPreferredSize(new java.awt.Dimension(150, 22));
@@ -161,7 +161,7 @@ public class Descomprimir extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -170,55 +170,63 @@ public class Descomprimir extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bDescomprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescomprimirActionPerformed
-        
-        String alg;
+
         double resultat[];
-        if(tfPath.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
-            return;
-        }  
-            
-        alg = seleccionaAlg(tfPath.getText());
+        
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
-        if (guardar==JOptionPane.YES_OPTION){
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
-        }else {
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), alg, true);
-        }
-        
         try {
-            ctrDescomprimir.executar();
-            resultat= ctrDescomprimir.getResult();
-            JOptionPane.showMessageDialog(this, "Fitxer descomprimit");
-            tfPath.setText("");
-            bDescomprimir.setVisible(false);
-            panelEstadistiques.setVisible(true);
+            
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            if (tfPath.getText().endsWith(".carp")){
+                ctrDescomprimirCarpeta = new ControladorDescomprimirCarpeta(tfPath.getText(), guardar==JOptionPane.YES_OPTION);
+                ctrDescomprimirCarpeta.executar();
+                resultat= ctrDescomprimirCarpeta.getResult();
+                JOptionPane.showMessageDialog(this, "Carpeta descomprimida correctament", "Carpeta descomprimida", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), guardar==JOptionPane.YES_OPTION);
+                ctrDescomprimir.executar();
+                resultat= ctrDescomprimir.getResult();
+                JOptionPane.showMessageDialog(this, "Fitxer descomprimit correctament", "Fitxer descomprimit", JOptionPane.INFORMATION_MESSAGE);
+            }
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
+            
             labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
+            
+            tfPath.setText("");
+            bDescomprimir.setVisible(false);
+            panelEstadistiques.setVisible(true);
+            
         } catch (VersionPPMIncorrecta ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(4));
         } catch (DatosIncorrectos ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(3));
         } catch (IOException ex) {
-            Logger.getLogger(Comprimir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, mainForm.returnException(5));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, mainForm.returnException(6)+ex.getMessage()+"\n"+ex.toString());
         }
+        mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
         
+            
     }//GEN-LAST:event_bDescomprimirActionPerformed
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "LZSS, LZW, LZ78 & JIMG", "lzss", "lz78", "lzw", "jimg");
-        chooser.setFileFilter(filter);
+        chooser.setFileFilter(new FileNameExtensionFilter("LZW, LZ78, LZSS, JIMG, CARP", "lzw", "lz78", "lzss", "jimg", "carp"));
+        
         chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        
         int returnVal = chooser.showOpenDialog(this);
+        
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             tfPath.setText(chooser.getSelectedFile().getPath());
             bDescomprimir.setVisible(true);
             panelEstadistiques.setVisible(false);
-        }        
+        }
     }//GEN-LAST:event_bBrowserActionPerformed
 
 
@@ -236,14 +244,5 @@ public class Descomprimir extends javax.swing.JPanel {
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
 
-    private String seleccionaAlg(String text) {
-        String extensio;
-        
-        if(tfPath.getText().endsWith(".lzss")) extensio="LZSS";
-        else if(tfPath.getText().endsWith(".lz78")) extensio="LZ78";
-        else if(tfPath.getText().endsWith(".lzw")) extensio="LZW";
-        else extensio="JPEG";
-        
-        return extensio;
-    }
+    
 }

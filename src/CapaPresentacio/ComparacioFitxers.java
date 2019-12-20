@@ -5,8 +5,14 @@
  */
 package CapaPresentacio;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -17,15 +23,25 @@ public class ComparacioFitxers extends javax.swing.JPanel {
     JPanel comparar;
     JFrame main;
     byte[] textInicial, textFinal;
+    String pathInicial, pathFinal;
     
+    public ComparacioFitxers(JPanel comparar, JFrame main, String pathInicial, String pathFinal) {
+        initComponents();
+        this.comparar = comparar;
+        this.main = main;
+        this.pathInicial = pathFinal;
+        this.pathFinal = pathFinal;
+        mostrarImatges();
+    }
+
     public ComparacioFitxers(JPanel comparar, JFrame main, byte[] textInicial, byte[] textFinal) {
         initComponents();
         this.comparar = comparar;
         this.main = main;
-        editorPaneInici.setText(new String(textInicial));
-        editorPaneFinal.setText(new String(textFinal));
+        this.textInicial = textInicial;
+        this.textFinal = textFinal;
+        mostrarTexts();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,11 +54,11 @@ public class ComparacioFitxers extends javax.swing.JPanel {
 
         labelFitxerNorm = new javax.swing.JLabel();
         labelFitxerDesc = new javax.swing.JLabel();
-        scrollFitxNorm = new javax.swing.JScrollPane();
-        editorPaneInici = new javax.swing.JEditorPane();
-        scrollFitxProcs = new javax.swing.JScrollPane();
-        editorPaneFinal = new javax.swing.JEditorPane();
         bTornar = new javax.swing.JButton();
+        scrollPanelIni = new javax.swing.JScrollPane();
+        panelInici = new javax.swing.JPanel();
+        scrollPanelFi = new javax.swing.JScrollPane();
+        panelFi = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -58,28 +74,6 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         add(labelFitxerDesc, gridBagConstraints);
 
-        scrollFitxNorm.setViewportView(editorPaneInici);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
-        add(scrollFitxNorm, gridBagConstraints);
-
-        scrollFitxProcs.setViewportView(editorPaneFinal);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        add(scrollFitxProcs, gridBagConstraints);
-
         bTornar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         bTornar.setText("Tornar");
         bTornar.setMaximumSize(new java.awt.Dimension(150, 50));
@@ -94,6 +88,32 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         add(bTornar, gridBagConstraints);
+
+        panelInici.setAutoscrolls(true);
+        panelInici.setLayout(new java.awt.BorderLayout());
+        scrollPanelIni.setViewportView(panelInici);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 0);
+        add(scrollPanelIni, gridBagConstraints);
+
+        panelFi.setAutoscrolls(true);
+        panelFi.setLayout(new java.awt.BorderLayout());
+        scrollPanelFi.setViewportView(panelFi);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        add(scrollPanelFi, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bTornarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTornarActionPerformed
@@ -108,11 +128,31 @@ public class ComparacioFitxers extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bTornar;
-    private javax.swing.JEditorPane editorPaneFinal;
-    private javax.swing.JEditorPane editorPaneInici;
     private javax.swing.JLabel labelFitxerDesc;
     private javax.swing.JLabel labelFitxerNorm;
-    private javax.swing.JScrollPane scrollFitxNorm;
-    private javax.swing.JScrollPane scrollFitxProcs;
+    private javax.swing.JPanel panelFi;
+    private javax.swing.JPanel panelInici;
+    private javax.swing.JScrollPane scrollPanelFi;
+    private javax.swing.JScrollPane scrollPanelIni;
     // End of variables declaration//GEN-END:variables
+
+
+    private void mostrarImatges(){
+        ImageIcon image = new ImageIcon(pathInicial);
+        ImageIcon image2 = new ImageIcon(pathFinal);
+        JLabel labelInici = new JLabel();
+        JLabel labelFi = new JLabel();
+        labelInici.setIcon(image);
+        labelFi.setIcon(image2);
+        panelInici.add(labelInici);
+        panelFi.add(labelFi);
+    }
+
+    private void mostrarTexts(){
+        JTextArea textAIni = new JTextArea(new String(textInicial));
+        JTextArea textAFi = new JTextArea(new String(textFinal));
+        panelInici.add(textAIni);
+        panelFi.add(textAFi);
+    }
+
 }

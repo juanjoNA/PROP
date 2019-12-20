@@ -28,7 +28,8 @@ public class Estadistiques extends javax.swing.JPanel {
         int sizeX, sizeY;
         
         ctrEstadistiques = new ControladorEstadisticas();
-        resultat = ctrEstadistiques.executar();
+        ctrEstadistiques.executar();
+        resultat = ctrEstadistiques.getResult();
         sizeX = resultat.length;
         sizeY = resultat[0].length;
         DefaultTableModel model = (DefaultTableModel) tablaEstadisticas.getModel();
@@ -79,6 +80,8 @@ public class Estadistiques extends javax.swing.JPanel {
 
             }
         ));
+        tablaEstadisticas.setEnabled(false);
+        tablaEstadisticas.setFocusable(false);
         tablaEstadisticas.setMaximumSize(new java.awt.Dimension(1000, 600));
         tablaEstadisticas.setMinimumSize(new java.awt.Dimension(600, 0));
         tablaEstadisticas.setRowHeight(50);

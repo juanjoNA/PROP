@@ -27,24 +27,39 @@ import java.util.HashMap;
  */
 public class ControladorDescomprimir {
     private String path;
-    private String algoritmo;
     private boolean guardar;
     private double[] result;
 
+    /**
+     * Funcion para obtener la variable result con todas las estadistocas de descompression
+     * @return result(double[])
+     */
     public double[] getResult() {
         return result;
     }
 
-    public ControladorDescomprimir (String path, String algoritmo, boolean guardar) {
+    /**
+     * Constructora con un path i un bool para saber si hay que guardar en disco el fichero
+     * @param path
+     * @param guardar
+     */
+    public ControladorDescomprimir (String path, boolean guardar) {
         this.path = path;
-        this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
     }
 
+    /**
+     * Funcion principal del controlador, descomprime un arxivo en bytes y deja el resultado de las estadisticas en la variable result
+     * @throws VersionPPMIncorrecta
+     * @throws DatosIncorrectos
+     * @throws IOException
+     * @throws Exception
+     */
     public void executar() throws VersionPPMIncorrecta, DatosIncorrectos, IOException, Exception {
         IOArxius i = new IOArxius();
         Arxiu descomprimit = null;
+        String algoritmo = seleccionaAlg(path);
         switch(algoritmo) {
             //JPEG
             case "JPEG":{
@@ -57,14 +72,13 @@ public class ControladorDescomprimir {
                 Imatge desprocessat = compressor.descomprimir(imatgeLlegida);
                 descomprimit = desprocessat;
                 if (guardar) {
-                    System.out.println("Introdueix el path de on es guarda l'arxiu");
                     i.guardaImatge(desprocessat.getPath(), desprocessat.getHeader(), desprocessat.getContingut());
                 }
                 break;
             }
             //LZW
             case "LZW": {
-                byte[] con = i.llegeixArxiuBinari(path,".lzw");
+                byte[] con = i.llegeixArxiuBinari(path);
                 String contingut = new String(con);
                 ArxiuTXT b = new ArxiuTXT(path,contingut);
                 LZW c = new LZW();
@@ -78,7 +92,7 @@ public class ControladorDescomprimir {
 
             //LZSS
             case "LZSS": {
-                byte[] con = i.llegeixArxiuBinari(path,".lzss");
+                byte[] con = i.llegeixArxiuBinari(path);
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZSS des = new LZSS();
                 ArxiuTXT d = des.descomprimir(b);
@@ -91,7 +105,7 @@ public class ControladorDescomprimir {
             }
             //LZ78
             case "LZ78": {
-                byte[] con = i.llegeixArxiuBinari(path,".lz78");
+                byte[] con = i.llegeixArxiuBinari(path);
                 ArxiuBytes b = new ArxiuBytes(path,con);
                 LZ78 des = new LZ78();
                 ArxiuTXT d = des.descomprimir(b);
@@ -109,7 +123,20 @@ public class ControladorDescomprimir {
         result[1] = e.getPercentatge_compressio();
         result[2] = e.getVelocitat_compressio();
         e.guardaEst(result, algoritmo, false);
-        ControladorEstadisticas cest = new ControladorEstadisticas(result,false,algoritmo);
-        cest.executar();
+    }
+    /**
+     * Funcion para seleccionar el algoritmo de descompresion en funcion de la extension del arxivo
+     * @param text
+     * @return extensio(String)
+     */
+    private String seleccionaAlg(String text) {
+        String extensio;
+        
+        if(text.endsWith(".lzss")) extensio="LZSS";
+        else if(text.endsWith(".lz78")) extensio="LZ78";
+        else if(text.endsWith(".lzw")) extensio="LZW";
+        else extensio="JPEG";
+        
+        return extensio;
     }
 }

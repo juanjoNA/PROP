@@ -96,7 +96,7 @@ public class DriverLZ78 {
     static byte[] llegeix_arxiu (String path,String extensio) {
         IOArxius c;
         c = new IOArxius();
-        byte[] con = c.llegeixArxiuBinari(path,extensio);
+        byte[] con = c.llegeixArxiuBinari(path);
         return con;
     }
 }

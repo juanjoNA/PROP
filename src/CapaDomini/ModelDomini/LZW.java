@@ -12,9 +12,14 @@ import Excepcions.CaracterNoASCII;
  *
  * @author Juanjo.Navarro
  */
-public class LZW extends LZ{
+public class LZW extends Compresor{
 
-     public ArxiuTXT descomprimir (ArxiuTXT a){
+    /**
+     * Funcion para descomprimir un archivo txt
+     * @param a
+     * @return archivo comprimido(ArxiuTXT)
+     */
+    public ArxiuTXT descomprimir (ArxiuTXT a){
         long start = System.currentTimeMillis();
         HashMap <Character,String> traductor = new HashMap <> ();
         for (int i = 0; i < 256; ++i) {
@@ -34,7 +39,7 @@ public class LZW extends LZ{
         result.append(caracter);
         int valor = 256;
         String insertar = new String();
-        String char_prim = new String();
+        String char_prim = caracter;
         for (int i = 1; i < contenido.length(); ++i) {
             Character codnuevo = contenido.charAt(i);
 
@@ -63,6 +68,12 @@ public class LZW extends LZ{
         return arxiudescomprimit;
     }
 
+    /**
+     * Funcion para comprimir un archivo txt
+     * @param a
+     * @return archivo comprimido(ArxiuTXT)
+     * @throws CaracterNoASCII
+     */
     public ArxiuTXT comprimir (ArxiuTXT a) throws CaracterNoASCII {
         long start = System.currentTimeMillis();
         HashMap <String, Character> traductor = new HashMap <> ();

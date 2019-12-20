@@ -7,6 +7,7 @@ package Drivers;
 
 
 import CapaDomini.Controladors.ControladorEstadisticas;
+import CapaDomini.ModelDomini.Estadistiques;
 import CapaPersistencia.EstadisticasDisc;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.io.InputStreamReader;
  *
  * @author lucas
  */
-public class DriverControladorEstadisticas {
+public class DriverControladorEstadisticas {/*
 
     private static BufferedReader intro = new BufferedReader(new InputStreamReader(System.in));
     
@@ -50,8 +51,8 @@ public class DriverControladorEstadisticas {
                     estad[0] = temps;
                     estad[1] = perc;
                     estad[2] = vel;
-                    ControladorEstadisticas ce = new ControladorEstadisticas(estad,true,algoritmo);
-                    ce.executar();
+                    //ControladorEstadisticas ce = new ControladorEstadisticas(estad,true,algoritmo);
+                    //ce.executar();
                     //est.writeEstCompressio(temps, perc, vel, algoritmo);
                     break;
                 case 2: 
@@ -67,8 +68,8 @@ public class DriverControladorEstadisticas {
                     estad[0] = tempsdesc;
                     estad[1] = percdes;
                     estad[2] = veldes;
-                    ControladorEstadisticas ced = new ControladorEstadisticas(estad,false,algoritmo);
-                    ced.executar(); 
+                    //ControladorEstadisticas ced = new ControladorEstadisticas(estad,false,algoritmo);
+                    //ced.executar(); 
                     //est.writeEstCompressio(tempsdesc, percdes, veldes, algoritmo);
                     break;
                 case 3: 
@@ -76,6 +77,8 @@ public class DriverControladorEstadisticas {
                     algoritmo = intro.readLine();
                     ControladorEstadisticas cer = new ControladorEstadisticas();
                     double res[];
+                    Estadistiques esta = new Estadistiques();
+                    //res = esta.getEstadisticasMitjana();
                     res = est.readEstDisc(algoritmo);
                     System.out.println("Las estadisticas són: ");
                     System.out.print("temps de compressio: ");
@@ -93,7 +96,7 @@ public class DriverControladorEstadisticas {
                     break;
                 case 4:
                     ControladorEstadisticas cerr = new ControladorEstadisticas();
-                    String[][] a = cerr.executar();
+                    cerr.executar();
                     for(int i = 0; i < a.length;i++){
                         for(int j = 0; j < a[0].length; j++) {
                             System.out.println(a[i][j]);
@@ -108,5 +111,5 @@ public class DriverControladorEstadisticas {
             }            
             
         } 
-    }
+    }*/
 }

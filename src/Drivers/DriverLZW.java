@@ -3,6 +3,8 @@ package Drivers;
 
 import CapaDomini.ModelDomini.ArxiuTXT;
 import CapaDomini.ModelDomini.Arxiu;
+import CapaDomini.ModelDomini.ArxiuBytes;
+import CapaDomini.ModelDomini.Estadistiques;
 import CapaDomini.ModelDomini.LZW;
 import CapaPersistencia.IOArxius;
 import Excepcions.CaracterNoASCII;
@@ -99,8 +101,8 @@ public class DriverLZW {
     static String llegeix_arxiu (String path,String extensio){
         IOArxius c;
         c = new IOArxius();
-        byte[] con = c.llegeixArxiuBinari(path,extensio);
-        String s = new String(con);
+        //byte[] con = c.llegeixArxiuBinari(path,extensio);
+        String s = new String();
         return s;
     }
 

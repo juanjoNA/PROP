@@ -2,7 +2,6 @@ package CapaPresentacio;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -11,9 +10,9 @@ import javax.swing.JPanel;
  */
 public class Inici extends javax.swing.JPanel {
 
-    JFrame pare;
+    MainFrame pare;
     
-    public Inici(JFrame pare) {
+    public Inici(MainFrame pare) {
         initComponents();
         this.pare = pare;
     }
@@ -109,11 +108,11 @@ public class Inici extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bComprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bComprimirActionPerformed
-        cambiarPanel(new Comprimir());
+        cambiarPanel(new Comprimir(pare));
     }//GEN-LAST:event_bComprimirActionPerformed
 
     private void bDescomprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescomprimirActionPerformed
-        cambiarPanel(new Descomprimir());
+        cambiarPanel(new Descomprimir(pare));
     }//GEN-LAST:event_bDescomprimirActionPerformed
 
     private void bCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompararActionPerformed
