@@ -6,11 +6,10 @@
 package CapaPresentacio;
 
 import CapaDomini.Controladors.ControladorDescomprimir;
+import CapaDomini.Controladors.ControladorDescomprimirCarpeta;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -22,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Descomprimir extends javax.swing.JPanel {
 
     ControladorDescomprimir ctrDescomprimir;
+    ControladorDescomprimirCarpeta ctrDescomprimirCarpeta;
     MainFrame mainForm;
 
     public Descomprimir(MainFrame mainForm) {
@@ -173,28 +173,26 @@ public class Descomprimir extends javax.swing.JPanel {
 
     private void bDescomprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDescomprimirActionPerformed
 
-        String alg;
         double resultat[];
-        if(tfPath.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Selecciona un fitxer");
-            return;
-        }
-
+        
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
-        if (guardar==JOptionPane.YES_OPTION){
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), true);
-        }else {
-            ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), false);
-        }
-
         try {
-            ctrDescomprimir.executar();
-            resultat= ctrDescomprimir.getResult();
-            JOptionPane.showMessageDialog(this, "Fitxer descomprimit");
-            tfPath.setText("");
-            bDescomprimir.setVisible(false);
-            panelEstadistiques.setVisible(true);
+            
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            if (tfPath.getText().endsWith(".carp")){
+                ctrDescomprimirCarpeta = new ControladorDescomprimirCarpeta(tfPath.getText(), guardar==JOptionPane.YES_OPTION);
+                ctrDescomprimirCarpeta.executar();
+                resultat= ctrDescomprimir.getResult();
+                JOptionPane.showMessageDialog(this, "Carpeta descomprimida correctament", "Carpeta descomprimida", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                ctrDescomprimir = new ControladorDescomprimir(tfPath.getText(), guardar==JOptionPane.YES_OPTION);
+                ctrDescomprimir.executar();
+                resultat= ctrDescomprimir.getResult();
+                JOptionPane.showMessageDialog(this, "Fitxer descomprimit correctament", "Fitxer descomprimit", JOptionPane.INFORMATION_MESSAGE);
+            }
+            mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
+            
             labelPercCompr.setText(String.format("%.2f", resultat[1]) + " %");
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
@@ -207,16 +205,22 @@ public class Descomprimir extends javax.swing.JPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
-
+        
+        tfPath.setText("");
+        bDescomprimir.setVisible(false);
+        panelEstadistiques.setVisible(true);
+            
     }//GEN-LAST:event_bDescomprimirActionPerformed
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "LZSS, LZW, LZ78 & JIMG", "lzss", "lz78", "lzw", "jimg");
-        chooser.setFileFilter(filter);
+        chooser.setFileFilter(new FileNameExtensionFilter("LZW, LZ78, LZSS, JIMG, CARP", "lzw", "lz78", "lzw", "carp"));
+        
         chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        
         int returnVal = chooser.showOpenDialog(this);
+        
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             tfPath.setText(chooser.getSelectedFile().getPath());
             bDescomprimir.setVisible(true);
@@ -239,4 +243,5 @@ public class Descomprimir extends javax.swing.JPanel {
     private javax.swing.JTextField tfPath;
     // End of variables declaration//GEN-END:variables
 
+    
 }

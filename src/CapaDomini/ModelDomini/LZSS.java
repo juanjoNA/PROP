@@ -15,10 +15,9 @@ public class LZSS extends LZ{
 // ----------------------------- VARIABLES ---------------------------------------
     
     //Variables Globals
-    public static int WINDOW_SIZE = 4096;
-    public static int MIN_COINCIDENCIA = 3;
-    public static int MAX_LENGHT = 16;
-    public static EstadistiquesAlg E_ALG;
+    private static final int WINDOW_SIZE = 4096;
+    private static final int MIN_COINCIDENCIA = 3;
+    private static final int MAX_LENGHT = 16;
     
     //key = char, values = array de next positions
     private HashMap<Character,ArrayList<Integer>> diccionario;                      //Diccionario donde guardaremos el caracter y las posiciones de los siguientes caracteres donde aparece.
@@ -27,7 +26,6 @@ public class LZSS extends LZ{
     
     // --------------------------- CONSTRUCTORS -------------------------------
     public LZSS(){
-        E_ALG = new EstadistiquesAlg();
     }
     // ----------------------------- METODES ----------------------------------
     public ArxiuBytes comprimir(ArxiuTXT a) throws IOException, CaracterNoASCII{
@@ -128,7 +126,6 @@ public class LZSS extends LZ{
         //Calculamos las estadisticas y las actualizamos
         long end = System.currentTimeMillis();
         Estadistiques e = new Estadistiques(start,end,a.getContingut().getBytes().length, salida.toByteArray().length);
-        modificarMitjanaEstadistiques(e);
         return new ArxiuBytes(cambiarPath(a.getPath(), ".lzss"), salida.toByteArray(), e);
     }
     
@@ -145,7 +142,6 @@ public class LZSS extends LZ{
         byte[] contenido = a.getContingut();
         
         inicializarEstructuras();
-        E_ALG.aumentaDescompressions();
         
         if(contenido.length<=0) {
             long end = System.currentTimeMillis();
@@ -305,24 +301,6 @@ public class LZSS extends LZ{
     
     private int byteToUnsignedInt(byte b){
         return b & 0xFF;
-    }
-    
-    private void modificarMitjanaEstadistiques(Estadistiques e){
-        int n = E_ALG.getNum_compressions()+1;
-        
-        double velM = E_ALG.getVelocitat_compressio();
-        double tempsM = E_ALG.getTemps_compressio();
-        double percM = E_ALG.getPercentatge_compressio();
-        
-        velM = (velM+e.getVelocitat_compressio())/n;
-        tempsM = (tempsM+e.getTemps_compressio())/n;
-        percM = (percM+e.getPercentatge_compressio())/n;
-        
-        //Actualitzem les estadistiques mitjanes
-        E_ALG.setNum_compressions(n);
-        E_ALG.setPercentatge_compressio(percM);
-        E_ALG.setTemps_compressio(tempsM);
-        E_ALG.setVelocitat_compressio(velM);
     }
     
     private String cambiarPath(String path, String ext){

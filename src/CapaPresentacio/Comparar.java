@@ -12,7 +12,6 @@ import Excepcions.CaracterNoASCII;
 import Excepcions.DatosIncorrectos;
 import Excepcions.VersionPPMIncorrecta;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;

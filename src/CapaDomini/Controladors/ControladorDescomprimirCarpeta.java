@@ -104,7 +104,7 @@ public class ControladorDescomprimirCarpeta {
                     LZSS des = new LZSS();
                     ArxiuTXT d = des.descomprimir(b);
                     if (guardar) {
-                        crearDirectoresPadres(path_file,false);
+                        crearDirectoriosPadres(path_file,false);
                         path_file = path_file.replace(".lzss", ".txt");
                         io.guardaArxiuTXT(path_file,d.getContingut(),true);
                     }
@@ -126,7 +126,7 @@ public class ControladorDescomprimirCarpeta {
 
                 }
                 else {
-                    crearDirectoresPadres(path_file,true);
+                    crearDirectoriosPadres(path_file,true);
                 }                
             }
         }
@@ -136,9 +136,10 @@ public class ControladorDescomprimirCarpeta {
      * @param path_file
      * @param carpeta
      */
-    private void crearDirectoresPadres(String path_file, boolean carpeta) {
+    private void crearDirectoriosPadres(String path_file, boolean carpeta) {
         File f_act = new File(path_file);
         ArrayList<String> subdirectorios = new ArrayList<>();
+        File f;
         while (!f_act.exists()) {
             int tamany_path_intern = path_file.length()-1;
             while(path_file.charAt(tamany_path_intern) != '/') --tamany_path_intern;

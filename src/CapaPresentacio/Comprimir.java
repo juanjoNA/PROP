@@ -351,19 +351,22 @@ public class Comprimir extends javax.swing.JPanel {
         
         mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
         if(compCarpeta){
+            
             try {
                 resultat = comprimirCarpeta();
             } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
             }
+            
         }else{
             try {
                 resultat = comprimirFitxer();
             } catch (Exception ex) {
-                  JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, mainForm.returnException(6), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
+        JOptionPane.showMessageDialog(this, "Fitxer comprimit correctament", "Comprimit", JOptionPane.NO_OPTION);
         
         if(resultat==null) return;
         
