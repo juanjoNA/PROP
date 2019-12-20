@@ -29,7 +29,7 @@ public class ComparacioFitxers extends javax.swing.JPanel {
         initComponents();
         this.comparar = comparar;
         this.main = main;
-        this.pathInicial = pathFinal;
+        this.pathInicial = pathInicial;
         this.pathFinal = pathFinal;
         mostrarImatges();
     }

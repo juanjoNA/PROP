@@ -50,7 +50,7 @@ public class ControladorDescomprimirCarpeta {
     public ControladorDescomprimirCarpeta (String path, boolean guardar) {
         this.path=path;
         this.guardar=guardar;
-        this.result=new double[2];
+        this.result=new double[3];
     }
 
     /**

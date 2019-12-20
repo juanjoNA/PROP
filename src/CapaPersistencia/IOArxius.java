@@ -265,7 +265,7 @@ public class IOArxius {
         os.write(header.getBytes());
         os.write(content);
         os.close();
-    }
+        }
 
     public void guardarImatgeComprimida(String path, HashMap<String,Integer> resultMap, String header, byte[] content) {
          FileOutputStream o = null;
