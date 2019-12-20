@@ -211,9 +211,10 @@ public class ControladorComprimirCarpeta {
     
     private void guardaEstadisticas(String alg, Arxiu d) throws Exception {  
         Estadistiques e = d.getEstadistiques();
-        result[0] = e.getTemps_compressio();
-        result[1] = e.getPercentatge_compressio();
-        result[2] = e.getVelocitat_compressio();
+        double[] resultParcial = new double[3];
+        resultParcial[0] = e.getTemps_compressio();
+        resultParcial[1] = e.getPercentatge_compressio();
+        resultParcial[2] = e.getVelocitat_compressio();
         e.guardaEst(result, alg, true);
     }
     

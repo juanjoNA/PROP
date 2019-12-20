@@ -102,7 +102,7 @@ public class Descomprimir extends javax.swing.JPanel {
         panelEstadistiques.setVisible(false);
 
         jVelocitat.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jVelocitat.setText("Velocitat de Compressio: ");
+        jVelocitat.setText("Velocitat de Descompressio: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -122,7 +122,7 @@ public class Descomprimir extends javax.swing.JPanel {
         panelEstadistiques.add(labelVelCompr, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel4.setText("Percentatge de Compresdió: ");
+        jLabel4.setText("Percentatge de Descompresió: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -195,9 +195,14 @@ public class Descomprimir extends javax.swing.JPanel {
             labelTempsCompr.setText(Double.toString(resultat[0]) + " ms");
             labelVelCompr.setText(String.format("%.2f",resultat[2]) + " KB/s");
             
-            tfPath.setText("");
             bDescomprimir.setVisible(false);
-            panelEstadistiques.setVisible(true);
+            if (tfPath.getText().endsWith(".carp")) {
+                panelEstadistiques.setVisible(false);
+            }
+            else {
+                panelEstadistiques.setVisible(true);
+            }
+            tfPath.setText("");
             
         } catch (VersionPPMIncorrecta ex) {
             JOptionPane.showMessageDialog(this, mainForm.returnException(4));

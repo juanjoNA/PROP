@@ -203,19 +203,15 @@ return null;
 }
 
     private String comparar(double[] lzss, double[] lzw, double[] lz78) {
-        if(lzss[2]>lzw[2] && lzss[2] > lzw[2]){
-            if(!massalent(lzss,lzw,lz78)) return ("LZSS");
+        if(lzss[2]>lzw[2] && lzss[2] > lz78[2]){
+            return "LZSS";
         }
-        if(lzw[2]>lz78[2]) {
-            if(!massalent(lzw,lzss,lz78)) return "LZW";
+        if(lzw[2]>lz78[2] && lzw[2]>lzss[2]) {
+            return "LW";
         }
-        else return "LZ78";
-        return "LZW";
-    }
-
-    private boolean massalent(double[] lzss, double[] lzw, double[] lz78) {
-        if((lzss[1]>1.25*lzw[1]) || (lzss[1]>lz78[1]*1.25)) return true;
-        return false;
+        else  {
+            return "LZ78";
+        }
     }
 
     /**
