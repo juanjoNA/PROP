@@ -205,6 +205,7 @@ public class Descomprimir extends javax.swing.JPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
+        mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
         
         tfPath.setText("");
         bDescomprimir.setVisible(false);
@@ -214,7 +215,7 @@ public class Descomprimir extends javax.swing.JPanel {
 
     private void bBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBrowserActionPerformed
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(new FileNameExtensionFilter("LZW, LZ78, LZSS, JIMG, CARP", "lzw", "lz78", "lzw", "carp"));
+        chooser.setFileFilter(new FileNameExtensionFilter("LZW, LZ78, LZSS, JIMG, CARP", "lzw", "lz78", "lzw", "jimg", "carp"));
         
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);

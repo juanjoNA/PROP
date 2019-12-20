@@ -31,7 +31,7 @@ public class EstadisticasDisc {
      * @throws Exception
      */
     public EstadisticasDisc() throws Exception {
-    path = "../PROP/DBCompresorProp.json";
+    path = "./DBCompresorProp.json";
     inicializaralg(alg);
     inicializarest(est);
     File f = new File(this.path);

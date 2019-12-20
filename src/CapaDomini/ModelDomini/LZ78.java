@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Lucas.Pinilla
  */
-public class LZ78 extends LZ{
+public class LZ78 extends Compresor{
     
         private int unsignedToBytes(byte b) {
             return b & 0xFF;

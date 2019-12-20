@@ -27,9 +27,8 @@ import java.io.IOException;
 public class ControladorComparar {
     
     private final String pathLlegir;
-    private final String pathGuardar;
     private final String algoritmo;
-    private final DTOComparar result;
+    private DTOComparar result;
     private final int ratioCompression;
     private final String subsampling;
     
@@ -41,27 +40,11 @@ public class ControladorComparar {
     public ControladorComparar(String pathLlegir, String algoritmo) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
-        this.pathGuardar = ".notvalid.";
         this.result = new DTOComparar();
-        this.ratioCompression = -1;
-        this.subsampling = "";
-        
+        this.ratioCompression = 80;
+        this.subsampling = "4:4:4";
     }
     
-    /**
-     * Constructora con un path de lectura, un path para guardar y un algoritmo
-     * @param pathLlegir
-     * @param pathGuardar
-     * @param algoritmo
-     */
-    public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo) {
-        this.algoritmo = algoritmo;
-        this.pathLlegir = pathLlegir;
-        this.pathGuardar = pathGuardar;
-        this.result = new DTOComparar();
-        this.ratioCompression = -1;
-        this.subsampling = "";
-    }
     
     /**
      * Constructora con un path de lectura, un algoritmo, ratio de compression y subsampling
@@ -73,28 +56,11 @@ public class ControladorComparar {
     public ControladorComparar(String pathLlegir, String algoritmo, int ratioCompression, String subsampling) {
         this.algoritmo = algoritmo;
         this.pathLlegir = pathLlegir;
-        this.pathGuardar = ".notvalid.";
-        this.result = new DTOComparar();
+        this.result = null;
         this.ratioCompression = ratioCompression;
         this.subsampling = subsampling;
     }
     
-    /**
-     * Constructora con un path de lectura, un path para guardar, un algoritmo, un ratio de compression y un subsampling
-     * @param pathLlegir
-     * @param pathGuardar
-     * @param algoritmo
-     * @param ratioCompression
-     * @param subsampling
-     */
-    public ControladorComparar(String pathLlegir, String pathGuardar, String algoritmo, int ratioCompression, String subsampling) {
-        this.algoritmo = algoritmo;
-        this.pathLlegir = pathLlegir;
-        this.pathGuardar = pathGuardar;
-        this.result = new DTOComparar();
-        this.ratioCompression = ratioCompression;
-        this.subsampling = subsampling;
-    }
     
     /**
      * Funcion principal del Controlador, comprime y descomprime un fichero dejando el resultado en result.
@@ -109,6 +75,8 @@ public class ControladorComparar {
         Arxiu resultat = null;
         byte[] contingutInicial = null;
         byte[] contingutFinal = null;
+        String pathIni = "";
+        String pathFi = "";
         switch (algoritmo) {
             case "JPEG": {
                 byte[] contingut = io.llegeixArxiuBinari(pathLlegir);
@@ -123,9 +91,11 @@ public class ControladorComparar {
                 contingutFinal = new byte[desprocessat.getHeader().getBytes().length + desprocessat.getContingut().length];
                 System.arraycopy(desprocessat.getHeader().getBytes(), 0, contingutFinal, 0, desprocessat.getHeader().getBytes().length);
                 System.arraycopy(desprocessat.getContingut(), 0, contingutFinal, desprocessat.getHeader().getBytes().length, desprocessat.getContingut().length);
-                if (pathGuardar != ".notvalid.") {
-                    io.guardaImatge(pathGuardar, desprocessat.getHeader(), desprocessat.getContingut());
-                }
+                pathIni = io.create_img_aux1("auxIni", pathLlegir);
+                String pathGuardar = pathLlegir.replace(".ppm", "2.ppm");
+                io.guardaImatge(pathGuardar, desprocessat.getHeader(), desprocessat.getContingut());
+                pathFi = io.create_img_aux1("auxFi", pathGuardar);
+                
                 break;
             }
             case "LZW": {
@@ -140,9 +110,6 @@ public class ControladorComparar {
                 ArxiuTXT descomprimit = compressor.descomprimir(comprimit);
                 contingutFinal = descomprimit.getContingut().getBytes();
                 resultat = descomprimit;
-                if (pathGuardar != ".notvalid.") {
-                    io.guardaArxiuTXT(pathGuardar,descomprimit.getContingut(),false);
-                }
                 break;
             }
             case "LZSS": {
@@ -155,9 +122,6 @@ public class ControladorComparar {
                 ArxiuTXT descomprimit = compressor.descomprimir(comprimit);
                 resultat = descomprimit;
                 contingutFinal = descomprimit.getContingut().getBytes();
-                if (pathGuardar != ".notvalid.") {
-                    io.guardaArxiuTXT(pathGuardar,descomprimit.getContingut(),false);
-                }
                 break;
             }
             case "LZ78": {
@@ -170,9 +134,6 @@ public class ControladorComparar {
                 ArxiuTXT descomprimit = compressor.descomprimir(comprimit);
                 contingutFinal = descomprimit.getContingut().getBytes();
                 resultat = descomprimit;
-                if (pathGuardar != ".notvalid.") {
-                    io.guardaArxiuTXT(pathGuardar,descomprimit.getContingut(),false);
-                }
                 break;
             }
             default : {
@@ -183,9 +144,7 @@ public class ControladorComparar {
         res[0] = processat.getEstadistiques().getTemps_compressio() + resultat.getEstadistiques().getTemps_compressio();
         res[1] = processat.getEstadistiques().getPercentatge_compressio();
         res[2] = (processat.getEstadistiques().getVelocitat_compressio() +resultat.getEstadistiques().getVelocitat_compressio()) / 2.0 ;
-        result.setContingutInicial(contingutInicial);
-        result.setContingutFinal(contingutFinal);
-        result.setEstadisticas(res);
+        result = new DTOComparar(contingutInicial, contingutFinal, res, pathIni, pathFi);
     }
 
     /**

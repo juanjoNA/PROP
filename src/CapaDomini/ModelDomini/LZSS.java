@@ -10,7 +10,7 @@ import java.util.HashMap;
  *
  * @author Juanjo.Navarro
  */
-public class LZSS extends LZ{
+public class LZSS extends Compresor{
     
 // ----------------------------- VARIABLES ---------------------------------------
     

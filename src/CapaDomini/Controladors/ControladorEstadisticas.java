@@ -49,7 +49,8 @@ public class ControladorEstadisticas {
      * @return auto((String)
      * @throws Exception
      */
-    public String getAutomatic() throws Exception {
+    public String getAutomatic(String path) throws Exception {
+        if(path.endsWith(".ppm")) return "JPEG";
         return est.getAuto();   
     }
 

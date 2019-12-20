@@ -347,6 +347,7 @@ public class Comparar extends javax.swing.JPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, mainForm.returnException(6));
         }
+        mainForm.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_bCompararActionPerformed
 
     private void bVeureFitxersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVeureFitxersActionPerformed

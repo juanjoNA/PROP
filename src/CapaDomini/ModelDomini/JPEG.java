@@ -489,7 +489,7 @@ public class JPEG {
         long end = System.currentTimeMillis();
         String newPath = imatgeDescomprimida.getPath();
         newPath = newPath.replace(".ppm",".jimg");
-        ImatgeComprimida imatgeComprimida = new ImatgeComprimida(newPath,resultContent, imatgeDescomprimida.getVersion(),origVsize, origHsize, imatgeDescomprimida.getMaxVal(), vsize, hsize, huffmanEncoder.getDecodingHashMap(),encoded.size(),ratioCompression,subsamplingString);
+        ImatgeComprimida imatgeComprimida = new ImatgeComprimida(newPath,resultContent, imatgeDescomprimida.getVersion(),origHsize, origVsize, imatgeDescomprimida.getMaxVal(), vsize, hsize, huffmanEncoder.getDecodingHashMap(),encoded.size(),ratioCompression,subsamplingString);
         Estadistiques e = new Estadistiques(start,end,imatgeDescomprimida.getMida(),imatgeComprimida.getMida());
         imatgeComprimida.setEstadistiques(e);
 
@@ -580,8 +580,9 @@ public class JPEG {
         byte [][][] RGB = YCbCrToRGB(unSubsampled);
 
         byte[] resultDecompressed = new byte[origHsize * origVsize * 3];
-        for (int i = 0; i < origVsize; ++i) {
-            for (int j = 0; j < origHsize; ++j) {
+        for (int i = 0; i < origVsize; i++) {
+            for (int j = 0; j < origHsize; j++) {
+                System.out.println(i + "--" + j);
                 resultDecompressed[i*origHsize*3 + j*3] = RGB[0][i][j];
                 resultDecompressed[i*origHsize*3 + j*3 + 1] = RGB[1][i][j];
                 resultDecompressed[i*origHsize*3 + j*3 + 2] = RGB[2][i][j];

@@ -366,7 +366,7 @@ public class IOArxius {
     }
     
 
-    private static BufferedImage ppm(int width, int height, int maxcolval, byte[] data){
+    private BufferedImage ppm(int width, int height, int maxcolval, byte[] data){
         if(maxcolval<256){
             BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
             int r,g,b,k=0,pixel;
@@ -411,7 +411,7 @@ public class IOArxius {
         }
     }
 
-    public static void create_img_aux1 (String name, String path) throws IOException {
+    public String create_img_aux1 (String name, String path) throws IOException {
         byte [] b = Files.readAllBytes(Paths.get(path));
         int i = 0;
         boolean formato = true;
@@ -462,8 +462,8 @@ public class IOArxius {
         }
         BufferedImage im = ppm(Integer.parseInt(width), Integer.parseInt(hight),Integer.parseInt(max) ,contenido);
         ImageIO.write(im, "jpg", new File(name + ".png"));
-    }
-    public static void main(String[] args) throws IOException {
-        create_img_aux1("temp1", "C:\\Users\\Asocs\\Desktop\\house_1.ppm");
+        File fifi = new File(path);
+        fifi.delete();
+        return name + ".png";
     }
 }

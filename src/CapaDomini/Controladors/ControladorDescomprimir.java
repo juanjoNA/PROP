@@ -72,7 +72,6 @@ public class ControladorDescomprimir {
                 Imatge desprocessat = compressor.descomprimir(imatgeLlegida);
                 descomprimit = desprocessat;
                 if (guardar) {
-                    System.out.println("Introdueix el path de on es guarda l'arxiu");
                     i.guardaImatge(desprocessat.getPath(), desprocessat.getHeader(), desprocessat.getContingut());
                 }
                 break;

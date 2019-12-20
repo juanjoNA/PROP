@@ -10,9 +10,11 @@ package CapaDomini.Controladors;
  * @author paumu
  */
 public class DTOComparar {
-    
+
     private byte[] contingutInicial;
     private byte[] contingutFinal;
+    private String pathIni;
+    private String pathFi;
     private double[] estadistiques;
     
     /**
@@ -25,6 +27,16 @@ public class DTOComparar {
         this.contingutInicial = contingutInicial;
         this.contingutFinal = contingutFinal;
         this.estadistiques = estadistiques;
+        this.pathFi = "";
+        this.pathIni = "";
+    }
+    
+    public DTOComparar(byte[] contingutInicial, byte[] contingutFinal, double[] estadistiques, String pathIni, String pathFi) {
+        this.contingutInicial = contingutInicial;
+        this.contingutFinal = contingutFinal;
+        this.estadistiques = estadistiques;
+        this.pathFi = pathFi;
+        this.pathIni = pathIni;
     }
 
     DTOComparar() {
@@ -74,4 +86,35 @@ public class DTOComparar {
     void setEstadisticas(double[] res) {
         this.estadistiques = res;
     }
+    
+    /** Funcion para devolver el path inicial
+     * @return String pathIni
+     */ 
+    public String getPathIni() {
+        return pathIni;
+    }
+
+    /** Funcion para devolver el path final
+     * @return String pathFi
+     */ 
+    public String getPathFi() {
+        return pathFi;
+    }
+    
+    /**
+     * Funcion para asignar el path inicial
+     * @param pathIni
+     */
+    public void setPathIni(String pathIni) {
+        this.pathIni = pathIni;
+    }
+    
+    /**
+     * Funcion para asignar las el path final 
+     * @param pathFi
+     */
+    public void setPathFi(String pathFi) {
+        this.pathFi = pathFi;
+    }
+    
 }

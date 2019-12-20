@@ -52,6 +52,7 @@ public class Comprimir extends javax.swing.JPanel {
     public Comprimir(MainFrame mainForm) {
         initComponents();
         this.mainForm = mainForm;
+        ctrEstadistiques = new ControladorEstadisticas();
     }
 
     /**
@@ -575,7 +576,7 @@ public class Comprimir extends javax.swing.JPanel {
         algTXT = bgRadiosTXT.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
         algPPM = bgRadiosPPM.getSelection().getActionCommand(); //Esta String se la pasamos al controlador para que seleccione el algoritmo de compresion
         
-        if(algTXT.equals("Automatic")) algTXT = ctrEstadistiques.getAutomatic();
+        if(algTXT.equals("Automatic")) algTXT = ctrEstadistiques.getAutomatic(tfPath.getText());
         
         int guardar = JOptionPane.showConfirmDialog(this,"Vols guardar el fitxer", "Guardar", JOptionPane.YES_NO_OPTION);
 
@@ -626,8 +627,8 @@ public class Comprimir extends javax.swing.JPanel {
         if(alg.equals("JPEG")){
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
         }else if(alg.equals("Automatic")){
-            alg = ctrEstadistiques.getAutomatic();
-            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar, sliderJPEG.getValue(), bgSubsampling.getSelection().getActionCommand());
+            alg = ctrEstadistiques.getAutomatic(tfPath.getText());
+            ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
         }else{
             ctrComprimir = new ControladorComprimir(tfPath.getText(), alg, guardar);
         }

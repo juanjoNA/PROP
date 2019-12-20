@@ -12,7 +12,7 @@ import Excepcions.CaracterNoASCII;
  *
  * @author Juanjo.Navarro
  */
-public class LZW extends LZ{
+public class LZW extends Compresor{
 
     /**
      * Funcion para descomprimir un archivo txt

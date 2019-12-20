@@ -51,8 +51,8 @@ public class ControladorComprimir {
         this.algoritmo = algoritmo;
         this.guardar = guardar;
         this.result = new double[3];
-        this.ratioCompression = -1;
-        this.subsampling = ".invalid.";
+        this.ratioCompression = 80;
+        this.subsampling = "4:4:4";
     }
     
     /**
