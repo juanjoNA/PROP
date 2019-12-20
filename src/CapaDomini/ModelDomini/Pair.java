@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  *
  * @author Pau Murciano
+ * @param <T2>
  */
 public class Pair <T1, T2> {
     

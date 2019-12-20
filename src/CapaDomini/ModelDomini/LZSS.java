@@ -24,10 +24,20 @@ public class LZSS extends LZ{
     private char sinCodificar[] = new char[MAX_LENGHT];                             //Array que contendra los caracteres para codificar
     private char slidingWindow[] = new char[WINDOW_SIZE];                           //Ventana deslizante donde guardaremos los caracteres codificados
     
-    // --------------------------- CONSTRUCTORS -------------------------------
+   // --------------------------- CONSTRUCTORS -------------------------------
+    
     public LZSS(){
     }
-    // ----------------------------- METODES ----------------------------------
+    
+// ----------------------------- METODES ----------------------------------
+    
+     /**
+     * Funcion para comprimir un archivo txt en un archivo en bytes
+     * @param a
+     * @throws IOException
+     * @throws CaracterNoASCII
+     * @return archivo comprimido(ArxiuBytes)
+     */
     public ArxiuBytes comprimir(ArxiuTXT a) throws IOException, CaracterNoASCII{
         
         long start = System.currentTimeMillis();
@@ -129,6 +139,11 @@ public class LZSS extends LZ{
         return new ArxiuBytes(cambiarPath(a.getPath(), ".lzss"), salida.toByteArray(), e);
     }
     
+     /**
+     * Funcion para descomprimir un archivo txt en un archivo en bytes
+     * @param a
+     * @return archivo descomprimido(ArxiuTXT)
+     */
     public ArxiuTXT descomprimir(ArxiuBytes a){
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder("");   //Creador de l'String del contenido de salida
@@ -190,7 +205,8 @@ public class LZSS extends LZ{
         return new ArxiuTXT(cambiarPath(a.getPath(), "_desc.txt"), result,e);
     }
     
-    public Pair<Integer,Integer> buscarCoincidencia(int posC){
+
+    private Pair<Integer,Integer> buscarCoincidencia(int posC){
         
         int len=0;
         int posSliding=-1;
