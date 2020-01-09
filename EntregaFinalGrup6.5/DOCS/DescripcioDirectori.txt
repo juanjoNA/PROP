@@ -1,0 +1,2 @@
+En aquest directori es troba tota la documentació del projecte.
+A la carpeta es troba el javadoc del projecte

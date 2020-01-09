@@ -1,0 +1,3 @@
+En aquest diretori es troba la part del codi del projecte.
+A les subcarpetes hi ha l'estructura del projecte en packages.
+Per compilar el projecte s'ha de fer "make" des de la terminal. L'executable es genera a la carpeta EXE del projecte.

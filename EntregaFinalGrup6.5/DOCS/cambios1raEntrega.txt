@@ -1,0 +1,7 @@
+Hem canviat el següent:
+
+	-De l’apartat Diagrama casos d’ús hem canviat tots els els punts del feedback.
+	-De l’apartat Diagrama UML: 4t,7è,8è i 9è punt solucionat.
+	-De l’apartat EDALG: 1r punt solucionat i pseudocodi de l'algorisme LZSS millorat.
+	-De l’apartat Codi domini: 1er punt solucionat amb javadoc, 3r punt solucionat (fem que capa presentació no depengui de dades) i 4t solucionat també (diagrama casos d’ús capa domini actualitzat i millorat).
+

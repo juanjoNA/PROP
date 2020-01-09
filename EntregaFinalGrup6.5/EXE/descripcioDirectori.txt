@@ -1,0 +1,5 @@
+En aquest diretori es troba la part executable del projecte.
+Per executar el proejcte s'ha de fer "java -jar compressorProp.jar
+A la carpeta DOCS es troba el manual d'usuari per a que es pugui obrir
+A la carpeta lib es troben les llibreries necessàries pel projecte
+El fitxer DBCompressorProp.json conté les estadistiques dels algorismes
